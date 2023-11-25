@@ -1,15 +1,33 @@
 CREATE DATABASE IF NOT EXISTS TravelingBookingIES;
 USE TravelingBookingIES;
 
+DROP TABLE IF EXISTS AeroCompany;
+CREATE TABLE AeroCompany(
+    CompanyCode varchar(16) not null primary key,
+    CompanyName varchar(64) not null
+);
+
+DROP TABLE IF EXISTS Aeroportos;
+CREATE TABLE Aeroportos(
+    Code varchar(16) not null primary key,
+    AeroportoName varchar(64) not null,
+    City varchar(64) not null
+);
+
 DROP TABLE IF EXISTS Flights;
 CREATE TABLE Flights(
     FlightNumber varchar(16) primary key,
     FlightDate DATE not null,
-    FlightCompany varchar(50) not null,
+    FlightCompany varchar(64) not null,
+    Aeroporto varchar(64) not null,
+    AeroportoCode varchar(16) not null,
     AeroCode_partida varchar(16) not null,
     AeroCode_chegada varchar(16) not null,
     Departure_hour varchar(16) not null,
-    Arrival_hour varchar(16) not null
+    Arrival_hour varchar(16) not null,
+    foreign key (FlightCompany) references AeroCompany(CompanyName),
+    foreign key (Aeroporto) references AeroCompany(AeroportoName),
+    foreign key (AeroportoCode) references AeroCompany(Code)
 );
 
 DROP TABLE IF EXISTS Users;
