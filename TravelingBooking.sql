@@ -53,8 +53,8 @@ DROP TABLE IF EXISTS Trains;
 CREATE TABLE Trains(
     TrainNumber varchar(16) PRIMARY KEY,
     TravelDate DATE NOT NULL,
-    AeroCode_partida varchar(16) NOT NULL,
-    AeroCode_chegada varchar(16) NOT NULL,
+    StationCode_partida varchar(16) NOT NULL,
+    StaionCode_chegada varchar(16) NOT NULL,
     Departure_hour varchar(16) NOT NULL,
     Arrival_hour varchar(16) NOT NULL
 );
@@ -136,4 +136,8 @@ CREATE TABLE Rooms (
     Meals_included int NOT NULL,
     FOREIGN KEY (HotelID) REFERENCES Hotels(HotelID),
     PRIMARY KEY (RoomID, HotelID)
+<<<<<<< HEAD
 );
+=======
+);
+>>>>>>> 4c5949d7bc0ac575a79afe78d62f06b5166aaf60

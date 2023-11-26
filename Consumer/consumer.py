@@ -1,4 +1,4 @@
-from confluent_kafka import Consumer, KafkaException
+from confluent_kafka import Consumer, KafkaError
 
 # Kafka Consumer Configuration
 conf = {
@@ -7,7 +7,7 @@ conf = {
     'auto.offset.reset': 'earliest',  # Start reading from the earliest message
 }
 
-# Create Consumer
+# Create Consumer:
 consumer = Consumer(conf)
 
 # Subscribe to topic
@@ -19,7 +19,7 @@ try:
         if msg is None:
             continue
         if msg.error():
-            if msg.error().code() == KafkaException._PARTITION_EOF:
+            if msg.error().code() == KafkaError._PARTITION_EOF:
                 # End of partition event
                 continue
             else:
@@ -33,5 +33,5 @@ except KeyboardInterrupt:
     pass
 
 finally:
-    # Close down consumer to commit final offsets.
+    # Close down consumer
     consumer.close()
