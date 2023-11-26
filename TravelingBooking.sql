@@ -136,4 +136,8 @@ CREATE TABLE Rooms (
     Meals_included int NOT NULL,
     FOREIGN KEY (HotelID) REFERENCES Hotels(HotelID),
     PRIMARY KEY (RoomID, HotelID)
+<<<<<<< HEAD
 );
+=======
+);
+>>>>>>> 4c5949d7bc0ac575a79afe78d62f06b5166aaf60
