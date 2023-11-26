@@ -10,9 +10,10 @@ faker = Faker()
 
 # Kafka Producer Configuration
 conf = {
-    'bootstrap.servers': 'localhost:9092',  # Replace with your Kafka broker address
+    'bootstrap.servers': 'kafka:9092',  # Replace with your Kafka broker address
     'client.id': 'FlightDataProducer'
 }
+
 producer = Producer(conf)
 
 airports = {
@@ -105,4 +106,4 @@ def send_to_kafka(topic, flight_data):
 # Example Usage
 for _ in range(10):  # Generate 10 random flights
     flight_data = generate_random_flight()
-    send_to_kafka('your_kafka_topic', flight_data)  # Replace 'your_kafka_topic' with your Kafka topic
+    send_to_kafka('flighs_data', flight_data)  # Replace 'your_kafka_topic' with your Kafka topic
