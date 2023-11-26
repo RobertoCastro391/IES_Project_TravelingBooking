@@ -45,16 +45,16 @@ public class Flight {
     private String arrivalHour;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FlightCompany", referencedColumnName = "CompanyName", insertable = false, updatable = false)
+    @JoinColumn(name = "CompanyCode", referencedColumnName = "CompanyCode", insertable = false, updatable = false)
     private AeroCompany aeroCompany;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Aeroporto", referencedColumnName = "AeroportoName", insertable = false, updatable = false)
-    private Aeroportos aeroporto;
+    @JoinColumn(name = "AeroCode_partida", referencedColumnName = "Code", insertable = false, updatable = false)
+    private Aeroporto aeroportoPartida;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "AeroportoCode", referencedColumnName = "Code", insertable = false, updatable = false)
-    private Aeroportos aeroportoCode;
+    @JoinColumn(name = "AeroCode_chegada", referencedColumnName = "Code", insertable = false, updatable = false)
+    private Aeroporto aeroportoChegada;
 
     // Getters e Setters
 }
