@@ -7,7 +7,7 @@ conf = {
     'auto.offset.reset': 'earliest',  # Start reading from the earliest message
 }
 
-# Create Consumer
+# Create Consumer:
 consumer = Consumer(conf)
 
 # Subscribe to topic
