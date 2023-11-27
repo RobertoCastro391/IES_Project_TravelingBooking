@@ -10,7 +10,7 @@ CREATE TABLE AeroCompany(
 
 DROP TABLE IF EXISTS Aeroportos;
 CREATE TABLE Aeroportos(
-    Code varchar(16) NOT NULL PRIMARY KEY,
+    AeroCode varchar(16) NOT NULL PRIMARY KEY,
     AeroportoName varchar(64) NOT NULL,
     City varchar(64) NOT NULL
 );
@@ -24,9 +24,12 @@ CREATE TABLE Flights(
     AeroCode_chegada varchar(16) NOT NULL,
     Departure_hour varchar(16) NOT NULL,
     Arrival_hour varchar(16) NOT NULL,
+    Duration int NOT NULL,
+    Fare Decimal(10,2) NOT NULL,
+    Places int NOT NULL,
     FOREIGN KEY (CompanyCode) REFERENCES AeroCompany(CompanyCode),
-    FOREIGN KEY (AeroCode_partida) REFERENCES Aeroportos(Code),
-    FOREIGN KEY (AeroCode_chegada) REFERENCES Aeroportos(Code)
+    FOREIGN KEY (AeroCode_partida) REFERENCES Aeroportos(AeroCode),
+    FOREIGN KEY (AeroCode_chegada) REFERENCES Aeroportos(AeroCode)
 );
 
 DROP TABLE IF EXISTS Users;

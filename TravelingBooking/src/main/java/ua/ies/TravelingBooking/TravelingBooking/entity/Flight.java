@@ -23,8 +23,8 @@ public class Flight {
     @Column(name = "FlightDate", nullable = false)
     private Date flightDate;
 
-    @Column(name = "FlightCompany", nullable = false)
-    private String flightCompany;
+    @Column(name = "CompanyCode", nullable = false)
+    private String CompanyCode;
 
     @Column(name = "Aeroporto", nullable = false)
     private String aeroporto;

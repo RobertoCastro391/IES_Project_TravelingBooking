@@ -87,21 +87,50 @@ def generate_random_flight():
     arrival_time = departure_time + duration
 
     return {
-        "airline": airlines[airline_code],
-        "flight_number": airline_code + faker.bothify(text='####'),
-        "origin_code": origin,
-        "destination_code": destination,
-        "depart_time": departure_time.strftime('%Y-%m-%d %H:%M'),
-        "arrival_time": arrival_time.strftime('%Y-%m-%d %H:%M'),
-        "duration": str(duration),
+        "FlightNumber": airline_code + faker.bothify(text='####'),
+        "FlightDate": departure_time.strftime('%Y-%m-%d'),
+        "Airline_code": airline_code,
+        "AeroCode_partida": origin,
+        "AeroCode_chegada": destination,
+        "Departure_hour": departure_time.strftime('%Y-%m-%d %H:%M'),
+        "Arrival_hour": arrival_time.strftime('%Y-%m-%d %H:%M'),
+        "Duration": str(duration),
         "fare": round(random.uniform(50.0, 1000.0), 2),
         "places": random.randint(1, 300)
     }
 
+
+def send_airport_data_to_kafka(topic):
+    """Sends airport data to Kafka."""
+    for airport_code, coordinates in airports.items():
+        airport_data = {
+            "Code": airport_code,
+            "Coordinates": coordinates
+        }
+        producer.produce(topic, key=airport_code, value=json.dumps(airport_data))
+    producer.flush()
+
+def send_airline_data_to_kafka(topic):
+    """Sends airline company data to Kafka."""
+    for airline_code, airline_name in airlines.items():
+        airline_data = {
+            "Code": airline_code,
+            "Name": airline_name
+        }
+        producer.produce(topic, key=airline_code, value=json.dumps(airline_data))
+    producer.flush()
+
+
+
 def send_to_kafka(topic, flight_data):
     """Sends flight data to Kafka."""
-    producer.produce(topic, key=str(flight_data['flight_number']), value=json.dumps(flight_data))
+    producer.produce(topic, key=str(flight_data['FlightNumber']), value=json.dumps(flight_data))
     producer.flush()
+
+
+
+send_airport_data_to_kafka('airports_topic')  # Replace with your Kafka topic for airports
+send_airline_data_to_kafka('airlines_topic')  # Replace with your Kafka topic for airlines
 
 # Example Usage
 for _ in range(10):  # Generate 10 random flights
