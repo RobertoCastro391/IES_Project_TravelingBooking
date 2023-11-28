@@ -49,13 +49,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - /var/lib/mysql
-    
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
-    
+      - /var/lib/mysql  
     networks:
       - app-network
 
@@ -65,9 +59,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    
     depends_on:
-      - kafka
       - db
     networks:
       - app-network
