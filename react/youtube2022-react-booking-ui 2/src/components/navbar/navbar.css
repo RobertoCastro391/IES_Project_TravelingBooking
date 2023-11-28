@@ -1,0 +1,36 @@
+.navbar {
+  height: 60px;
+  background-color: #1074e4;
+  display: flex;
+  justify-content: center;
+}
+
+.navContainer {
+  width: 100%;
+  max-width: 1024px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-weight: 500;
+  display: flex;
+  align-items: center; /* Align logo and text vertically */
+}
+
+.logo img {
+  width: 40px; /* Adjust the width according to your logo size */
+  height: auto;
+  margin-right: 10px; /* Adjust the margin as needed */
+}
+
+.navButton {
+  margin-left: 20px;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  color: white;
+  background-color: #08243c;
+}
