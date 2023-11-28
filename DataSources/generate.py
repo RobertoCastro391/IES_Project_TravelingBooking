@@ -99,7 +99,7 @@ def generate_random_flight():
         "seats": random.randint(1, 300)
     }
 
-
+    
 def send_airport_data_to_kafka(topic):
     """Sends airport data to Kafka."""
     for airport_code, coordinates in airports.items():

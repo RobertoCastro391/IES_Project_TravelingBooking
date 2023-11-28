@@ -36,49 +36,33 @@ import ua.ies.TravelingBooking.TravelingBooking.repository.AirlinesRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.FlightsRepository;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 @Component
 public class KafkaMessageConsumer {
 
-    // private final FlightsRepository flightsRepository;
+    private final FlightsRepository flightsRepository;
     private final AirportsRepository airportsRepository;
     private final AirlinesRepository airlinesRepository;
     private final ObjectMapper objectMapper;
 
-    // Constructor
-    // public KafkaMessageConsumer(FlightsRepository flightsRepository, 
-    //                             AirportsRepository airportsRepository,
-    //                             AirlinesRepository airlinesRepository,
-    //                             ObjectMapper objectMapper) {
-    //     this.flightsRepository = flightsRepository;
-    //     this.airportsRepository = airportsRepository;
-    //     this.airlinesRepository = airlinesRepository;
-    //     this.objectMapper = objectMapper;
-    // }
-
-    public KafkaMessageConsumer(AirportsRepository airportsRepository,
+    public KafkaMessageConsumer(FlightsRepository flightsRepository, 
+                                AirportsRepository airportsRepository,
                                 AirlinesRepository airlinesRepository,
                                 ObjectMapper objectMapper) {
+        this.flightsRepository = flightsRepository;
         this.airportsRepository = airportsRepository;
         this.airlinesRepository = airlinesRepository;
         this.objectMapper = objectMapper;
     }
 
-    // Listener for airport data
     @KafkaListener(topics = "airports_topic", groupId = "my-consumer-group")
     public void listenAirportsTopic(String message) {
         try {
             Airport airport = objectMapper.readValue(message, Airport.class);
-            
-            
-            System.out.println("Received airport data: " + airport);
-            System.out.println("Received airport data code: " + airport.getAirportCode());
             if (airport.getAirportCode() == null || airport.getAirportCode().isEmpty()) {
                 System.out.println("Received airport data with null or empty ID");
                 return;
             }
-
             airportsRepository.save(airport);
             System.out.println("Saved airport data to database: " + airport);
         } catch (IOException e) {
@@ -87,7 +71,6 @@ public class KafkaMessageConsumer {
         }
     }
 
-    // Listener for airline data
     @KafkaListener(topics = "airlines_topic", groupId = "my-consumer-group")
     public void listenAirlinesTopic(String message) {
         try {
@@ -99,4 +82,20 @@ public class KafkaMessageConsumer {
             System.out.println("Error processing airline message: " + message);
         }
     }
+
+
+    @KafkaListener(topics = "flighs_data", groupId = "my-consumer-group")
+    public void listenFlighs_data(String message) {
+       
+        try {
+            Flight flight = objectMapper.readValue(message, Flight.class);
+            flightsRepository.save(flight);
+            System.out.println("Saved flight data to database: " + flight);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error processing flight message: " + message);
+        }
+    }
+
+
 }
