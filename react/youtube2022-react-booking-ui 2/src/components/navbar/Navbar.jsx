@@ -6,7 +6,7 @@ const Navbar = () => {
 
       <div className="navContainer">
         <span className="logo">
-        <img src="./images/logo.jpeg"/>
+        <img src="./images/logo.png"/>
         </span>
         <div className="navItems">
           <button className="navButton">Register</button>

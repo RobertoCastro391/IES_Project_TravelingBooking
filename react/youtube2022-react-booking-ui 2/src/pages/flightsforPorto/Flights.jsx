@@ -54,8 +54,6 @@ const FlightBookingPage = () => {
     alert(`You have booked flight ${flight.id}!`);
   };
 
- 
-
 
   const filteredFlights = flightData.filter(
     (flight) => flight.price >= minPrice && flight.price <= maxPrice

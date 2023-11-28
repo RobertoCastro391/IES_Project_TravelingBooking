@@ -53,7 +53,19 @@ const Login = () => {
           Login
         </button>
       </div>
-    </div>
+      <div className="textresetnow">Forgot your password?
+Reset it now!</div>
+      <div className="textresetnow1">Don't have an account? Create an account</div>
+
+      <div className="frame">
+        <div className="resetnowbutton">Forgot password?</div>
+      </div>
+      <div className="frame2">
+        <div className="resetnowbutton">Reset now</div>
+      </div>
+
+      </div>
+    
   );
 };
 

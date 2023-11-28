@@ -32,6 +32,7 @@
 .form {
   margin-right: 40%;
   padding: 20px;
+  
 }
 
 .label {
@@ -68,16 +69,17 @@
 
 
 .button {
+  display: block;
+  margin: 0 auto;
   background-color: #08243c;
   color: #ffffff;
-  padding: 12px;
-  border: none; 
-  margin-right: 60px;
+  padding: 10px; /* Adjust the padding to make the button smaller */
+  border: none;
   border-radius: 5px;
   cursor: pointer;
-  width: 100%;
-  margin-top: 40px;
+  width: 40%; /* Adjust the width to control the button's size */
   transition: background-color 0.3s ease-in-out;
+  margin-top: 20px; /* Adjust the margin for spacing */
 }
 
 
@@ -86,3 +88,79 @@
   margin-top: 10px;
   text-align: center;
 }
+
+.frame {
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  left: calc(50% - 200px/2 + 423px);
+  top: calc(910px/2 - 4px);
+  background: #05203C;
+  border-radius: 5px;
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.frame2 {
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  left: calc(50% - 200px/2 + 423px);
+  top: calc(1250px/2 - 4px);
+  background: #05203C;
+  border-radius: 5px;
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.resetnowbutton {
+  font-weight: bold;
+  color: #ffffff;
+}
+.textresetnow {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  width: 200px;
+  height: 60px;
+  left: calc(50% - 200px/2 + 423px);
+  top: calc(760px/2 - 4px);
+  color: #05203C;
+  border-radius: 5px;
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+
+}
+.textresetnow1 {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  width: 200px;
+  height: 60px;
+  left: calc(50% - 200px/2 + 423px);
+  top: calc(1100px/2 - 4px);
+  color: #05203C;
+  border-radius: 5px;
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+
+} 
+
+.buttoncreateaccount {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+
+
+
+
+
+
+
