@@ -17,34 +17,34 @@ conf = {
 producer = Producer(conf)
 
 airports = {
-    'LAX': (33.9416, -118.4085),
-    'JFK': (40.6413, -73.7781),
-    'ATL': (33.7490, -84.3880),
-    'LHR': (51.4700, -0.4543),  
-    'CDG': (49.0097, 2.5479),   
-    'FRA': (50.0379, 8.5622),   
-    'AMS': (52.3105, 4.7683),   
-    'MAD': (40.4983, -3.5676),  
-    'BCN': (41.2974, 2.0833),   
-    'FCO': (41.8003, 12.2389),  
-    'ZRH': (47.4582, 8.5555),   
-    'VIE': (48.1103, 16.5697),  
-    'OSL': (60.1976, 11.1004),  
-    'ARN': (59.6519, 17.9186),
-    'PRG': (50.1008, 14.26), 
-    'CPH': (55.6180, 12.6560),  
-    'DUB': (53.4264, -6.2499),  
-    'BRU': (50.9014, 4.4844),  
-    'LIS': (38.7742, -9.1342),
-    'MXP': (45.6306, 8.7281),
-    'IST': (40.9828, 28.8108),
-    'DXB': (25.2532, 55.3657),
-    'DEL': (28.5562, 77.1000),
-    'BOM': (19.0896, 72.8656),
-    'SIN': (1.3592, 103.9894),
-    'HKG': (22.3080, 113.9185),
-    'NRT': (35.7739, 140.3929),
-    'PVG': (31.1443, 121.8083),
+    'LAX': ("Los Angeles International Airport", (33.9416, -118.4085)),
+    'JFK': ("John F. Kennedy International Airport", (40.6413, -73.7781)),
+    'ATL': ("Hartsfield-Jackson Atlanta International Airport", (33.7490, -84.3880)),
+    'LHR': ("London Heathrow Airport", (51.4700, -0.4543)),
+    'CDG': ("Charles de Gaulle Airport", (49.0097, 2.5479)),
+    'FRA': ("Frankfurt Airport", (50.0379, 8.5622)),
+    'AMS': ("Amsterdam Airport Schiphol", (52.3105, 4.7683)),
+    'MAD': ("Adolfo Suárez Madrid–Barajas Airport", (40.4983, -3.5676)),
+    'BCN': ("Barcelona–El Prat Airport", (41.2974, 2.0833)),
+    'FCO': ("Leonardo da Vinci–Fiumicino Airport", (41.8003, 12.2389)),
+    'ZRH': ("Zurich Airport", (47.4582, 8.5555)),
+    'VIE': ("Vienna International Airport", (48.1103, 16.5697)),
+    'OSL': ("Oslo Airport, Gardermoen", (60.1976, 11.1004)),
+    'ARN': ("Stockholm Arlanda Airport", (59.6519, 17.9186)),
+    'PRG': ("Václav Havel Airport Prague", (50.1008, 14.26)),
+    'CPH': ("Copenhagen Airport", (55.6180, 12.6560)),
+    'DUB': ("Dublin Airport", (53.4264, -6.2499)),
+    'BRU': ("Brussels Airport", (50.9014, 4.4844)),
+    'LIS': ("Lisbon Portela Airport", (38.7742, -9.1342)),
+    'MXP': ("Milan Malpensa Airport", (45.6306, 8.7281)),
+    'IST': ("Istanbul Airport", (40.9828, 28.8108)),
+    'DXB': ("Dubai International Airport", (25.2532, 55.3657)),
+    'DEL': ("Indira Gandhi International Airport", (28.5562, 77.1000)),
+    'BOM': ("Chhatrapati Shivaji Maharaj International Airport", (19.0896, 72.8656)),
+    'SIN': ("Singapore Changi Airport", (1.3592, 103.9894)),
+    'HKG': ("Hong Kong International Airport", (22.3080, 113.9185)),
+    'NRT': ("Narita International Airport", (35.7739, 140.3929)),
+    'PVG': ("Shanghai Pudong International Airport", (31.1443, 121.8083)),
 }
 
 airlines = {
@@ -71,8 +71,8 @@ airlines = {
 
 def calculate_duration(origin, destination):
     """Estimate flight duration based on distance."""
-    coords_1 = airports[origin]
-    coords_2 = airports[destination]
+    coords_1 = airports[origin][1]
+    coords_2 = airports[destination][1]
     distance = geopy.distance.distance(coords_1, coords_2).km
     average_speed_km_per_hour = 800  # Average cruising speed of a commercial airliner
     duration_hours = distance / average_speed_km_per_hour
@@ -87,16 +87,16 @@ def generate_random_flight():
     arrival_time = departure_time + duration
 
     return {
-        "FlightNumber": airline_code + faker.bothify(text='####'),
-        "FlightDate": departure_time.strftime('%Y-%m-%d'),
-        "Airline_code": airline_code,
-        "AeroCode_partida": origin,
-        "AeroCode_chegada": destination,
-        "Departure_hour": departure_time.strftime('%Y-%m-%d %H:%M'),
-        "Arrival_hour": arrival_time.strftime('%Y-%m-%d %H:%M'),
-        "Duration": str(duration),
-        "fare": round(random.uniform(50.0, 1000.0), 2),
-        "places": random.randint(1, 300)
+        "flightNumber": airline_code + faker.bothify(text='####'),
+        "flightDate": departure_time.strftime('%Y-%m-%d'),
+        "airlineCode": airline_code,
+        "airport_code_origin": origin,
+        "airport_code_destination": destination,
+        "departureHour": departure_time.strftime('%Y-%m-%d %H:%M'),
+        "arrivalHour": arrival_time.strftime('%Y-%m-%d %H:%M'),
+        "duration": str(duration),
+        "price": round(random.uniform(50.0, 1000.0), 2),
+        "seats": random.randint(1, 300)
     }
 
 
@@ -104,8 +104,10 @@ def send_airport_data_to_kafka(topic):
     """Sends airport data to Kafka."""
     for airport_code, coordinates in airports.items():
         airport_data = {
-            "Code": airport_code,
-            "Coordinates": coordinates
+            "airportCode": airport_code,
+            "airportName": coordinates[0],
+            "airportLat": coordinates[1][0],
+            "airportLong": coordinates[1][1]
         }
         producer.produce(topic, key=airport_code, value=json.dumps(airport_data))
     producer.flush()
@@ -114,8 +116,8 @@ def send_airline_data_to_kafka(topic):
     """Sends airline company data to Kafka."""
     for airline_code, airline_name in airlines.items():
         airline_data = {
-            "Code": airline_code,
-            "Name": airline_name
+            "airlineCode": airline_code,
+            "airlineName": airline_name
         }
         producer.produce(topic, key=airline_code, value=json.dumps(airline_data))
     producer.flush()
@@ -124,7 +126,7 @@ def send_airline_data_to_kafka(topic):
 
 def send_to_kafka(topic, flight_data):
     """Sends flight data to Kafka."""
-    producer.produce(topic, key=str(flight_data['FlightNumber']), value=json.dumps(flight_data))
+    producer.produce(topic, key=str(flight_data['flightNumber']), value=json.dumps(flight_data))
     producer.flush()
 
 

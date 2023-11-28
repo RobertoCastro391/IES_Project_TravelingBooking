@@ -13,18 +13,15 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Aeroportos")
-public class Aeroporto {
+@Table(name = "Airlines")
+public class Airline {
     
     @Id
-    @Column(name = "Code")
-    private String code;
+    @Column(name = "Airline_Code")
+    private String airlineCode;
 
-    @Column(name = "AeroportoName", nullable = false)
-    private String aeroportoName;
-
-    @Column(name = "City", nullable = false)
-    private String city;
+    @Column(name = "Airline_Name", nullable = false)
+    private String airlineName;
 
     // Getters and Setters
 }

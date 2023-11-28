@@ -23,20 +23,14 @@ public class Flight {
     @Column(name = "FlightDate", nullable = false)
     private Date flightDate;
 
-    @Column(name = "CompanyCode", nullable = false)
-    private String CompanyCode;
+    @Column(name = "AirlineCode", nullable = false)
+    private String airlineCode;
 
-    @Column(name = "Aeroporto", nullable = false)
-    private String aeroporto;
+    @Column(name = "Airport_code_origin", nullable = false)
+    private String airport_code_origin;
 
-    @Column(name = "AeroportoCode", nullable = false)
-    private String aeroportoCode;
-
-    @Column(name = "AeroCode_partida", nullable = false)
-    private String aeroCodePartida;
-
-    @Column(name = "AeroCode_chegada", nullable = false)
-    private String aeroCodeChegada;
+    @Column(name = "Airport_code_destination", nullable = false)
+    private String airport_code_destination;
 
     @Column(name = "Departure_hour", nullable = false)
     private String departureHour;
@@ -44,17 +38,25 @@ public class Flight {
     @Column(name = "Arrival_hour", nullable = false)
     private String arrivalHour;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CompanyCode", referencedColumnName = "CompanyCode", insertable = false, updatable = false)
-    private AeroCompany aeroCompany;
+    @Column(name = "Duration", nullable = false)
+    private String duration;
+
+    @Column(name = "Price", nullable = false)
+    private Double price;
+
+    @Column(name = "Seats", nullable = false)
+    private Integer seats;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "AeroCode_partida", referencedColumnName = "Code", insertable = false, updatable = false)
-    private Aeroporto aeroportoPartida;
+    @JoinColumn(name = "AirlineCode", referencedColumnName = "airline_Code", insertable = false, updatable = false)
+    private Airline airline_Code;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "AeroCode_chegada", referencedColumnName = "Code", insertable = false, updatable = false)
-    private Aeroporto aeroportoChegada;
+    @JoinColumn(name = "Airport_code_origin", referencedColumnName = "Airport_Code", insertable = false, updatable = false)
+    private Airport airportcodeorigin;
 
-    // Getters e Setters
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Airport_code_destination", referencedColumnName = "Airport_Code", insertable = false, updatable = false)
+    private Airport airportcodedestination;
 }
