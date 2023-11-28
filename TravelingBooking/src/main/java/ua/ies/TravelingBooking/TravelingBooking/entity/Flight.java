@@ -60,3 +60,5 @@ public class Flight {
     @JoinColumn(name = "Airport_code_destination", referencedColumnName = "Airport_Code", insertable = false, updatable = false)
     private Airport airportcodedestination;
 }
+
+// pq o roberto quer que apreça
