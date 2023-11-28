@@ -47,6 +47,10 @@
   padding: 10px;
   cursor: pointer;
   border-radius: 5px;
+  position: absolute;
+  right: -70px;
+  top: 50px;
+  transform: translateY(-50%);
 }
 
 .headerSearch {
@@ -62,6 +66,8 @@
   top: 200px;
   width: 100%;
   max-width: 1024px;
+  padding-right: 80px;
+  position: relative;
 }
 
 .headerIcon {

@@ -1,12 +1,12 @@
 import "./navbar.css"
+import logo from "../images/logo2.png"
 
 const Navbar = () => {
   return (
     <div className="navbar">
-
       <div className="navContainer">
         <span className="logo">
-        <img src="./images/logo.jpeg"/>
+        <img src={logo} alt="Site Logo" />
         </span>
         <div className="navItems">
           <button className="navButton">Register</button>
