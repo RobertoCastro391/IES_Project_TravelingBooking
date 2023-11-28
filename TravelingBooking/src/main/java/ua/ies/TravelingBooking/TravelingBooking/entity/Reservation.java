@@ -13,27 +13,24 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "TicketsTrain")
-public class Ticket_train {
+@Table(name = "Reservations")
+public class Reservation {
     
     @Id
-    @Column(name = "TicketNumber")
-    private String ticketNumber;
-    
+    @Column(name = "ReservationNumber")
+    private String reservationNumber;
+
     @Column(name = "User_id")
     private String userId;
 
-    @Column(name = "Train_number")
-    private String trainNumber;
-
-    @Column(name = "Seat", nullable = false)
-    private String seat;
+    @Column(name = "Ticket_number")
+    private String ticketNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "User_id", referencedColumnName = "UserID", insertable = false, updatable = false)
     private User UserID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Train_number", referencedColumnName = "TrainNumber", insertable = false, updatable = false)
-    private Train TrainNumber;
+    @JoinColumn(name = "Ticket_number", referencedColumnName = "TicketNumber", insertable = false, updatable = false)
+    private Ticket_flight TicketNumber;
 }
