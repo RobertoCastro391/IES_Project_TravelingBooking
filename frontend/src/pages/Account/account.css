@@ -1,0 +1,77 @@
+.infoContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1100px;
+    padding: 10px;
+}
+
+.infoContainer1 {
+    flex: 1;
+    padding: 20px;
+}
+
+.infoContainer2 {
+    flex: 1;
+    padding: 20px;
+}
+
+.infoTripsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1100px;
+    padding: 10px;
+}
+
+.infoTripsContainer2 {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    max-width: 1000px;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.button {
+    flex-shrink: 0;
+    width: auto;
+    margin: 0 10px;
+    display: block;
+    padding: 10px 40px;
+    background-color: #08243c;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 40%;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.flightDetails {
+    flex: 1;
+    padding: 20px;
+    margin-top: 10px;
+    height: 250px;
+    width: 1000px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+
+.details {
+    flex: 1;
+    padding: 20px;
+    margin-top: 10px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
