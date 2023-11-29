@@ -55,6 +55,21 @@ public class KafkaMessageConsumer {
         this.objectMapper = objectMapper;
     }
 
+    @KafkaListener(topics = "flighs_data", groupId = "my-consumer-group")
+    public void listenFlighs_data(String message) {
+        System.out.println("AQUIiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+        System.out.println("Received message Flighs_data: " + message);
+        
+        try {
+            Flight flight = objectMapper.readValue(message, Flight.class);
+            flightsRepository.save(flight);
+            System.out.println("Saved flight data to database: " + flight);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error processing flight message: " + message);
+        }
+    }
+
     @KafkaListener(topics = "airports_topic", groupId = "my-consumer-group")
     public void listenAirportsTopic(String message) {
         try {
@@ -82,20 +97,4 @@ public class KafkaMessageConsumer {
             System.out.println("Error processing airline message: " + message);
         }
     }
-
-
-    @KafkaListener(topics = "flighs_data", groupId = "my-consumer-group")
-    public void listenFlighs_data(String message) {
-       
-        try {
-            Flight flight = objectMapper.readValue(message, Flight.class);
-            flightsRepository.save(flight);
-            System.out.println("Saved flight data to database: " + flight);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error processing flight message: " + message);
-        }
-    }
-
-
 }

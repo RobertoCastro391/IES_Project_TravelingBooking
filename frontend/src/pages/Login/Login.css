@@ -1,0 +1,161 @@
+.loginContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
+
+.loginForm {
+  flex: 1;
+  padding: 30px;
+}
+
+.loginMessages {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center the messages vertically */
+}
+
+
+.loginheader {
+  background-color: #08243c;
+  color: white;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+
+}
+.logintexttitle {
+  text-align: center;
+  font-size: 60px;
+  font-weight: 500;
+  margin-top: 115px;
+}
+
+
+.login{
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+ 
+}
+
+.button {
+  display: block;
+  margin: 0 auto;
+  background-color: #08243c;
+  color: #ffffff;
+  padding: 10px; /* Adjust the padding to make the button smaller */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  width: 50%; /* Adjust the width to control the button's size */
+  transition: background-color 0.3s ease-in-out;
+  margin-top: 20px; /* Adjust the margin for spacing */
+}
+
+p {
+  color: #05203C;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+
+.form {
+  flex: 1;
+  padding: 30px;
+}
+
+.label {
+  display: block;
+  margin: 5px;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  font-size: 20px;
+}
+/* Your existing styles remain the same */
+
+.input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  border: 1px solid #3498db;
+  border-radius: 5px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.input:focus {
+  border-color: #007bff;
+}
+
+/* Additional styles for the placeholder effect */
+.input::placeholder {
+  color: #777;
+}
+
+.input:focus::placeholder {
+  color: transparent;
+}
+
+
+.button {
+  display: block;
+  margin: 0 auto;
+  background-color: #08243c;
+  color: #ffffff;
+  padding: 10px; /* Adjust the padding to make the button smaller */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 40%; /* Adjust the width to control the button's size */
+  transition: background-color 0.3s ease-in-out;
+  margin-top: 20px; /* Adjust the margin for spacing */
+}
+
+.container2 {
+  margin-top: 30px;
+  align-items: center;
+  display: flex;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.frame {
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  left: calc(50% - 200px/2 + 423px);
+  top: calc(910px/2 - 4px);
+  background: #05203C;
+  border-radius: 5px;
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.frame2 {
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  left: calc(50% - 200px/2 + 423px);
+  top: calc(1250px/2 - 4px);
+  background: #05203C;
+  border-radius: 5px;
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
