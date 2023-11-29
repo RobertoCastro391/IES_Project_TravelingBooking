@@ -63,24 +63,13 @@ services:
       - db
     networks:
       - app-network
-
-  api_flask:
-    build:
-      context: ./Api
-      dockerfile: Dockerfile
-    ports:
-      - "8085:8085"
-    depends_on:
-      - db
-    networks:
-      - app-network
-
+      
   react-app:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:80"
+      - "5656:80"
     networks:
       - app-network
 

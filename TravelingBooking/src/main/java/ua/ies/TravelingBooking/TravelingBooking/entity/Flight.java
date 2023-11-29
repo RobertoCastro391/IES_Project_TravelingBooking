@@ -47,16 +47,15 @@ public class Flight {
     @Column(name = "Seats", nullable = false)
     private Integer seats;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "AirlineCode", referencedColumnName = "airline_Code", insertable = false, updatable = false)
     private Airline airline_Code;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Airport_code_origin", referencedColumnName = "Airport_Code", insertable = false, updatable = false)
     private Airport airportcodeorigin;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Airport_code_destination", referencedColumnName = "Airport_Code", insertable = false, updatable = false)
     private Airport airportcodedestination;
 }
