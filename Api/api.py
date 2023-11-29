@@ -2,7 +2,12 @@ from asyncio import sleep
 from flask import Flask, flash, jsonify, render_template, request, redirect, session, url_for
 from flask_cors import CORS
 import mysql.connector
+from register import singup
+from login import singin
 from mysql.connector import pooling
+import hashlib
+from register import signup
+from login import singin
 
 sleep(10)
 
@@ -42,6 +47,45 @@ def get_data2():
     rows = cursor.fetchall()
     for row in rows:
         print(row)
+
+@app.route('/api/signup', methods=['POST'])
+def api_signup():
+    # Obter os dados da requisição
+    data = request.form
+
+    # Processar os dados recebidos e chamar a função 'signup'
+    result = signup(
+        request, 
+        hashlib, 
+        connection_pool,
+    )
+
+    if result:
+        # Cadastro bem-sucedido
+        return jsonify({"success": True, "message": "User registered successfully"}), 201
+    else:
+        # Falha no cadastro
+        return jsonify({"success": False, "message": "Registration failed"}), 400
+    
+
+@app.route('/api/login', methods=['POST'])
+def api_login():
+    # Obter os dados da requisição
+    data = request.form
+
+    # Chamar a função 'singin' com os dados de e-mail e senha
+    login_successful = singin(
+        request, 
+        hashlib, 
+        connection_pool
+    )
+
+    if login_successful:
+        # Login bem-sucedido
+        return jsonify({"success": True, "message": "Login successful"}), 200
+    else:
+        # Falha no login
+        return jsonify({"success": False, "message": "Invalid email or password"}), 401
 
 if __name__ == '__main__':
     get_data()
