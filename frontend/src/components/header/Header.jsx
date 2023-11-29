@@ -103,16 +103,6 @@ const Header = ({ type }) => {
                   />
                 </div>
                 <div className="headerSearchItem">
-                  <FontAwesomeIcon className="headerIcon" />
-                  <input
-                    type="text"
-                    placeholder="To:"
-                    className="headerSearchInput"
-                    onChange={(e) => setDestination(e.target.value)}
-                  />
-                </div>
-
-                <div className="headerSearchItem">
                   <FontAwesomeIcon
                     icon={faCalendarDays}
                     className="headerIcon"

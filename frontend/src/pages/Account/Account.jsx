@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
-import FlightDetails from "../../components/flightDetails/FlightDetails";
+import FlightDetails from "../../components/accountInfoTripsFlights/FlightDetails";
+import AccountInfo from "../../components/accountInfo/AccountInfo";
 import "./account.css";
 import tap from "../../static/tap.png";
 import newyork from "../../static/newyork.png";
 import paris from "../../static/paris.png";
+
 
 const Login = () => {
   const [name, setName] = useState("Roberto");
@@ -27,90 +29,15 @@ const Login = () => {
       <div class="loginheader">
         <div class="logintexttitle">Create an account</div>
       </div>
+      <AccountInfo
+        name={name}
+        surname={surname}
+        email={email}
+        address={address}
+        postalCode={postalCode}
+        city={city}
+      />
 
-      <div className="infoContainer">
-        <div className="infoContainer2">
-          <input
-            id="name"
-            type="text"
-            style={{
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              height: "50px",
-              marginBottom: "20px",
-              fontSize: "20px",
-              fontWeight: "bold",
-            }}
-            value={name}
-          />
-          <input
-            id="surname"
-            type="text"
-            style={{
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              height: "50px",
-              marginBottom: "20px",
-              fontSize: "20px",
-              fontWeight: "bold",
-            }}
-            value={surname}
-          />
-          <input
-            id="email"
-            type="email"
-            style={{
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              height: "50px",
-              fontSize: "20px",
-              fontWeight: "bold",
-            }}
-            value={email}
-          />
-        </div>
-        <div className="infoContainer2">
-          <input
-            id="address"
-            type="text"
-            style={{
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              height: "50px",
-              marginBottom: "20px",
-              fontSize: "20px",
-              fontWeight: "bold",
-            }}
-            value={address}
-          />
-          <input
-            id="postalCode"
-            type="text"
-            style={{
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              height: "50px",
-              marginBottom: "20px",
-              fontSize: "20px",
-              fontWeight: "bold",
-            }}
-            value={postalCode}
-          />
-
-          <input
-            id="city"
-            type="text"
-            style={{
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              height: "50px",
-              fontSize: "20px",
-              fontWeight: "bold",
-            }}
-            value={city}
-          />
-        </div>
-      </div>
       <div class="loginheader">
         <div class="logintexttitle">Your trips information</div>
       </div>

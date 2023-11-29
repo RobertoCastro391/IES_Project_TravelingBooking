@@ -1,33 +1,4 @@
-.container {
-  font-family: 'Arial', sans-serif;
-  background-color: #f5f5f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  margin: 0;
-}
-.loginheader {
-  background-color: #08243c;
-  color: white;
-  height: 300px;
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
 
-.register-container {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  width: 100%;
-
-}
-
-.register-form {
-  padding: 20px;
-}
 
 .register-label {
   display: block;
@@ -37,60 +8,28 @@
   font-size: 20px;
 }
 
-.register-input {
-  width: calc(100% - 30px);
-  padding: 10px;
-  margin-bottom: 15px;
-  box-sizing: border-box;
-  border: 1px solid #3498db;
+
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-left: 15px;
-  border-radius: 5px;
-  transition: border-color 0.3s ease-in-out;
-  max-width: 500px;
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 10px;
 }
 
-.register-input:focus {
-  border-color: #007bff;
+.infoContainer1 {
+  padding: 20px; /* Adjust padding as needed */
 }
 
-.input-icon {
-  position: relative;
+.infoContainer2 {
+  padding: 20px; /* Adjust padding as needed */
 }
-
-.input-icon svg {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  color: #777;
-}
-
-.register-input::placeholder {
-  color: #777;
-}
-
-.register-input:focus::placeholder {
-  color: transparent;
-}
-
-.register-button {
-  background-color: #007bff;
-  color: #ffffff;
-  padding: 12px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.register-input {
   width: 100%;
-  transition: background-color 0.3s ease-in-out;
-}
-
-.register-button:hover {
-  background-color: #0056b3;
-}
-
-.register-error {
-  color: red;
-  margin-top: 10px;
-  text-align: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  /* Add any additional styling you need */
 }
