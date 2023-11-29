@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public class Ticket_flightRepository extends JpaRepository<Ticket_flight, String>{
+public interface Ticket_flightRepository extends JpaRepository<Ticket_flight, String>{
     List<Ticket_flight> findByTicketNumber(String ticketNumber);
 }
