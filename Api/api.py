@@ -4,8 +4,6 @@ from flask_cors import CORS
 import mysql.connector
 from mysql.connector import pooling
 
-sleep(10)
-
 app = Flask(__name__)
 CORS(app)
 app.config['MYSQL_HOST'] = 'db'
@@ -26,6 +24,17 @@ def get_data():
     # Replace this with actual data fetching logic
     data = {'message': 'Hello from Flask!'}
     return jsonify(data)
+
+
+@app.route('/api/Airports', methods=['GET'])
+def get_airports():
+    connection_object = connection_pool.get_connection()
+    cursor = connection_object.cursor()
+    cursor.execute("SELECT * FROM airports")
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+    return jsonify(rows)
 
 def get_data():
     connection_object = connection_pool.get_connection()
