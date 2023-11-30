@@ -30,18 +30,18 @@ const CardFlights = ({ flight }) => {
           {flight.airline}
         </strong>
         <div class="Flightinfo">
-          {flight.from}
+          {flight['airportcodeorigin'].airportName}
           <div></div>
-          {flight.To}
+          {flight['airportcodedestination'].airportName}
         </div>
         <div class="Flightinfo">
-          Departure: {flight.departure}{" "}
-          <FontAwesomeIcon icon={faPlaneDeparture} /> Arrival: {flight.arrival}
+          Departure: {flight['departureHour']}
+          <FontAwesomeIcon icon={faPlaneDeparture} /> Arrival: {flight['arrivalHour']}
         </div>
-        <div class="Flightinfo">Duration: 3 hours</div>
+        <div class="Flightinfo">Duration: {flight['duration']}</div>
       </div>
       <button onClick={(e) => handleBookFlight(e, flight.id)}>
-        <div>Price: ${flight.price}</div>
+        <div>Price: ${flight['price']}</div>
         Book Now
       </button>
     </div>

@@ -33,4 +33,19 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         return usersRepository.findAll();
     }
+
+    @Override
+    public User authenticateUser(String email, String password) {
+        // Find the user by email
+        User user = usersRepository.findByEmail(email);
+    
+        System.out.println("USER: " + user);
+        
+        if (user != null && password.equals(user.getUserPassword())) {
+            System.out.println("USERR232");
+            return user;
+        } else {
+            return null;
+        }
+    }
 }

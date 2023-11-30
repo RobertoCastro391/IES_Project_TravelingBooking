@@ -9,4 +9,5 @@ public interface UserService {
     User getUser(String email);
     void deleteUser(User user);
     List<User> getAllUsers();
+    User authenticateUser(String email, String password);
 }

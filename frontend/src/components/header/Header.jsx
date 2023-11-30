@@ -14,7 +14,7 @@ import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-
+import { useRef, useEffect } from 'react';
 
 
 const Header = ({ type }) => {
@@ -33,6 +33,27 @@ const Header = ({ type }) => {
     adult: 1,
     children: 0,
     room: 1,
+  });
+
+  const calendarRef = useRef();
+
+  const useOutsideClick = (ref, callback) => {
+    const handleClick = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        callback();
+      }
+    };
+  
+    useEffect(() => {
+      document.addEventListener('mousedown', handleClick);
+      return () => {
+        document.removeEventListener('mousedown', handleClick);
+      };
+    });
+  };
+
+  useOutsideClick(calendarRef, () => {
+    if (openDate) setOpenDate(false);
   });
 
   const navigate = useNavigate();
@@ -115,14 +136,16 @@ const Header = ({ type }) => {
                     "MM/dd/yyyy"
                   )}`}</span>
                   {openDate && (
-                    <DateRange
-                      editableDateInputs={true}
-                      onChange={(item) => setDate([item.selection])}
-                      moveRangeOnFirstSelection={false}
-                      ranges={date}
-                      className="date"
-                      minDate={new Date()}
-                    />
+                    <div ref={calendarRef}>
+                      <DateRange
+                        editableDateInputs={true}
+                        onChange={(item) => setDate([item.selection])}
+                        moveRangeOnFirstSelection={false}
+                        ranges={date}
+                        className="date"
+                        minDate={new Date()}
+                      />
+                    </div>
                   )}
                 </div>
                 <div className="headerSearchItem">

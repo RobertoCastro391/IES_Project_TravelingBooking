@@ -45,7 +45,7 @@ public class User {
     @Column(name = "UserPassword", nullable = false)
     private String userPassword;
 
-    @Column(name = "Locality", nullable = false)
+    @Column(name = "Locality")
     private String locality;
 
     @Column(name = "StreetAddress", nullable = false)
@@ -65,6 +65,9 @@ public class User {
 
     @Column(name = "CardPIN")
     private String cardPIN;
+
+    @Column(name = "PhoneNumber")
+    private String phoneNumber;
 
     // Getters e Setters
 }
