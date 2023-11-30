@@ -2,9 +2,11 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlaneDeparture } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./cardFlights.css";
 
 const CardFlights = ({ flight }) => {
+  const navigate = useNavigate();
 
   const [selectedFlight, setSelectedFlight] = useState(null);
   const handleSelectFlight = (flight) => {
@@ -13,9 +15,12 @@ const CardFlights = ({ flight }) => {
 
   const handleBookFlight = (e, flight) => {
     e.stopPropagation();
-    alert(`You have booked flight ${flight.id}!`);
+    navigate("/");
+    // localStorage.setItem("flight", flight['flightNumber']);
+    alert(`You have booked flight ${flight['flightNumber']}!`);
   };
 
+  
   return (
     <div
       key={flight.id}
@@ -40,7 +45,7 @@ const CardFlights = ({ flight }) => {
         </div>
         <div class="Flightinfo">Duration: {flight['duration']}</div>
       </div>
-      <button onClick={(e) => handleBookFlight(e, flight.id)}>
+      <button onClick={(e) => handleBookFlight(e, flight)}>
         <div>Price: ${flight['price']}</div>
         Book Now
       </button>

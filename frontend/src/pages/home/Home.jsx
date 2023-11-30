@@ -61,7 +61,7 @@ const Home = () => {
 
     const fetchData3 = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/flights");
+        const response = await fetch("http:///localhost:8080/api/flights");
         console.log(response);
 
         if (!response.ok) {

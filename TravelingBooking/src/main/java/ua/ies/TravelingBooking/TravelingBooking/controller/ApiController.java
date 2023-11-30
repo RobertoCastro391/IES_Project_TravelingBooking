@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5656")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api")
@@ -71,4 +71,9 @@ public class ApiController {
         }
     }
 
+    @GetMapping("/flightCheckout/{flightId}")
+    public ResponseEntity<Flight> getFlightCheckout(@PathVariable("flightId") String flightId) {
+        Flight flight = flightService.getFlight(flightId);
+        return new ResponseEntity<>(flight, HttpStatus.OK);
+    }
 }

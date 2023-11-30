@@ -16,60 +16,6 @@ const FlightBookingPage = () => {
   const [durationFilter, setDurationFilter] = useState("Any");
   const [airlineFilter, setAirlineFilter] = useState("Any");
 
-  // const flightData = [
-  //   {
-  //     id: 1,
-  //     airline: "Ryanair",
-  //     from: "Porto",
-  //     To: "Prage",
-  //     departure: "09:00 AM",
-  //     arrival: "12:00 PM",
-  //     price: 200,
-  //     duration: "3 hours",
-  //   },
-  //   {
-  //     id: 2,
-  //     airline: "Airline B",
-  //     from: "Porto",
-  //     To: "Prage",
-  //     departure: "11:00 AM",
-  //     arrival: "02:00 PM",
-  //     price: 250,
-  //     duration: "3 hours",
-  //   },
-  //   {
-  //     id: 3,
-  //     airline: "Airline C",
-  //     from: "Porto",
-  //     To: "Prage",
-  //     departure: "01:00 PM",
-  //     arrival: "04:00 PM",
-  //     price: 180,
-  //     duration: "3 hours",
-  //   },
-  //   {
-  //     id: 4,
-  //     airline: "Airline D",
-  //     from: "Porto",
-  //     To: "Prage",
-  //     departure: "03:00 PM",
-  //     arrival: "06:00 PM",
-  //     price: 220,
-  //     duration: "3 hours",
-  //   },
-  //   {
-  //     id: 5,
-  //     airline: "Airline E",
-  //     from: "Porto",
-  //     To: "Prage",
-  //     departure: "05:00 PM",
-  //     arrival: "08:00 PM",
-  //     price: 280,
-  //     duration: "3 hours",
-  //   },
-  //   // Add more flight options as needed
-  // ];
-
   const [flightData, setFlights] = useState([]);
 
   const handleSelectStops = (value) => {

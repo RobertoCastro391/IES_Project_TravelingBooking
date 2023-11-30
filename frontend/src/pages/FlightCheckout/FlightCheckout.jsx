@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
@@ -45,6 +45,31 @@ const FlightCheckout = () => {
         setIsOpen(!isOpen);
     };
 
+    const flightNumber = localStorage.getItem("flight");
+
+    
+    const [flight, setFlight] = useState("");
+
+    // Function to fetch flight data
+    const fetchFlight = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/flightCheckout/${flightNumber}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log('data');
+            console.log(data);
+            setFlight(data);
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    };
+
+    // useEffect to trigger API call on component mount
+    useEffect(() => {
+        fetchFlight();
+    }, []); 
 
     return (
         <div>
@@ -272,9 +297,7 @@ const FlightCheckout = () => {
 
                 <div className="columnSummary">
                     <div className="container-3">
-                        {filteredFlights.map((flight) => (
-                            <CardFlights key={flight.id} flight={flight} />
-                        ))}
+                        <CardFlights flight={flight} />
                     </div>
 
                     {/* Checkout Button */}
@@ -291,9 +314,5 @@ const FlightCheckout = () => {
 };
 
 
-const BookingSummary = () => {
-    // Component to display booking and payment summary
-    return <div> {"detials"} </div>
-};
 
 export default FlightCheckout;
