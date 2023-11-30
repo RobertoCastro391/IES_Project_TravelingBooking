@@ -11,7 +11,6 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Account from "./pages/Account/Account";
 import FlightCheckout from "./pages/FlightCheckout/FlightCheckout";
-// import FlightCheckout from "./pages/payment/payment";
 
 function App() {
   return (

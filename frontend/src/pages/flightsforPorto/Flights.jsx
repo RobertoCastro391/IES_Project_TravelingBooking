@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
@@ -16,59 +16,61 @@ const FlightBookingPage = () => {
   const [durationFilter, setDurationFilter] = useState("Any");
   const [airlineFilter, setAirlineFilter] = useState("Any");
 
-  const flightData = [
-    {
-      id: 1,
-      airline: "Ryanair",
-      from: "Porto",
-      To: "Prage",
-      departure: "09:00 AM",
-      arrival: "12:00 PM",
-      price: 200,
-      duration: "3 hours",
-    },
-    {
-      id: 2,
-      airline: "Airline B",
-      from: "Porto",
-      To: "Prage",
-      departure: "11:00 AM",
-      arrival: "02:00 PM",
-      price: 250,
-      duration: "3 hours",
-    },
-    {
-      id: 3,
-      airline: "Airline C",
-      from: "Porto",
-      To: "Prage",
-      departure: "01:00 PM",
-      arrival: "04:00 PM",
-      price: 180,
-      duration: "3 hours",
-    },
-    {
-      id: 4,
-      airline: "Airline D",
-      from: "Porto",
-      To: "Prage",
-      departure: "03:00 PM",
-      arrival: "06:00 PM",
-      price: 220,
-      duration: "3 hours",
-    },
-    {
-      id: 5,
-      airline: "Airline E",
-      from: "Porto",
-      To: "Prage",
-      departure: "05:00 PM",
-      arrival: "08:00 PM",
-      price: 280,
-      duration: "3 hours",
-    },
-    // Add more flight options as needed
-  ];
+  // const flightData = [
+  //   {
+  //     id: 1,
+  //     airline: "Ryanair",
+  //     from: "Porto",
+  //     To: "Prage",
+  //     departure: "09:00 AM",
+  //     arrival: "12:00 PM",
+  //     price: 200,
+  //     duration: "3 hours",
+  //   },
+  //   {
+  //     id: 2,
+  //     airline: "Airline B",
+  //     from: "Porto",
+  //     To: "Prage",
+  //     departure: "11:00 AM",
+  //     arrival: "02:00 PM",
+  //     price: 250,
+  //     duration: "3 hours",
+  //   },
+  //   {
+  //     id: 3,
+  //     airline: "Airline C",
+  //     from: "Porto",
+  //     To: "Prage",
+  //     departure: "01:00 PM",
+  //     arrival: "04:00 PM",
+  //     price: 180,
+  //     duration: "3 hours",
+  //   },
+  //   {
+  //     id: 4,
+  //     airline: "Airline D",
+  //     from: "Porto",
+  //     To: "Prage",
+  //     departure: "03:00 PM",
+  //     arrival: "06:00 PM",
+  //     price: 220,
+  //     duration: "3 hours",
+  //   },
+  //   {
+  //     id: 5,
+  //     airline: "Airline E",
+  //     from: "Porto",
+  //     To: "Prage",
+  //     departure: "05:00 PM",
+  //     arrival: "08:00 PM",
+  //     price: 280,
+  //     duration: "3 hours",
+  //   },
+  //   // Add more flight options as needed
+  // ];
+
+  const [flightData, setFlights] = useState([]);
 
   const handleSelectStops = (value) => {
     setStopsFilter(value);
@@ -90,6 +92,33 @@ const FlightBookingPage = () => {
   const filteredFlights = flightData.filter(
     (flight) => flight.price >= minPrice && flight.price <= maxPrice
   );
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/flights");
+        console.log(response);
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        console.log("data");
+        console.log(data);
+        setFlights(data); // Update the airports state with the fetched data
+      } catch (error) {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
+      }
+    };
+    fetchData();
+  }, []);
+
+
 
   return (
     <div>
