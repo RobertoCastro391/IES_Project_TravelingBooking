@@ -10,6 +10,8 @@ import Flights from "./pages/flightsforPorto/Flights";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Account from "./pages/Account/Account";
+import FlightCheckout from "./pages/FlightCheckout/FlightCheckout";
+// import FlightCheckout from "./pages/payment/payment";
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/account" element={<Account/>}/>
+        <Route path="/flightcheckout" element={<FlightCheckout/>}/>
       </Routes>
     </BrowserRouter>
   );

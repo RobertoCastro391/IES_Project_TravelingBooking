@@ -1,0 +1,67 @@
+.fligthcheckoutContainer {
+    margin-top: 50px;
+    margin-left: 10%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    align-items: center;
+    gap: 30px;
+    max-width: 1200px; /* Limita a largura máxima em telas grandes */
+  }
+  
+  .columnInformations {
+    margin: 10;
+    padding: 10px;
+  }
+  
+  .columnSummary {
+    background-color: #cccccc;
+    border: 1px solid #cccccc;
+    padding: 10px;
+  }
+  
+  .name {
+    margin-top: 20px;
+    margin-left: 35%; /* Ajusta a margem para um valor relativo */
+  }
+  
+  .placeholdernome {
+    margin-top: 10px;
+    width: 80%; /* Define uma largura relativa para o input */
+  }
+  
+  .nacionalGender {
+    margin-top: 15px;
+    margin-left: 35%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    align-items: center;
+  }
+  
+  /* Adiciona uma media query para ajustes em telas menores */
+  @media screen and (max-width: 768px) {
+    .fligthcheckoutContainer {
+      grid-template-columns: 1fr; 
+      width: 90%; /* Ajusta a largura total para telas menores */
+      margin-left: 5%;
+    }
+  
+    .name {
+        margin-top: 20px;
+        margin-left: 5%; /* Ajusta a margem para um valor relativo */
+    }
+    .nacionalGender {
+        margin-top: 15px;
+        margin-left: 5%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 10px;
+        align-items: center;
+      }
+
+      .contact{
+        margin-top: 510;
+      }
+  }
+  
