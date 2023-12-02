@@ -14,8 +14,8 @@ import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { useRef, useEffect } from 'react';
-
+import { useRef, useEffect } from "react";
+import FlightsSearch from "../flights/FlightsSearch";
 
 const Header = ({ type }) => {
   const [from, setFrom] = useState("");
@@ -43,11 +43,11 @@ const Header = ({ type }) => {
         callback();
       }
     };
-  
+
     useEffect(() => {
-      document.addEventListener('mousedown', handleClick);
+      document.addEventListener("mousedown", handleClick);
       return () => {
-        document.removeEventListener('mousedown', handleClick);
+        document.removeEventListener("mousedown", handleClick);
       };
     });
   };
@@ -73,34 +73,12 @@ const Header = ({ type }) => {
 
   return (
     <div className="header">
-      <div
-        className={
-          type === "list" ? "headerContainer listMode" : "headerContainer"
-        }
-      >
-        <div className="headerList">
-          <div className="headerListItem">
-            <FontAwesomeIcon icon={faBed} />
-            <span>Stays</span>
-          </div>
-          <div className="headerListItem active">
-            <FontAwesomeIcon icon={faPlane} />
-            <span>Flights</span>
-          </div>
-          <div className="headerListItem">
-            <FontAwesomeIcon icon={faCar} />
-            <span>Car rentals</span>
-          </div>
-          <div className="headerListItem">
-            <FontAwesomeIcon icon={faBed} />
-            <span>Attractions</span>
-          </div>
-          <div className="headerListItem">
-            <FontAwesomeIcon icon={faTaxi} />
-            <span>Airport taxis</span>
-          </div>
-        </div>
-        {type !== "list" && (
+      <div className="headerContainer">
+        {(type === "flights" || type === "home") && (
+          <FlightsSearch/>
+        )}
+
+        {(type === "hotels") && (
           <>
             <h1 className="headerTitle">
               Quickly scan all your favourite travel sites

@@ -14,6 +14,7 @@ const Home = () => {
   const [airports, setAirports] = useState([]);
   const [airline, setAirline] = useState([]);
   const [flights, setFlights] = useState([]);
+  const [type, setType] = useState("home");
 
   useEffect(() => {
     // Fetch data from the Flask API
@@ -88,7 +89,7 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <Header />
+      <Header type={type} />
 
       <div className="homeContainer">
         <div className="boxContainer">

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
@@ -10,7 +10,7 @@ import CardFlights from "../../components/cardFlights/CardFlights";
 const FlightBookingPage = () => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(300);
-  
+
   const [stopsFilter, setStopsFilter] = useState("Any");
   const [departureTimeFilter, setDepartureTimeFilter] = useState("Any");
   const [durationFilter, setDurationFilter] = useState("Any");
@@ -34,16 +34,10 @@ const FlightBookingPage = () => {
     setAirlineFilter(value);
   };
 
-
-  const filteredFlights = flightData.filter(
-    (flight) => flight.price >= minPrice && flight.price <= maxPrice
-  );
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/flights");
+        const response = await fetch("http://travelingbooking-app:8080/api/flights");
         console.log(response);
 
         if (!response.ok) {
@@ -63,8 +57,6 @@ const FlightBookingPage = () => {
     };
     fetchData();
   }, []);
-
-
 
   return (
     <div>
@@ -120,9 +112,13 @@ const FlightBookingPage = () => {
           </div>
         </div>
         <div className="container3">
-          {filteredFlights.map((flight) => (
-            <CardFlights flight={flight} />
-          ))}
+          {flightData && flightData.length > 0 ? (
+            flightData.map((flight) => (
+              <CardFlights key={flight.id} flight={flight} />
+            ))
+          ) : (
+            <p>No flights available</p>
+          )}
         </div>
       </div>
       <Footer />

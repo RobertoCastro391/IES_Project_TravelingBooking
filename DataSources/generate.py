@@ -1,6 +1,7 @@
 import json
 import random
 from datetime import datetime, timedelta
+import requests
 from faker import Faker
 from confluent_kafka import Producer
 import geopy.distance
@@ -129,8 +130,6 @@ def send_to_kafka(topic, flight_data):
     producer.produce(topic, key=str(flight_data['flightNumber']), value=json.dumps(flight_data))
     producer.flush()
 
-
-
 send_airport_data_to_kafka('airports_topic')  # Replace with your Kafka topic for airports
 send_airline_data_to_kafka('airlines_topic')  # Replace with your Kafka topic for airlines
 
@@ -138,3 +137,30 @@ send_airline_data_to_kafka('airlines_topic')  # Replace with your Kafka topic fo
 for _ in range(10):  # Generate 10 random flights
     flight_data = generate_random_flight()
     send_to_kafka('flighs_data', flight_data)  # Replace 'your_kafka_topic' with your Kafka topic
+
+
+# def get_airport_data(api_key):
+#     url = "https://airlabs.co/api/v9/airports"
+#     params = {'api_key': api_key}
+
+#     response = requests.get(url, params=params)
+    
+#     if response.status_code == 200:
+#         data = response.json()
+#         return [{
+#             'name': airport['name'],
+#             'iata_code': airport['iata_code'],
+#             'lat': airport['lat'],
+#             'lng': airport['lng']
+#         } for airport in data['response']]
+#     else:
+#         print("Failed to retrieve data:", response.status_code)
+#         return None
+
+# api_key = 'e7af3646-df8f-4e79-9915-6aacfecdbf2c'  # Your API key
+# airport_data = get_airport_data(api_key)
+
+# if airport_data:
+#     for airport in airport_data:
+#         print(airport)
+

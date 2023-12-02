@@ -1,17 +1,7 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./Register.css"; // Adjust the CSS file name as needed
-import {
-  faUser,
-  faEnvelope,
-  faLock,
-  faMapMarked,
-  faBuilding,
-  faCity,
-  faGlobe,
-  faPhone,
-} from "@fortawesome/free-solid-svg-icons";
+import "./Register.css";
 import Navbar from "../../components/navbar/Navbar";
+import Footer from "../../components/footer/Footer";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -25,6 +15,7 @@ const Register = () => {
   const [userPasswordRepeated, setUserPasswordRepeated] = useState("");
   const [locality, setLocality] = useState(null);
   const [streetAddress, setStreetAddress] = useState("");
+  const [streetAddress2, setStreetAddress2] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
@@ -35,11 +26,11 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-
       if (userPassword !== userPasswordRepeated) {
+        alert("Passwords do not match");
         throw new Error("Passwords do not match");
       }
-      
+
       const userData = {
         firstName,
         lastName,
@@ -56,7 +47,7 @@ const Register = () => {
         country,
         cardNumber,
         cardPIN,
-        phoneNumber
+        phoneNumber,
       };
 
       console.log(JSON.stringify(userData));
@@ -86,133 +77,189 @@ const Register = () => {
       <div className="loginheader">
         <div className="logintexttitle">Create an account</div>
       </div>
-      <div className="infoContainer">
-        <div className="infoContainer1">
-          <label className="register-label">Name:</label>
+      <form>
+        <div className="infoContainerRegister">
+          <div className="infoContainer1Register">
+            <input
+              id="firstName"
+              type="text"
+              style={{
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                height: "40px",
+                width: "100%",
+                marginBottom: "20px",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+              placeholder="Enter name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required="required"
+            />
+            <input
+              id="lastName"
+              type="text"
+              style={{
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                height: "40px",
+                width: "100%",
+                marginBottom: "20px",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+              placeholder="Enter surname"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
 
-          <FontAwesomeIcon icon={faUser} />
-          <input
-            type="text"
-            className="register-input"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            placeholder="Enter your name"
-            required
-          />
+            <input
+              id="email"
+              type="email"
+              style={{
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                height: "40px",
+                width: "100%",
+                marginBottom: "20px",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              id="userPassword"
+              type="password"
+              style={{
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                height: "40px",
+                width: "100%",
+                marginBottom: "20px",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+              placeholder="Enter password"
+              value={userPassword}
+              onChange={(e) => setUserPassword(e.target.value)}
+              required
+            />
+            <input
+              id="userPasswordRepeated"
+              type="password"
+              style={{
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                height: "40px",
+                width: "100%",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+              placeholder="Repeat password"
+              value={userPasswordRepeated}
+              onChange={(e) => setUserPasswordRepeated(e.target.value)}
+              required
+            />
+          </div>
 
-          <label className="register-label">Surname:</label>
-
-          <FontAwesomeIcon icon={faUser} />
-          <input
-            type="text"
-            className="register-input"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder="Enter your surname"
-            required
-          />
-
-          <label className="register-label">Email:</label>
-
-          <FontAwesomeIcon icon={faEnvelope} />
-          <input
-            type="text"
-            className="register-input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            required
-          />
-
-          <label className="register-label">Password:</label>
-
-          <FontAwesomeIcon icon={faLock} />
-          <input
-            type="password"
-            className="register-input"
-            value={userPassword}
-            onChange={(e) => setUserPassword(e.target.value)}
-            placeholder="Enter your password"
-            required
-          />
-
-          <label className="register-label">Repeat Password:</label>
-          <FontAwesomeIcon icon={faLock} />
-          <input
-            type="password"
-            className="register-input"
-            value={userPasswordRepeated}
-            onChange={(e) => setUserPasswordRepeated(e.target.value)}
-            placeholder="Repeat your password"
-            required
-          />
+          <div className="infoContainer1Register">
+            <input
+              id="streetAddress"
+              type="text"
+              style={{
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                height: "40px",
+                width: "100%",
+                marginBottom: "20px",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+              placeholder="Enter Address"
+              value={streetAddress}
+              onChange={(e) => setStreetAddress(e.target.value)}
+              required
+            />
+            <input
+              id="streetAddress2"
+              type="text"
+              style={{
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                height: "40px",
+                width: "100%",
+                marginBottom: "20px",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+              placeholder="Enter Address 2"
+              value={streetAddress2}
+              onChange={(e) => setStreetAddress2(e.target.value)}
+            />
+            <input
+              id="postalCode"
+              type="text"
+              style={{
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                height: "40px",
+                width: "100%",
+                marginBottom: "20px",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+              placeholder="Enter Postal Code"
+              value={postalCode}
+              onChange={(e) => setPostalCode(e.target.value)}
+              required
+            />
+            <input
+              id="city"
+              type="text"
+              style={{
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                height: "40px",
+                width: "100%",
+                marginBottom: "20px",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+              placeholder="Enter City"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              required
+            />
+            <input
+              id="country"
+              type="text"
+              style={{
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                height: "40px",
+                width: "100%",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+              placeholder="Enter Country"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              required
+            />
+            <div className="register-button-container">
+              <button className="register-button" onClick={handleRegister}>
+                Register
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="infoContainer2">
-          <label className="register-label">Address:</label>
-
-          <FontAwesomeIcon icon={faMapMarked} />
-          <input
-            type="text"
-            className="register-input"
-            value={streetAddress}
-            onChange={(e) => setStreetAddress(e.target.value)}
-            placeholder="Enter your address"
-            required
-          />
-          <label className="register-label">Postal Code:</label>
-
-          <FontAwesomeIcon icon={faBuilding} />
-          <input
-            type="text"
-            className="register-input"
-            value={postalCode}
-            onChange={(e) => setPostalCode(e.target.value)}
-            placeholder="Enter your postal code"
-            required
-          />
-
-          <label className="register-label">City:</label>
-
-          <FontAwesomeIcon icon={faCity} />
-          <input
-            type="text"
-            className="register-input"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder="Enter your city"
-            required
-          />
-
-          <label className="register-label">Country:</label>
-
-          <FontAwesomeIcon icon={faGlobe} />
-          <input
-            type="text"
-            className="register-input"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            placeholder="Enter your country"
-            required
-          />
-
-          <label className="register-label">Phone Number:</label>
-
-          <FontAwesomeIcon icon={faPhone} />
-          <input
-            type="tel"
-            className="register-input"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            placeholder="Enter your phone number"
-            required
-          />
-        </div>
-      </div>
-      <div className="register-button-container">
-        <button className="register-button" onClick={handleRegister}>
-          Register
-        </button>
-      </div>
+      </form>
+      <Footer />
     </div>
   );
 };

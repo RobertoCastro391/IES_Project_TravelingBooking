@@ -6,7 +6,7 @@ import {
 import Home from "./pages/home/Home";
 import Hotel from "./pages/hotel/Hotel";
 import List from "./pages/list/List";
-import Flights from "./pages/flightsforPorto/Flights";
+import Flights from "./pages/searchFlights/Flights";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Account from "./pages/Account/Account";
