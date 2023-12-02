@@ -37,7 +37,7 @@ const FlightBookingPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://travelingbooking-app:8080/api/flights");
+        const response = await fetch("http://localhost:8080/api/flights");
         console.log(response);
 
         if (!response.ok) {

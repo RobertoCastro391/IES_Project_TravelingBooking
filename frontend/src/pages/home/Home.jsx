@@ -3,21 +3,28 @@ import Featured from "../../components/featured/Featured";
 import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
-import MailList from "../../components/mailList/MailList";
 import Navbar from "../../components/navbar/Navbar";
 import PropertyList from "../../components/propertyList/PropertyList";
 import "./home.css";
 import { faEarth, faHotel, faTrain } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
+import { useLocation } from 'react-router-dom';
+
 
 const Home = () => {
+  const location = useLocation();
   const [airports, setAirports] = useState([]);
   const [airline, setAirline] = useState([]);
   const [flights, setFlights] = useState([]);
   const [type, setType] = useState("home");
 
   useEffect(() => {
-    // Fetch data from the Flask API
+    if (location.state && location.state.headerType) {
+      setType(location.state.headerType);
+    }
+  }, [location]);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8080/api/airlines");

@@ -4,8 +4,8 @@ import "./accountInfo.css";
 
 const AccountInfo = ({ name, surname, email, address, postalCode, city }) => {
   return (
-    <div className="infoContainer">
-      <div className="infoContainer1">
+    <div className="infoContainerAccount">
+      <div className="infoContainer1Account">
         <input
           id="name"
           type="text"
@@ -45,7 +45,7 @@ const AccountInfo = ({ name, surname, email, address, postalCode, city }) => {
           value={email}
         />
       </div>
-      <div className="infoContainer2">
+      <div className="infoContainer1Account">
         <input
           id="address"
           type="text"

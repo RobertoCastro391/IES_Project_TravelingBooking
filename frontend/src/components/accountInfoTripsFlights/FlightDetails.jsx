@@ -11,12 +11,12 @@ const FlightDetails = ({ destination, outboundDate, returnDate, airlineLogo, out
           <div className="flightTimes">
             <div className="outbound">
               <span className="label">Outbound</span>
-              <span className="date">{outboundDate}</span>
+              <span>{outboundDate}</span>
               <span className="flightInfo">{outboundFlightInfo}</span>
             </div>
             <div className="return">
               <span className="label">Return</span>
-              <span className="date">{returnDate}</span>
+              <span>{returnDate}</span>
               <span className="flightInfo">{returnFlightInfo}</span>
             </div>
           </div>

@@ -26,10 +26,19 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
+
+      if (firstName.length < 2 || lastName.length < 2 || email.length < 2 || userPassword.length < 2 || userPasswordRepeated.length < 2 || streetAddress.length < 2 || postalCode.length < 2 || city.length < 2 || country.length < 2) {
+        alert("Please fill in all the fields");
+        throw new Error("Please fill in all the fields");
+      }
+      
+      
       if (userPassword !== userPasswordRepeated) {
         alert("Passwords do not match");
         throw new Error("Passwords do not match");
       }
+
+
 
       const userData = {
         firstName,
@@ -77,7 +86,6 @@ const Register = () => {
       <div className="loginheader">
         <div className="logintexttitle">Create an account</div>
       </div>
-      <form>
         <div className="infoContainerRegister">
           <div className="infoContainer1Register">
             <input
@@ -252,13 +260,12 @@ const Register = () => {
               required
             />
             <div className="register-button-container">
-              <button className="register-button" onClick={handleRegister}>
+              <button type="submit" className="register-button" onClick={handleRegister}>
                 Register
               </button>
             </div>
           </div>
         </div>
-      </form>
       <Footer />
     </div>
   );

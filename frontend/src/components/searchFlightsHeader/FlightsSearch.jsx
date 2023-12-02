@@ -103,7 +103,7 @@ const FlightsSearch = () => {
 
   return (
     <div className="headerFlights">
-      <h1>Quickly scan all your favourite travel sites</h1>
+      <h1>Quickly scan all your favourite flights</h1>
 
       <div className="containerSearch">
         <div className="headerSearch">
@@ -111,6 +111,7 @@ const FlightsSearch = () => {
             <FontAwesomeIcon icon={faPlaneDeparture} className="headerIcon" />
             <input
               type="text"
+              value={from}
               placeholder="From:"
               className="headerSearchInput"
               onChange={(e) => setFrom(e.target.value)}
