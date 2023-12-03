@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import "./flights.css"; // Import the CSS file
-import { faPlaneDeparture } from "@fortawesome/free-solid-svg-icons";
 import CardFlights from "../../components/cardFlights/CardFlights";
 
 const FlightBookingPage = () => {
@@ -61,9 +59,8 @@ const FlightBookingPage = () => {
   return (
     <div>
       <Navbar />
-      <Header />
-
-      <div className="containerSearch">
+      <Header type='flights' />
+      <div className="containerSearch" style={{alignItems: 'start'}}>
         <div className="container2">
           <div className="filters">
             <label>Filter by Stops:</label>
@@ -114,7 +111,7 @@ const FlightBookingPage = () => {
         <div className="container3">
           {flightData && flightData.length > 0 ? (
             flightData.map((flight) => (
-              <CardFlights key={flight.id} flight={flight} />
+              <CardFlights flight={flight}/>
             ))
           ) : (
             <p>No flights available</p>

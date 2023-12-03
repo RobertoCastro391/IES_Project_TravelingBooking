@@ -12,6 +12,9 @@ import CardFlights from "../../components/cardFlights/CardFlights";
 import visa from "../../components/images/visa.png";
 import mastercard from "../../components/images/master-card.png";
 import card from "../../components/images/card.png";
+import layer1 from "../../components/images/Layer_1.png";
+import cancelation from "../../components/images/cancelation.png";
+import { useNavigate } from "react-router-dom";
 // Import other necessary components and hooks
 
 const FlightCheckout = () => {
@@ -29,35 +32,11 @@ const FlightCheckout = () => {
   const [cvv, setCvv] = useState("");
   const [bag, setbag] = useState("");
 
-  const flight = {
-    flightNumber: "AF0248",
-    flightDate: "2023-12-13T00:00:00.000+00:00",
-    airlineCode: "AF",
-    airport_code_origin: "MAD",
-    airport_code_destination: "ATL",
-    departureHour: "2023-12-13 02:26",
-    arrivalHour: "2023-12-13 11:09",
-    duration: "8:42:27.554005",
-    price: 915.25,
-    seats: 270,
-    airline_Code: { airlineCode: "AF", airlineName: "Air France" },
-    airportcodeorigin: {
-      airportCode: "MAD",
-      airportName: "Adolfo SuÃ¡rez Madridâ€“Barajas Airport",
-      airportLat: 40.4983,
-      airportLong: -3.5676,
-    },
-    airportcodedestination: {
-      airportCode: "ATL",
-      airportName: "Hartsfield-Jackson Atlanta International Airport",
-      airportLat: 33.749,
-      airportLong: -84.388,
-    },
-  };
+  const navigate = useNavigate();
 
   const handleCheckout = () => {
-    // Add logic for handling the checkout process
-    console.log("Checkout logic goes here!");
+    alert("You have suceefuly booked your flight!");
+    navigate("/");
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -66,34 +45,38 @@ const FlightCheckout = () => {
     setIsOpen(!isOpen);
   };
 
-  const flightNumber = localStorage.getItem("flight");
-
   const handleGenderChange = (event) => {
     setSex(event.target.value);
   };
 
-  //const [flight, setFlight] = useState("");
+  const [flight, setFlight] = useState([]);
 
-  // Function to fetch flight data
-  // const fetchFlight = async () => {
-  //     try {
-  //         const response = await fetch(`http://localhost:8080/api/flightCheckout/${flightNumber}`);
-  //         if (!response.ok) {
-  //             throw new Error('Network response was not ok');
-  //         }
-  //         const data = await response.json();
-  //         console.log('data');
-  //         console.log(data);
-  //         setFlight(data);
-  //     } catch (error) {
-  //         console.error('Fetch error:', error);
-  //     }
-  // };
+  const flightNumber = localStorage.getItem("flight");
+  const url = "http://localhost:8080/api/flightCheckout/" + flightNumber;
 
-  // useEffect to trigger API call on component mount
-  // useEffect(() => {
-  //     fetchFlight();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        console.log(response);
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        console.log("data");
+        console.log(data);
+        setFlight(data); // Update the airports state with the fetched data
+      } catch (error) {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
+      }
+    };
+    fetchData();
+  }, []);
 
   const [passengers, setPassengers] = useState([
     { firstName: "", lastName: "", gender: "", dob: "", passport: "" },
@@ -541,10 +524,494 @@ const FlightCheckout = () => {
             <option value="france">France</option>
             <option value="germany">Germany</option>
           </select>
-          <button className="buttonSearchFlights">Book Now</button>
+          <button className="buttonSearchFlights" onClick={handleCheckout}>
+            Book Now
+          </button>
         </div>
-        <div className="container1">
-          <h1>Flight CheckOut</h1>
+        <div
+          className="container1"
+          style={{ paddingLeft: "30px", paddingTop: "20px" }}
+        >
+          <div style={{ backgroundColor: "#EFF1F2", borderRadius: "8px" }}>
+            <div
+              style={{
+                padding: "20px",
+                margin: "20px",
+                backgroundColor: "white",
+                borderRadius: "8px",
+              }}
+            >
+              <p>Flight Details</p>
+
+              <div>
+                <div style={{}}>
+                  <p>
+                    {flight && flight["airline_Code"] ? (
+                      <div className="flight-details">
+                        <div className="flight-details1">
+                          <img
+                            src={`https://www.flightaware.com/images/airline_logos/90p/${flight["airline_Code"]["airlineICAO"]}.png`}
+                            className="airlineLogo"
+                            alt="Airline logo"
+                          />
+                          <div
+                            style={{
+                              flex: 20,
+                              display: "flex",
+                              flexDirection: "row",
+                            }}
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                marginLeft: "1%",
+                                marginRight: "2%",
+                              }}
+                            >
+                              <p className="text">
+                                {flight["departureHour"].split(" ")[1]}
+                              </p>
+                              <p className="text">
+                                {flight["airport_code_origin"]}
+                              </p>
+                            </div>
+                            <div className="div">
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  paddingLeft: "5%",
+                                  paddingRight: "5%",
+                                  marginTop: "1%",
+                                }}
+                              >
+                                <p className="text">
+                                  {flight["airline_Code"]["airlineName"]}
+                                </p>
+                                <p className="text">
+                                  {flight["duration"].split(":")[0] +
+                                    "H:" +
+                                    flight["duration"].split(":")[1] +
+                                    "M"}
+                                </p>
+                              </div>
+                              <img
+                                className="svg-layer"
+                                alt="Svg layer"
+                                src={layer1}
+                              />
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                marginLeft: "2%",
+                              }}
+                            >
+                              <p className="text">
+                                {flight["arrivalHour"].split(" ")[1]}
+                              </p>
+                              <p className="text">
+                                {flight["airport_code_destination"]}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flight-details1">
+                          <img
+                            src={`https://www.flightaware.com/images/airline_logos/90p/${flight["airline_Code"]["airlineICAO"]}.png`}
+                            className="airlineLogo"
+                            alt="Airline logo"
+                          />
+                          <div
+                            style={{
+                              flex: 20,
+                              display: "flex",
+                              flexDirection: "row",
+                            }}
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                marginLeft: "1%",
+                                marginRight: "2%",
+                              }}
+                            >
+                              <p className="text">
+                                {flight["arrivalHour"].split(" ")[1]}
+                              </p>
+                              <p className="text">
+                                {flight["airport_code_destination"]}
+                              </p>
+                            </div>
+                            <div className="div">
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  paddingLeft: "5%",
+                                  paddingRight: "5%",
+                                  marginTop: "1%",
+                                }}
+                              >
+                                <p className="text">
+                                  {flight["airline_Code"]["airlineName"]}
+                                </p>
+                                <p className="text">
+                                  {flight["duration"].split(":")[0] +
+                                    "H:" +
+                                    flight["duration"].split(":")[1] +
+                                    "M"}
+                                </p>
+                              </div>
+                              <img
+                                className="svg-layer"
+                                alt="Svg layer"
+                                src={layer1}
+                              />
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                marginLeft: "2%",
+                              }}
+                            >
+                              <p className="text">
+                                {flight["departureHour"].split(" ")[1]}
+                              </p>
+                              <p className="text">
+                                {flight["airport_code_origin"]}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      "Loading..."
+                    )}
+                  </p>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginTop: "2%",
+                }}
+              >
+                <div
+                  style={{ flex: 1, display: "flex", flexDirection: "column" }}
+                >
+                  <div style={{ paddingLeft: "4%" }}>
+                    <p>Outbound</p>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <p style={{ color: "black", fontSize: "18px" }}>
+                        Flight Number:
+                      </p>
+                      <p
+                        style={{
+                          color: "black",
+                          fontSize: "18px",
+                          marginLeft: "10px",
+                        }}
+                      >
+                        {" "}
+                        {flight["flightNumber"]}
+                      </p>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <p style={{ color: "black", fontSize: "18px" }}>Date:</p>
+                      {flight && flight["flightDate"] ? (
+                        <p
+                          style={{
+                            color: "black",
+                            fontSize: "18px",
+                            marginLeft: "10px",
+                          }}
+                        >
+                          {flight["flightDate"].split("T")[0]}
+                        </p>
+                      ) : (
+                        <p>Loading ...</p>
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <p style={{ color: "black", fontSize: "18px" }}>
+                        Departure Time:
+                      </p>
+                      {flight && flight["departureHour"] ? (
+                        <p
+                          style={{
+                            color: "black",
+                            fontSize: "18px",
+                            marginLeft: "10px",
+                          }}
+                        >
+                          {flight["departureHour"].split(" ")[1]}
+                        </p>
+                      ) : (
+                        <p>Loading ...</p>
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <p style={{ color: "black", fontSize: "18px" }}>
+                        Arrival Time:
+                      </p>
+                      {flight && flight["arrivalHour"] ? (
+                        <p
+                          style={{
+                            color: "black",
+                            fontSize: "18px",
+                            marginLeft: "10px",
+                          }}
+                        >
+                          {flight["arrivalHour"].split(" ")[1]}
+                        </p>
+                      ) : (
+                        <p>Loading ...</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div
+                  style={{ flex: 1, display: "flex", flexDirection: "column" }}
+                >
+                  <div style={{ paddingLeft: "4%" }}>
+                    <p>Outbound</p>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <p style={{ color: "black", fontSize: "18px" }}>
+                        Flight Number:
+                      </p>
+                      <p
+                        style={{
+                          color: "black",
+                          fontSize: "18px",
+                          marginLeft: "10px",
+                        }}
+                      >
+                        {flight["flightNumber"]}
+                      </p>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <p style={{ color: "black", fontSize: "18px" }}>Date:</p>
+                      {flight && flight["flightDate"] ? (
+                        <p
+                          style={{
+                            color: "black",
+                            fontSize: "18px",
+                            marginLeft: "10px",
+                          }}
+                        >
+                          {flight["flightDate"].split("T")[0]}
+                        </p>
+                      ) : (
+                        <p>Loading ...</p>
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <p style={{ color: "black", fontSize: "18px" }}>
+                        Departure Time:
+                      </p>
+                      {flight && flight["departureHour"] ? (
+                        <p
+                          style={{
+                            color: "black",
+                            fontSize: "18px",
+                            marginLeft: "10px",
+                          }}
+                        >
+                          {flight["departureHour"].split(" ")[1]}
+                        </p>
+                      ) : (
+                        <p>Loading ...</p>
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <p style={{ color: "black", fontSize: "18px" }}>
+                        Arrival Time:
+                      </p>
+                      {flight && flight["arrivalHour"] ? (
+                        <p
+                          style={{
+                            color: "black",
+                            fontSize: "18px",
+                            marginLeft: "10px",
+                          }}
+                        >
+                          {flight["arrivalHour"].split(" ")[1]}
+                        </p>
+                      ) : (
+                        <p>Loading ...</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              style={{
+                padding: "20px",
+                margin: "20px",
+                backgroundColor: "white",
+                borderRadius: "8px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <p>Flight:</p>
+                {flight && flight["price"] ? (
+                  <p>{flight["price"]}€</p>
+                ) : (
+                  <p>Loading ...</p>
+                )}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginTop: "10px",
+                }}
+              >
+                <p>Additional Options:</p>
+                {flight && flight["price"] ? (
+                  <p>{flight["price"]}€</p>
+                ) : (
+                  <p>Loading ...</p>
+                )}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginTop: "10px",
+                  borderTop: "1px solid black",
+                }}
+              >
+                <p style={{ marginTop: "10px" }}>Total</p>
+                {flight && flight["price"] ? (
+                  <p style={{ marginTop: "10px" }}>{flight["price"] * 2}€</p>
+                ) : (
+                  <p>Loading ...</p>
+                )}
+              </div>
+            </div>
+            <div
+              style={{
+                padding: "20px",
+                margin: "20px",
+                backgroundColor: "white",
+                borderRadius: "8px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignContent: "center",
+                }}
+              >
+                <img
+                  src={cancelation}
+                  style={{ width: "24px", height: "24px" }}
+                  alt="cancelationIcon"
+                />
+                <p
+                  style={{
+                    color: "black",
+                    marginLeft: "15px",
+                    marginTop: "-3px",
+                  }}
+                >
+                  Free cancellation
+                </p>
+              </div>
+              {flight["flightDate"] ? (
+                <p
+                  style={{
+                    marginTop: "10px",
+                    color: "black",
+                    fontSize: "16px",
+                    fontWeight: "400",
+                  }}
+                >
+                  Free cancellation before 11:59 PM on{" "}
+                  {(() => {
+                    const flightDate = new Date(flight["flightDate"]);
+                    flightDate.setDate(flightDate.getDate() - 1); // Subtract one day
+                    return flightDate.toISOString().split("T")[0]; // Format to YYYY-MM-DD
+                  })()}{" "}
+                  (local time of hotel). After that, you'll be charged 100% of
+                  the cost.
+                </p>
+              ) : (
+                <p>Loading...</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
       <Footer />

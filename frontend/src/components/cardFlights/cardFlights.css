@@ -1,37 +1,112 @@
 .flight-card {
     width: 90%;
-    height: 200px; /* Increase the card height */
+    height: 100%;
     margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px; /* Increase the padding */
+    border-radius: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
     overflow: hidden;
     cursor: pointer;
-    display: flex; /* Make the card a flex container */
-    justify-content: space-between; /* Align content horizontally */
-    align-items: center; /* Align content vertically */
-    background-color: #f9f9f9; /* Set background color */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .selected .flight-card {
-    background-color: #3498db; 
+    background-color: #3498db;
 }
 
 
 .flight-details {
-    flex: 3;
+    flex: 1;
     display: flex;
     flex-direction: column;
+    padding: 2px;
     gap: 10px;
     flex-grow: 1;
 }
 
 .Flightinfo {
+    flex: 0.2;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 10px;
+    padding: 5px;
+    border-left: grey 1px solid;
 }
-  
+
+.text {
+    vertical-align: middle;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.flight-details1 {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    gap: 10px;
+    justify-content: "center";
+}
+
+.airlineLogo {
+    flex: 1;
+    width: 50px;
+}
+
+.buttonFlightSearch {
+    all: unset;
+    align-items: center;
+    background-color: #00a698;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: inline-flex;
+    gap: 6.14px;
+    padding: 6px 16px 6px 17px;
+    position: relative;
+}
+
+.buttonFlightSearch:hover {
+    background-color: #00b690;
+}
+
+.buttonFlightSearch .text-wrapper {
+    color: #ffffff;
+    font-family: "Roboto-Bold", Helvetica;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-top: -1px;
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+.buttonFlightSearch .svg {
+    height: 18px;
+    position: relative;
+    width: 18px;
+}
+
+.div {
+    justify-content: space-between;
+    background-color: #545860;
+    height: 2px;
+    position: relative;
+    flex: 6;
+    margin: auto;
+}
+
+.div .svg-layer {
+    height: 16px;
+    position: absolute;
+    top: -7px;
+    width: 16px;
+    right: 0; /* Align the plane image to the right */
+}

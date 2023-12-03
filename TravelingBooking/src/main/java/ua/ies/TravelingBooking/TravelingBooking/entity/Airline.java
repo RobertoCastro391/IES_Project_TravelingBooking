@@ -23,5 +23,6 @@ public class Airline {
     @Column(name = "Airline_Name", nullable = false)
     private String airlineName;
 
-    // Getters and Setters
+    @Column(name = "Airline_ICAO", nullable = false)
+    private String airlineICAO;
 }

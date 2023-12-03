@@ -30,3 +30,8 @@
   transition: background-color 0.3s ease-in-out;
   margin-top: 20px; /* Adjust the margin for spacing */
 }
+
+.airlineLogo {
+  flex: 1;
+  width: 50px;
+}

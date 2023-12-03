@@ -95,6 +95,7 @@ const FlightsSearch = () => {
   };
 
   const [isOneWay, setIsOneWay] = useState(false);
+  
   const handleOneWayChange = (event) => {
     setIsOneWay(event.target.checked);
   };
