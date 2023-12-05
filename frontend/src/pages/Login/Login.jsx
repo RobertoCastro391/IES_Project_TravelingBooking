@@ -11,9 +11,13 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const handleRegister = () => {
+    navigate("/register");
+  }
+
   const handleLogin = async () => {
     try {
-      const response = await fetch("http:///localhost:8080/api/login", {
+      const response = await fetch("http://localhost:8080/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +52,6 @@ const Login = () => {
 
       <div className="loginContainer">
         <div className="loginForm">
-          <label htmlFor="email">Email:</label>
           <input
             id="email"
             type="email"
@@ -56,14 +59,16 @@ const Login = () => {
               borderRadius: "5px",
               border: "1px solid #ccc",
               height: "40px",
+              width: "100%",
+              marginBottom: "20px",
+              fontSize: "16px",
+              fontWeight: "bold",
             }}
+            placeholder="Enter email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <label htmlFor="password" style={{ marginTop: "10px" }}>
-            Password:
-          </label>
           <input
             id="password"
             type="password"
@@ -71,24 +76,28 @@ const Login = () => {
               borderRadius: "5px",
               border: "1px solid #ccc",
               height: "40px",
+              width: "100%",
+              fontSize: "16px",
+              fontWeight: "bold",
             }}
+            placeholder="Enter password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button className="button" onClick={handleLogin}>
+          <button className="buttonLogin" onClick={handleLogin}>
             Log In
           </button>
         </div>
 
         <div className="loginMessages">
           <div>
-            <p>Forgot your password? Reset it now!</p>
-            <button className="button">Reset it now!</button>
+            <p style={{textAlign: "center"}}>Forgot your password? Reset it now!</p>
+            <button className="buttonLogin">Reset it now!</button>
           </div>
           <div style={{ marginTop: "10px" }}>
-            <p>Don’t have an account? Create one now!</p>
-            <button className="button">Create your account</button>
+            <p style={{textAlign: "center"}}>Don’t have an account? Create one now!</p>
+            <button className="buttonLogin" onClick={handleRegister}>Create your account</button>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-.infoContainer {
+.infoContainerAccount {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -9,12 +9,9 @@
     padding: 10px;
 }
 
-.infoContainer1 {
+.infoContainer1Account {
     flex: 1;
-    padding: 20px;
-}
-
-.infoContainer2 {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
     padding: 20px;
 }

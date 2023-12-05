@@ -1,0 +1,232 @@
+.headerFlights {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+}
+
+.headerBtn {
+    background-color: #1074e4;
+    color: white;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.containerSearch {
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerSearch {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0px;
+    border-radius: 2px;
+    width: 100%;
+    gap: 0.4%;
+}
+
+.headerIcon {
+    padding-left: 3%;
+    color: lightgray;
+}
+
+.searchInputGroup {
+    display: flex;
+    border-radius: 4px;
+    /* Match this to your design */
+}
+
+.headerSearchItemLeft {
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    background-color: white;
+    height: 50px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.headerSearchItem {
+    background-color: white;
+    height: 50px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.headerSearchItemRight {
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: white;
+    height: 50px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.headerSearchInput {
+    border: none;
+    outline: none;
+    font-size: 20px;
+    width: 100%;
+}
+
+.headerSearchText {
+    color: lightgray;
+    cursor: pointer;
+}
+
+
+.date {
+    position: absolute;
+    top: 50px;
+    z-index: 4;
+}
+
+
+
+.options {
+    z-index: 2;
+    position: -ms-page;
+    width: auto;
+    background-color: white;
+    color: gray;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
+}
+
+.optionItem {
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.optionCounter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: black;
+}
+
+.buttonFlightsSearch {
+    background-color: #0071c2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Add a transition effect */
+  }
+
+.optionCounterButton {
+    border: 1px solid #0071c2;
+    color: #0071c2;
+    cursor: pointer;
+    background-color: white;
+}
+
+.optionCounterButton:disabled {
+    cursor: not-allowed;
+}
+
+
+/* Additional styles for the calendar */
+.react-date-range {
+    font-family: 'Helvetica', sans-serif;
+    /* Example font */
+}
+
+.rdrDateRangeWrapper {
+    border: 1px solid #ccc;
+    /* Match border to inputs */
+    border-radius: 4px;
+    /* Match border-radius to inputs */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    /* Match shadow to input fields */
+}
+
+.rdrMonthAndYearWrapper {
+    background-color: #f8f8f8;
+    /* A light background for the header */
+    color: #08243c;
+    /* Dark text for contrast */
+}
+
+.rdrMonthAndYearPickers {
+    background-color: transparent;
+    /* Avoid conflicting backgrounds */
+}
+
+.rdrNextPrevButton {
+    fill: #08243c;
+    /* Color for arrows */
+}
+
+.rdrDay {
+    border: none;
+    /* Remove individual day borders */
+}
+
+.rdrDayToday .rdrDayNumber span:after {
+    background: #1074e4;
+    /* Highlight color for today */
+}
+
+.rdrDayHovered,
+.rdrDayActive {
+    background-color: #e6f7ff;
+    /* Hover state background */
+    border-radius: 4px;
+    /* Rounded hover state */
+}
+
+.rdrDayNumber {
+    color: #08243c;
+    /* Color of the day numbers */
+}
+
+.rdrDayPassive .rdrDayNumber span,
+.rdrDayDisabled .rdrDayNumber span {
+    color: #ccc;
+    /* Style for disabled or non-current month days */
+}
+
+.rdrDefinedRangesWrapper,
+.rdrStaticRanges {
+    display: none;
+    /* Hide predefined ranges if not needed */
+}
+
+/* Adjust width and height of calendar */
+.rdrCalendarWrapper {
+    width: auto;
+    /* Adjust width as needed */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+
+    .rdrCalendarWrapper,
+    .calendarElement {
+        width: 100%;
+        left: 0;
+        transform: none;
+        top: 100%;
+        /* Position it right below the input fields */
+    }
+}

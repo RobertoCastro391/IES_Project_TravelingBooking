@@ -1,0 +1,28 @@
+.containerFlightADD {
+    padding: 2%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.col {
+    flex: 1;
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+}
+
+.col-2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.card {
+    margin-top: 1%;
+    margin-bottom: 2%;
+    background-color: bisque;
+    border-radius: 7px;
+}

@@ -9,6 +9,7 @@
 .loginForm {
   flex: 1;
   padding: 30px;
+  width: 100%;
 }
 
 .loginMessages {
@@ -26,14 +27,13 @@
   height: 300px;
   display: flex;
   justify-content: center;
+  align-items: center; 
   position: relative;
-
 }
+
 .logintexttitle {
-  text-align: center;
   font-size: 60px;
   font-weight: 500;
-  margin-top: 115px;
 }
 
 
@@ -45,7 +45,7 @@
  
 }
 
-.button {
+.buttonLogin {
   display: block;
   margin: 0 auto;
   background-color: #08243c;
@@ -61,11 +61,11 @@
   margin-top: 20px; /* Adjust the margin for spacing */
 }
 
+
 p {
   color: #05203C;
   font-size: 20px;
   font-weight: bold;
-  text-align: center;
 }
 
 

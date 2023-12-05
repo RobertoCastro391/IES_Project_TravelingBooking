@@ -76,4 +76,10 @@ public class ApiController {
         Flight flight = flightService.getFlight(flightId);
         return new ResponseEntity<>(flight, HttpStatus.OK);
     }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<User> getUser(@PathVariable("userId") String userId) {
+        User user = userService.findByUserID(Integer.parseInt(userId));
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 }

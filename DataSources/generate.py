@@ -1,6 +1,7 @@
 import json
 import random
 from datetime import datetime, timedelta
+import requests
 from faker import Faker
 from confluent_kafka import Producer
 import geopy.distance
@@ -48,33 +49,34 @@ airports = {
 }
 
 airlines = {
-    'BA': 'British Airways',
-    'LH': 'Lufthansa',
-    'AF': 'Air France',
-    'KL': 'KLM Royal Dutch Airlines',
-    'IB': 'Iberia',
-    'DY': 'Norwegian Air Shuttle',
-    'FR': 'Ryanair',
-    'U2': 'easyJet',
-    'AZ': 'Alitalia',
-    'LX': 'Swiss International Air Lines',
-    'OS': 'Austrian Airlines',
-    'SK': 'Scandinavian Airlines',
-    'TP': 'TAP Air Portugal',
-    'EK': 'Emirates',
-    'QR': 'Qatar Airways',
-    'SQ': 'Singapore Airlines',
-    'CX': 'Cathay Pacific',
-    'NH': 'All Nippon Airways',
-    'JL': 'Japan Airlines',
+    'BA': {'name': 'British Airways', 'icao': 'BAW'},
+    'LH': {'name': 'Lufthansa', 'icao': 'DLH'},
+    'AF': {'name': 'Air France', 'icao': 'AFR'},
+    'KL': {'name': 'KLM Royal Dutch Airlines', 'icao': 'KLM'},
+    'IB': {'name': 'Iberia', 'icao': 'IBE'},
+    'DY': {'name': 'Norwegian Air Shuttle', 'icao': 'NOZ'},
+    'FR': {'name': 'Ryanair', 'icao': 'RYR'},
+    'U2': {'name': 'easyJet', 'icao': 'EZY'},
+    'AZ': {'name': 'Alitalia', 'icao': 'AZA'},
+    'LX': {'name': 'Swiss International Air Lines', 'icao': 'SWR'},
+    'OS': {'name': 'Austrian Airlines', 'icao': 'AUA'},
+    'SK': {'name': 'Scandinavian Airlines', 'icao': 'SAS'},
+    'TP': {'name': 'TAP Air Portugal', 'icao': 'TAP'},
+    'EK': {'name': 'Emirates', 'icao': 'UAE'},
+    'QR': {'name': 'Qatar Airways', 'icao': 'QTR'},
+    'SQ': {'name': 'Singapore Airlines', 'icao': 'SIA'},
+    'CX': {'name': 'Cathay Pacific', 'icao': 'CPA'},
+    'NH': {'name': 'All Nippon Airways', 'icao': 'ANA'},
+    'JL': {'name': 'Japan Airlines', 'icao': 'JAL'},
 }
+
 
 def calculate_duration(origin, destination):
     """Estimate flight duration based on distance."""
     coords_1 = airports[origin][1]
     coords_2 = airports[destination][1]
     distance = geopy.distance.distance(coords_1, coords_2).km
-    average_speed_km_per_hour = 800  # Average cruising speed of a commercial airliner
+    average_speed_km_per_hour = 800
     duration_hours = distance / average_speed_km_per_hour
     return timedelta(hours=duration_hours)
 
@@ -114,10 +116,11 @@ def send_airport_data_to_kafka(topic):
 
 def send_airline_data_to_kafka(topic):
     """Sends airline company data to Kafka."""
-    for airline_code, airline_name in airlines.items():
+    for airline_code, airline_info in airlines.items():
         airline_data = {
             "airlineCode": airline_code,
-            "airlineName": airline_name
+            "airlineName": airline_info['name'],
+            "airlineICAO": airline_info['icao']
         }
         producer.produce(topic, key=airline_code, value=json.dumps(airline_data))
     producer.flush()
@@ -129,12 +132,10 @@ def send_to_kafka(topic, flight_data):
     producer.produce(topic, key=str(flight_data['flightNumber']), value=json.dumps(flight_data))
     producer.flush()
 
+send_airport_data_to_kafka('airports_topic')  
+send_airline_data_to_kafka('airlines_topic')  
 
 
-send_airport_data_to_kafka('airports_topic')  # Replace with your Kafka topic for airports
-send_airline_data_to_kafka('airlines_topic')  # Replace with your Kafka topic for airlines
-
-# Example Usage
-for _ in range(10):  # Generate 10 random flights
+for _ in range(10):
     flight_data = generate_random_flight()
-    send_to_kafka('flighs_data', flight_data)  # Replace 'your_kafka_topic' with your Kafka topic
+    send_to_kafka('flighs_data', flight_data)

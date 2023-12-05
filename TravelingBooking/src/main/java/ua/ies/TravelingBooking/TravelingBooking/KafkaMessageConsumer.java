@@ -1,28 +1,3 @@
-// package ua.ies.TravelingBooking.TravelingBooking;
-
-// import org.springframework.kafka.annotation.KafkaListener;
-// import org.springframework.stereotype.Component;
-
-
-// @Component
-// public class KafkaMessageConsumer {
-
-//     @KafkaListener(topics = "flighs_data", groupId = "my-consumer-group")
-//     public void listenFlighs_data(String message) {
-//         System.out.println("Received message Flighs_data: " + message);
-//     }
-
-//     @KafkaListener(topics = "airports_topic", groupId = "my-consumer-group")
-//     public void listenAirports_topic(String message) {
-//         System.out.println("Received message Airports_topic: " + message);
-//     }
-
-//     @KafkaListener(topics = "airlines_topic", groupId = "my-consumer-group")
-//     public void listenAirlines_topic(String message) {
-//         System.out.println("Received message Airlines_topic: " + message);
-//     }
-// }
-
 package ua.ies.TravelingBooking.TravelingBooking;
 
 import org.springframework.kafka.annotation.KafkaListener;

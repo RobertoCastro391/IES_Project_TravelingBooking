@@ -1,35 +1,33 @@
-
-
-.register-label {
-  display: block;
-  margin: 5px;
-  color: #333;
-  font-family: 'Arial', sans-serif;
-  font-size: 20px;
-}
-
-
-
-.infoContainer {
+.infoContainerRegister {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
   margin: 0 auto;
-  max-width: 1100px;
-  padding: 10px;
+  padding: 1%;
 }
 
-.infoContainer1 {
-  padding: 20px; /* Adjust padding as needed */
+.infoContainer1Register {
+  flex: 1;
+  margin: 0 auto;
+  padding: 15px;
 }
 
-.infoContainer2 {
-  padding: 20px; /* Adjust padding as needed */
+.register-button {
+    display: block;
+    background-color: #08243c;
+    color: #ffffff;
+    width: 190px;
+    height: 50px;
+    /* Adjust the padding to make the button smaller */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out;
 }
-.register-input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  /* Add any additional styling you need */
+
+.register-button-container {
+  display: flex;
+  padding-top: 2%;
+  justify-content: end; /* Aligns content to the right */
 }

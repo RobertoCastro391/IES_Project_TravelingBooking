@@ -7,9 +7,20 @@ import "./account.css";
 import tap from "../../static/tap.png";
 import newyork from "../../static/newyork.png";
 import paris from "../../static/paris.png";
+import { useEffect } from "react";
 
 
-const Login = () => {
+const Account = () => {
+
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    surname: '',
+    email: '',
+    address: '',
+    postalCode: '',
+    city: ''
+  });
+
   const [name, setName] = useState("Roberto");
   const [surname, setSurname] = useState("Mourinho");
   const [email, setEmail] = useState("roberto@ua.pt");
@@ -17,6 +28,44 @@ const Login = () => {
   const [postalCode, setPostalCode] = useState("3880-100");
   const [city, setCity] = useState("Aveiro");
 
+  useEffect(() => {
+    const userId = localStorage.getItem("userId"); // Or however you're storing the user's ID
+  
+    const fetchUserInfo = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/api/users/${userId}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+       
+        console.log('data');
+        console.log(data);
+        
+        setUserInfo({
+          name: data.firstName,
+          surname: data.lastName,
+          email: data.email,
+          address: data.streetAddress,
+          postalCode: data.postalCode,
+          city: data.city,
+        });
+      } catch (error) {
+        console.error('Failed to fetch user info:', error);
+      }
+    };
+  
+    if (userId) {
+      fetchUserInfo();
+    }
+  }, []);
+
+
+  
+  
+  
+  
+  
   const [activeTab, setActiveTab] = useState("Flights");
 
   const handleClick = (tab) => {
@@ -30,12 +79,12 @@ const Login = () => {
         <div class="logintexttitle">Create an account</div>
       </div>
       <AccountInfo
-        name={name}
-        surname={surname}
-        email={email}
-        address={address}
-        postalCode={postalCode}
-        city={city}
+        name={userInfo.name}
+        surname={userInfo.surname}
+        email={userInfo.email}
+        address={userInfo.address}
+        postalCode={userInfo.postalCode}
+        city={userInfo.city}
       />
 
       <div class="loginheader">
@@ -96,4 +145,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Account;

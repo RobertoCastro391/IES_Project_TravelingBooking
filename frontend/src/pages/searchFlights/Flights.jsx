@@ -1,16 +1,14 @@
-import React, { useState,useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState, useEffect } from "react";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import "./flights.css"; // Import the CSS file
-import { faPlaneDeparture } from "@fortawesome/free-solid-svg-icons";
 import CardFlights from "../../components/cardFlights/CardFlights";
 
 const FlightBookingPage = () => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(300);
-  
+
   const [stopsFilter, setStopsFilter] = useState("Any");
   const [departureTimeFilter, setDepartureTimeFilter] = useState("Any");
   const [durationFilter, setDurationFilter] = useState("Any");
@@ -33,12 +31,6 @@ const FlightBookingPage = () => {
   const handleSelectAirline = (value) => {
     setAirlineFilter(value);
   };
-
-
-  const filteredFlights = flightData.filter(
-    (flight) => flight.price >= minPrice && flight.price <= maxPrice
-  );
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,14 +56,11 @@ const FlightBookingPage = () => {
     fetchData();
   }, []);
 
-
-
   return (
     <div>
       <Navbar />
-      <Header />
-
-      <div className="containerSearch">
+      <Header type='flights' />
+      <div className="containerSearch" style={{alignItems: 'start'}}>
         <div className="container2">
           <div className="filters">
             <label>Filter by Stops:</label>
@@ -120,9 +109,13 @@ const FlightBookingPage = () => {
           </div>
         </div>
         <div className="container3">
-          {filteredFlights.map((flight) => (
-            <CardFlights flight={flight} />
-          ))}
+          {flightData && flightData.length > 0 ? (
+            flightData.map((flight) => (
+              <CardFlights flight={flight}/>
+            ))
+          ) : (
+            <p>No flights available</p>
+          )}
         </div>
       </div>
       <Footer />
