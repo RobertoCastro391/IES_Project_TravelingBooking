@@ -1,10 +1,6 @@
 import {
-  faBed,
   faCalendarDays,
-  faCar,
   faPerson,
-  faPlane,
-  faTaxi,
   faPlaneArrival,
   faPlaneDeparture,
 } from "@fortawesome/free-solid-svg-icons";
@@ -25,12 +21,10 @@ import dayjs from "dayjs";
 import "./flightsSearch.css";
 
 const FlightsSearch = () => {
+  
   const [from, setFrom] = useState("");
-
   const [destination, setDestination] = useState("");
-
   const [openDate, setOpenDate] = useState(false);
-
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -43,6 +37,19 @@ const FlightsSearch = () => {
 
   const [departureDate, setDepartureDate] = useState(dayjs());
 
+
+  const handleDateChange = (newValue) => {
+    localStorage.setItem("flightDate", newValue.format("DD/MM/YYYY"));
+    setDepartureDate(newValue);
+  };
+
+  const handleDateChangeRange = (item) => {
+    const range = [format(item['startDate'], "dd/MM/yyyy"), format(item['endDate'], "dd/MM/yyyy")]
+    localStorage.setItem("flightDate", range);
+    setDate([item]);
+  };
+
+  
   const [options, setOptions] = useState({
     adult: 1,
     children: 0,
@@ -74,6 +81,7 @@ const FlightsSearch = () => {
 
   const handleOption = (name, operation) => {
     setOptions((prev) => {
+      localStorage.setItem("flightOptions", JSON.stringify(options));
       return {
         ...prev,
         [name]: operation === "i" ? options[name] + 1 : options[name] - 1,
@@ -82,6 +90,7 @@ const FlightsSearch = () => {
   };
 
   const handleClassChange = (event) => {
+    localStorage.setItem("flightClass", event.target.value);
     setFlightClass(event.target.value);
     const selectedClass = event.target.value;
     setOptions((prevOptions) => ({
@@ -94,13 +103,19 @@ const FlightsSearch = () => {
     navigate("/flights", { state: { destination, date, options } });
   };
 
-  const [isOneWay, setIsOneWay] = useState(false);
+  const [isOneWay, setIsOneWay] = useState(true);
   
   const handleOneWayChange = (event) => {
     setIsOneWay(event.target.checked);
+    localStorage.setItem("isOneWay", event.target.checked);
   };
 
   const [flightClass, setFlightClass] = useState("economy"); // Default to 'economy'
+
+  const handleDestinationChange = (value) => {
+    localStorage.setItem("flightDestination", value);
+    setDestination(value);
+  };
 
   return (
     <div className="headerFlights">
@@ -124,7 +139,7 @@ const FlightsSearch = () => {
               type="text"
               placeholder="To:"
               className="headerSearchInput"
-              onChange={(e) => setDestination(e.target.value)}
+              onChange={(e) => handleDestinationChange(e.target.value)}
             />
           </div>
           {isOneWay === true && (
@@ -133,7 +148,7 @@ const FlightsSearch = () => {
                 <DatePicker
                   value={departureDate}
                   onChange={(newValue) => {
-                    setDepartureDate(newValue); // newValue is a Dayjs object
+                    handleDateChange(newValue); // newValue is a Dayjs object
                   }}
                   format="DD/MM/YYYY"
                 />
@@ -154,7 +169,7 @@ const FlightsSearch = () => {
                 <div ref={calendarRef}>
                   <DateRange
                     editableDateInputs={true}
-                    onChange={(item) => setDate([item.selection])}
+                    onChange={(item) => handleDateChangeRange(item.selection)}
                     moveRangeOnFirstSelection={false}
                     ranges={date}
                     className="date"
@@ -219,10 +234,10 @@ const FlightsSearch = () => {
                     onChange={handleClassChange}
                     className="optionSelect"
                   >
-                    <option value="economy">Economy</option>
-                    <option value="premium economy">Premium Economy</option>
-                    <option value="business">Business</option>
-                    <option value="first class">First Class</option>
+                    <option value="Economy">Economy</option>
+                    <option value="Premium Economy">Premium Economy</option>
+                    <option value="Business">Business</option>
+                    <option value="First Class">First Class</option>
                   </select>
                 </div>
               </div>
