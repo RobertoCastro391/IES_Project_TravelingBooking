@@ -103,7 +103,7 @@ const FlightsSearch = () => {
     navigate("/flights", { state: { destination, date, options } });
   };
 
-  const [isOneWay, setIsOneWay] = useState(true);
+  const [isOneWay, setIsOneWay] = useState(false);
   
   const handleOneWayChange = (event) => {
     setIsOneWay(event.target.checked);
@@ -148,7 +148,7 @@ const FlightsSearch = () => {
                 <DatePicker
                   value={departureDate}
                   onChange={(newValue) => {
-                    handleDateChange(newValue); // newValue is a Dayjs object
+                    handleDateChange(newValue);
                   }}
                   format="DD/MM/YYYY"
                 />
