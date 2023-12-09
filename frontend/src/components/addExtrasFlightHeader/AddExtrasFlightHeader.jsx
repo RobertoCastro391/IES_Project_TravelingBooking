@@ -14,9 +14,7 @@ const addExtrasFlightHeader = () => {
   const flightOptions = JSON.parse(localStorage.getItem("flightOptions"));
   const flightClass = localStorage.getItem("flightClass");
   const flightDestination  = localStorage.getItem("flightDestination");
-
-  console.log(flightOptions);
-
+  
   return (
     <div className="headerAddOptionsFlight">
       <div>{flightDestination}</div>

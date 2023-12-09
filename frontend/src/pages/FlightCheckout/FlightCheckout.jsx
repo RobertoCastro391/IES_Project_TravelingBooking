@@ -30,10 +30,12 @@ const FlightCheckout = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const isOneWay = localStorage.getItem("isOneWay");
   const flightOptions = JSON.parse(localStorage.getItem("flightOptions"));
-  const [flight, setFlight] = useState([]);
-  const flightNumber = localStorage.getItem("flight");
+  const flightNumberOutbound = localStorage.getItem("flightOutbound");
+  const flightNumberInbound = localStorage.getItem("flightInbound");
+  const [outboundFlight, setOutboundFlight] = useState(null);
+  const [inboundFlight, setInboundFlight] = useState(null);
+
   const navigate = useNavigate();
-  const url = "http://localhost:8080/api/flightCheckout/" + flightNumber;
   
   
   const handleCheckout = () => {
@@ -46,33 +48,30 @@ const FlightCheckout = () => {
   };
 
   useEffect(() => {
-    if (flight && flight["price"] && flightOptions && flightOptions.adult !== undefined && flightOptions.children !== undefined) {
-      let price = parseFloat((flightOptions.adult * flight["price"] + flightOptions.children * flight["price"]/2).toFixed(2));  
+    if (outboundFlight && outboundFlight["price"] && flightOptions && flightOptions.adult !== undefined && flightOptions.children !== undefined) {
+      let price = parseFloat((flightOptions.adult * outboundFlight["price"] + flightOptions.children * outboundFlight["price"]/2).toFixed(2));  
      
       if (isOneWay === "false") {
         price *= 2;
       }
       
       setPriceFlight(price);
-      const priceTotal = parseFloat((price + flight["price"] / 3).toFixed(2));
+      const priceTotal = parseFloat((price + outboundFlight["price"] / 3).toFixed(2));
       setTotalPrice(priceTotal);
     }
-  }, [flight, flightOptions, isOneWay]);
+  }, [outboundFlight, flightOptions, isOneWay]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (flightNumber, setFlightFunc) => {
       try {
-        const response = await fetch(url);
-        console.log(response);
-
+        const response = await fetch(
+          `http://localhost:8080/api/flightCheckout/${flightNumber}`
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-
         const data = await response.json();
-        console.log("data");
-        console.log(data);
-        setFlight(data); // Update the airports state with the fetched data
+        setFlightFunc(data);
       } catch (error) {
         console.error(
           "There has been a problem with your fetch operation:",
@@ -80,8 +79,15 @@ const FlightCheckout = () => {
         );
       }
     };
-    fetchData();
-  }, []);
+    if (flightNumberOutbound) {
+      fetchData(flightNumberOutbound, setOutboundFlight);
+    }
+
+    if (isOneWay === "false" && flightNumberInbound) {
+      fetchData(flightNumberInbound, setInboundFlight);
+    }
+  }, [flightNumberOutbound, flightNumberInbound, isOneWay]);
+
 
   const [passengers, setPassengers] = useState([]);
 
@@ -539,21 +545,21 @@ const FlightCheckout = () => {
               <div>
                 {isOneWay === "true" ? (
                   <div>
-                    {flight && flight["airline_Code"] ? (
-                      <CardFlightCheckout flight={flight} />
+                    {outboundFlight && outboundFlight["airline_Code"] ? (
+                      <CardFlightCheckout flight={outboundFlight} />
                     ) : (
                       "Loading..."
                     )}
                   </div>
                 ) : (
                   <div>
-                    {flight && flight["airline_Code"] ? (
-                      <CardFlightCheckout flight={flight} />
+                    {outboundFlight && outboundFlight["airline_Code"] ? (
+                      <CardFlightCheckout flight={outboundFlight} />
                     ) : (
                       "Loading..."
                     )}
-                    {flight && flight["airline_Code"] ? (
-                      <CardFlightCheckout flight={flight} />
+                    {inboundFlight && inboundFlight["airline_Code"] ? (
+                      <CardFlightCheckout flight={inboundFlight} />
                     ) : (
                       "Loading..."
                     )}
@@ -575,7 +581,7 @@ const FlightCheckout = () => {
                       flexDirection: "column",
                     }}
                   >
-                    <FlightDetails flight={flight} />
+                    <FlightDetails flight={outboundFlight} />
                   </div>
                   <div
                     style={{
@@ -584,7 +590,7 @@ const FlightCheckout = () => {
                       flexDirection: "column",
                     }}
                   >
-                    <FlightDetails flight={flight} type="Inbound" />
+                    <FlightDetails flight={inboundFlight} type="Inbound"/>
                   </div>
                 </div>
               ) : (
@@ -595,7 +601,7 @@ const FlightCheckout = () => {
                     flexDirection: "column",
                   }}
                 >
-                  <FlightDetails flight={flight} />
+                  <FlightDetails flight={outboundFlight} />
                 </div>
               )}
             </div>
@@ -616,7 +622,7 @@ const FlightCheckout = () => {
               >
                 <p>Flight:</p>
 
-                {flight ? (
+                {outboundFlight ? (
                   <div>
                     <div style={{ marginTop: "10px" }}>
                       <p style={{ color: "black", fontSize: "18px" }}>
@@ -645,8 +651,8 @@ const FlightCheckout = () => {
                 }}
               >
                 <p>Additional Options:</p>
-                {flight && flight["price"] ? (
-                  <p style={{color: 'black'}}>{parseFloat(flight["price"] / 3).toFixed(2)}€</p>
+                {outboundFlight && outboundFlight["price"] ? (
+                  <p style={{color: 'black'}}>{parseFloat(outboundFlight["price"] / 3).toFixed(2)}€</p>
                 ) : (
                   <p>Loading ...</p>
                 )}
@@ -661,7 +667,7 @@ const FlightCheckout = () => {
                 }}
               >
                 <p style={{ marginTop: "10px" }}>Total</p>
-                {flight && flight["price"] ? (
+                {outboundFlight && outboundFlight["price"] ? (
                   <p style={{ marginTop: "10px" }}>{totalPrice}€</p>
                 ) : (
                   <p>Loading ...</p>
@@ -698,7 +704,7 @@ const FlightCheckout = () => {
                   Free cancellation
                 </p>
               </div>
-              {flight["flightDate"] ? (
+              {/* {outboundFlight["flightDate"] ? (
                 <p
                   style={{
                     marginTop: "10px",
@@ -709,7 +715,7 @@ const FlightCheckout = () => {
                 >
                   Free cancellation before 11:59 PM on{" "}
                   {(() => {
-                    const flightDate = new Date(flight["flightDate"]);
+                    const flightDate = new Date(outboundFlight["flightDate"]);
                     flightDate.setDate(flightDate.getDate() - 1); // Subtract one day
                     return flightDate.toISOString().split("T")[0]; // Format to YYYY-MM-DD
                   })()}{" "}
@@ -718,7 +724,7 @@ const FlightCheckout = () => {
                 </p>
               ) : (
                 <p>Loading...</p>
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -733,92 +739,98 @@ export default FlightCheckout;
 const FlightDetails = ({ flight, type = "Outbound" }) => {
   return (
     <div style={{ paddingLeft: "4%" }}>
-      <p>{type}</p>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          marginTop: "10px",
-        }}
-      >
-        <p style={{ color: "black", fontSize: "18px" }}>Flight Number:</p>
-        <p
-          style={{
-            color: "black",
-            fontSize: "18px",
-            marginLeft: "10px",
-          }}
-        >
-          {" "}
-          {flight["flightNumber"]}
-        </p>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          marginTop: "10px",
-        }}
-      >
-        <p style={{ color: "black", fontSize: "18px" }}>Date:</p>
-        {flight && flight["flightDate"] ? (
-          <p
+      {flight ? (
+        <div>
+          <p>{type}</p>
+          <div
             style={{
-              color: "black",
-              fontSize: "18px",
-              marginLeft: "10px",
+              display: "flex",
+              flexDirection: "row",
+              marginTop: "10px",
             }}
           >
-            {flight["flightDate"].split("T")[0]}
-          </p>
-        ) : (
-          <p>Loading ...</p>
-        )}
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          marginTop: "10px",
-        }}
-      >
-        <p style={{ color: "black", fontSize: "18px" }}>Departure Time:</p>
-        {flight && flight["departureHour"] ? (
-          <p
+            <p style={{ color: "black", fontSize: "18px" }}>Flight Number:</p>
+            <p
+              style={{
+                color: "black",
+                fontSize: "18px",
+                marginLeft: "10px",
+              }}
+            >
+              {" "}
+              {flight["flightNumber"]}
+            </p>
+          </div>
+          <div
             style={{
-              color: "black",
-              fontSize: "18px",
-              marginLeft: "10px",
+              display: "flex",
+              flexDirection: "row",
+              marginTop: "10px",
             }}
           >
-            {flight["departureHour"].split(" ")[1]}
-          </p>
-        ) : (
-          <p>Loading ...</p>
-        )}
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          marginTop: "10px",
-        }}
-      >
-        <p style={{ color: "black", fontSize: "18px" }}>Arrival Time:</p>
-        {flight && flight["arrivalHour"] ? (
-          <p
+            <p style={{ color: "black", fontSize: "18px" }}>Date:</p>
+            {flight && flight["flightDate"] ? (
+              <p
+                style={{
+                  color: "black",
+                  fontSize: "18px",
+                  marginLeft: "10px",
+                }}
+              >
+                {flight["flightDate"].split("T")[0]}
+              </p>
+            ) : (
+              <p>Loading ...</p>
+            )}
+          </div>
+          <div
             style={{
-              color: "black",
-              fontSize: "18px",
-              marginLeft: "10px",
+              display: "flex",
+              flexDirection: "row",
+              marginTop: "10px",
             }}
           >
-            {flight["arrivalHour"].split(" ")[1]}
-          </p>
-        ) : (
-          <p>Loading ...</p>
-        )}
-      </div>
+            <p style={{ color: "black", fontSize: "18px" }}>Departure Time:</p>
+            {flight && flight["departureHour"] ? (
+              <p
+                style={{
+                  color: "black",
+                  fontSize: "18px",
+                  marginLeft: "10px",
+                }}
+              >
+                {flight["departureHour"].split(" ")[1]}
+              </p>
+            ) : (
+              <p>Loading ...</p>
+            )}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginTop: "10px",
+            }}
+          >
+            <p style={{ color: "black", fontSize: "18px" }}>Arrival Time:</p>
+            {flight && flight["arrivalHour"] ? (
+              <p
+                style={{
+                  color: "black",
+                  fontSize: "18px",
+                  marginLeft: "10px",
+                }}
+              >
+                {flight["arrivalHour"].split(" ")[1]}
+              </p>
+            ) : (
+              <p>Loading ...</p>
+            )}
+          </div>
+        </div>
+      ) : (
+        "Loading..."
+      )}
     </div>
   );
 };

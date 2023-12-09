@@ -5,7 +5,7 @@ import "./cardFlights.css";
 import frame from "../images/Frame.png";
 import layer1 from "../images/Layer_1.png";
 
-const CardFlights = ({ flight }) => {
+const CardFlights = ({ outboundFlight, inboundFlight = null }) => {
   const navigate = useNavigate();
 
   const [selectedFlight, setSelectedFlight] = useState(null);
@@ -14,31 +14,37 @@ const CardFlights = ({ flight }) => {
     setSelectedFlight(flight.id);
   };
 
-  const handleBookFlight = (e, flight) => {
+  const handleBookFlight = (e, flightOutbound, flightInbound = null) => {
     e.stopPropagation();
 
     const userId = localStorage.getItem("userId");
   
     if (userId) {
       navigate("/AddExtrasFlight");
-      localStorage.setItem("flight", flight["flightNumber"]);
+      localStorage.setItem("flightOutbound", flightOutbound["flightNumber"]);
+      if (flightInbound !== null) {
+        localStorage.setItem("flightInbound", flightInbound["flightNumber"]);
+      }
+      else {
+        localStorage.setItem("flightInbound", null);
+      }
+    
     } else {
-      alert("Please log in to book a flight.");
       navigate("/login");
     }
   };
 
-  const isOneWay = localStorage.getItem("isOneWay");
-
   return (
     <div
-      className={`flight-card ${selectedFlight === flight ? "selected" : ""}`}
+      className={`flight-card ${
+        selectedFlight === outboundFlight ? "selected" : ""
+      }`}
     >
       <div className="flight-details">
-        {isOneWay === "true" ? (
+        {inboundFlight === null ? (
           <div className="flight-details1">
             <img
-              src={`https://www.flightaware.com/images/airline_logos/90p/${flight["airline_Code"]["airlineICAO"]}.png`}
+              src={`https://www.flightaware.com/images/airline_logos/90p/${outboundFlight["airline_Code"]["airlineICAO"]}.png`}
               className="airlineLogo"
               alt="Airline logo"
             />
@@ -52,8 +58,10 @@ const CardFlights = ({ flight }) => {
                   marginRight: "2%",
                 }}
               >
-                <p className="text">{flight["departureHour"].split(" ")[1]}</p>
-                <p className="text">{flight["airport_code_origin"]}</p>
+                <p className="text">
+                  {outboundFlight["departureHour"].split(" ")[1]}
+                </p>
+                <p className="text">{outboundFlight["airportCodeOrigin"]}</p>
               </div>
               <div className="div">
                 <div
@@ -63,14 +71,14 @@ const CardFlights = ({ flight }) => {
                     marginTop: "0.5%",
                   }}
                 >
-                  <p className="text">{flight["flightNumber"]}</p>
+                  <p className="text">{outboundFlight["flightNumber"]}</p>
                   <p className="text">
-                    {flight["airline_Code"]["airlineName"]}
+                    {outboundFlight["airline_Code"]["airlineName"]}
                   </p>
                   <p className="text">
-                    {flight["duration"].split(":")[0] +
+                    {outboundFlight["duration"].split(":")[0] +
                       "H:" +
-                      flight["duration"].split(":")[1] +
+                      outboundFlight["duration"].split(":")[1] +
                       "M"}
                   </p>
                 </div>
@@ -84,8 +92,12 @@ const CardFlights = ({ flight }) => {
                   marginLeft: "2%",
                 }}
               >
-                <p className="text">{flight["arrivalHour"].split(" ")[1]}</p>
-                <p className="text">{flight["airport_code_destination"]}</p>
+                <p className="text">
+                  {outboundFlight["arrivalHour"].split(" ")[1]}
+                </p>
+                <p className="text">
+                  {outboundFlight["airportCodeDestination"]}
+                </p>
               </div>
             </div>
           </div>
@@ -93,7 +105,7 @@ const CardFlights = ({ flight }) => {
           <div>
             <div className="flight-details1">
               <img
-                src={`https://www.flightaware.com/images/airline_logos/90p/${flight["airline_Code"]["airlineICAO"]}.png`}
+                src={`https://www.flightaware.com/images/airline_logos/90p/${outboundFlight["airline_Code"]["airlineICAO"]}.png`}
                 className="airlineLogo"
                 alt="Airline logo"
               />
@@ -108,9 +120,9 @@ const CardFlights = ({ flight }) => {
                   }}
                 >
                   <p className="text">
-                    {flight["departureHour"].split(" ")[1]}
+                    {outboundFlight["departureHour"].split(" ")[1]}
                   </p>
-                  <p className="text">{flight["airport_code_origin"]}</p>
+                  <p className="text">{outboundFlight["airportCodeOrigin"]}</p>
                 </div>
                 <div className="div">
                   <div
@@ -120,14 +132,14 @@ const CardFlights = ({ flight }) => {
                       marginTop: "0.5%",
                     }}
                   >
-                    <p className="text">{flight["flightNumber"]}</p>
+                    <p className="text">{outboundFlight["flightNumber"]}</p>
                     <p className="text">
-                      {flight["airline_Code"]["airlineName"]}
+                      {outboundFlight["airline_Code"]["airlineName"]}
                     </p>
                     <p className="text">
-                      {flight["duration"].split(":")[0] +
+                      {outboundFlight["duration"].split(":")[0] +
                         "H:" +
-                        flight["duration"].split(":")[1] +
+                        outboundFlight["duration"].split(":")[1] +
                         "M"}
                     </p>
                   </div>
@@ -141,14 +153,18 @@ const CardFlights = ({ flight }) => {
                     marginLeft: "2%",
                   }}
                 >
-                  <p className="text">{flight["arrivalHour"].split(" ")[1]}</p>
-                  <p className="text">{flight["airport_code_destination"]}</p>
+                  <p className="text">
+                    {outboundFlight["arrivalHour"].split(" ")[1]}
+                  </p>
+                  <p className="text">
+                    {outboundFlight["airportCodeDestination"]}
+                  </p>
                 </div>
               </div>
             </div>
             <div className="flight-details1">
               <img
-                src={`https://www.flightaware.com/images/airline_logos/90p/${flight["airline_Code"]["airlineICAO"]}.png`}
+                src={`https://www.flightaware.com/images/airline_logos/90p/${inboundFlight["airline_Code"]["airlineICAO"]}.png`}
                 className="airlineLogo"
                 alt="Airline logo"
               />
@@ -163,9 +179,9 @@ const CardFlights = ({ flight }) => {
                   }}
                 >
                   <p className="text">
-                    {flight["departureHour"].split(" ")[1]}
+                    {inboundFlight["departureHour"].split(" ")[1]}
                   </p>
-                  <p className="text">{flight["airport_code_origin"]}</p>
+                  <p className="text">{inboundFlight["airportCodeOrigin"]}</p>
                 </div>
                 <div className="div">
                   <div
@@ -175,14 +191,14 @@ const CardFlights = ({ flight }) => {
                       marginTop: "0.5%",
                     }}
                   >
-                    <p className="text">{flight["flightNumber"]}</p>
+                    <p className="text">{inboundFlight["flightNumber"]}</p>
                     <p className="text">
-                      {flight["airline_Code"]["airlineName"]}
+                      {inboundFlight["airline_Code"]["airlineName"]}
                     </p>
                     <p className="text">
-                      {flight["duration"].split(":")[0] +
+                      {inboundFlight["duration"].split(":")[0] +
                         "H:" +
-                        flight["duration"].split(":")[1] +
+                        inboundFlight["duration"].split(":")[1] +
                         "M"}
                     </p>
                   </div>
@@ -196,20 +212,29 @@ const CardFlights = ({ flight }) => {
                     marginLeft: "2%",
                   }}
                 >
-                  <p className="text">{flight["arrivalHour"].split(" ")[1]}</p>
-                  <p className="text">{flight["airport_code_destination"]}</p>
+                  <p className="text">
+                    {inboundFlight["arrivalHour"].split(" ")[1]}
+                  </p>
+                  <p className="text">
+                    {inboundFlight["airportCodeDestination"]}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         )}
       </div>
-
       <div className="Flightinfo">
-        <div>{flight["price"]}€</div>
+        <div>
+          {inboundFlight === null ? (
+            <span>{outboundFlight["price"]}€</span>
+          ) : (
+            <span>{outboundFlight["price"] + inboundFlight["price"]}€</span>
+          )}
+        </div>
         <button
           className="buttonFlightSearch"
-          onClick={(e) => handleBookFlight(e, flight)}
+          onClick={(e) => handleBookFlight(e, outboundFlight, inboundFlight)}
         >
           <div className="text-wrapper">Select</div>
           <img className="svg" alt="Svg" src={frame} />

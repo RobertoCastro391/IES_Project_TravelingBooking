@@ -27,7 +27,7 @@ const CardFlightCheckout = ({ flight }) => {
             }}
           >
             <p className="text">{flight["departureHour"].split(" ")[1]}</p>
-            <p className="text">{flight["airport_code_origin"]}</p>
+            <p className="text">{flight["airportCodeOrigin"]}</p>
           </div>
           <div className="div">
             <div
@@ -58,7 +58,7 @@ const CardFlightCheckout = ({ flight }) => {
             }}
           >
             <p className="text">{flight["arrivalHour"].split(" ")[1]}</p>
-            <p className="text">{flight["airport_code_destination"]}</p>
+            <p className="text">{flight["airportCodeDestination"]}</p>
           </div>
         </div>
       </div>

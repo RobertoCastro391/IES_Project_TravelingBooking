@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -32,11 +32,12 @@ const FlightsSearch = () => {
       key: "selection",
     },
   ]);
-
   const [openOptions, setOpenOptions] = useState(false);
-
   const [departureDate, setDepartureDate] = useState(dayjs());
-
+  const calendarRef = useRef();
+  const navigate = useNavigate();
+  const [isOneWay, setIsOneWay] = useState(false);
+  const [flightClass, setFlightClass] = useState("economy");
 
   const handleDateChange = (newValue) => {
     localStorage.setItem("flightDate", newValue.format("DD/MM/YYYY"));
@@ -49,14 +50,11 @@ const FlightsSearch = () => {
     setDate([item]);
   };
 
-  
   const [options, setOptions] = useState({
     adult: 1,
     children: 0,
     class: "economy",
   });
-
-  const calendarRef = useRef();
 
   const useOutsideClick = (ref, callback) => {
     const handleClick = (e) => {
@@ -76,8 +74,6 @@ const FlightsSearch = () => {
   useOutsideClick(calendarRef, () => {
     if (openDate) setOpenDate(false);
   });
-
-  const navigate = useNavigate();
 
   const handleOption = (name, operation) => {
     setOptions((prev) => {
@@ -99,22 +95,71 @@ const FlightsSearch = () => {
     }));
   };
 
-  const handleSearch = () => {
-    navigate("/flights", { state: { destination, date, options } });
-  };
+  // const handleSearch = () => {
+  //   navigate("/flights", { state: { destination, date, options } });
+  // };
 
-  const [isOneWay, setIsOneWay] = useState(false);
-  
   const handleOneWayChange = (event) => {
     setIsOneWay(event.target.checked);
     localStorage.setItem("isOneWay", event.target.checked);
   };
 
-  const [flightClass, setFlightClass] = useState("economy"); // Default to 'economy'
-
   const handleDestinationChange = (value) => {
-    localStorage.setItem("flightDestination", value);
     setDestination(value);
+  };
+
+  const fetchFlights = async () => {
+    try {
+      const isRoundTrip = !isOneWay;
+
+      let formattedDepartureDate = 0;
+      let formattedReturnDate = 0;
+
+      if (isRoundTrip) {
+        formattedDepartureDate = formatDate(date[0].startDate);
+        formattedReturnDate = formatDate(date[0].endDate);
+      } 
+      else {
+        formattedDepartureDate = departureDate.format("YYYY-MM-DD");
+        formattedReturnDate = null;
+      }
+      
+  
+      const response = await fetch('http://localhost:8080/api/searchFlight', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          airportCodeOrigin: from, 
+          airportCodeDestination: destination,
+          departureDate: formattedDepartureDate,
+          returnDate: formattedReturnDate,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      if (data && data.outboundFlights && data.outboundFlights.length > 0) {
+        const destinationCode = data.outboundFlights[0].airportDestinationInfo.airportName;
+        localStorage.setItem("flightDestination", destinationCode);
+      }
+      navigate("/flights", { state: { flightsData: data } });
+    } catch (error) {
+      console.error("Failed to fetch flights:", error);
+    }
+  };
+  
+  // Helper function to format dates
+  function formatDate(date) {
+    return date.toISOString().split('T')[0];
+  }
+
+  const handleSearch = () => {
+    fetchFlights();
   };
 
   return (

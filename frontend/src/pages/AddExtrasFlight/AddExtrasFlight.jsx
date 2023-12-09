@@ -13,14 +13,11 @@ import { useNavigate } from "react-router-dom";
 const AddExtrasFlight = () => {
   const flightDate = localStorage.getItem("flightDate");
   const isOneWay = localStorage.getItem("isOneWay");
-  const flightNumber = localStorage.getItem("flight");
-  const [flight, setFlight] = useState([]);
+  const flightNumberOutbound = localStorage.getItem("flightOutbound");
+  const flightNumberInbound = localStorage.getItem("flightInbound");
+  const [outboundFlight, setOutboundFlight] = useState(null);
+  const [inboundFlight, setInboundFlight] = useState(null);
   const navigate = useNavigate();
-
-  console.log("flight");
-  console.log(flightNumber);
-
-  const url = "http://localhost:8080/api/flightCheckout/" + flightNumber;
 
   const formatDateWithDay = (dateString) => {
     const days = [
@@ -40,20 +37,19 @@ const AddExtrasFlight = () => {
 
   const hanleContinue = () => {
     navigate("/flightCheckout");
-  }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (flightNumber, setFlightFunc) => {
       try {
-        const response = await fetch(url);
-
+        const response = await fetch(
+          `http://localhost:8080/api/flightCheckout/${flightNumber}`
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log("data");
-        console.log(data);
-        setFlight(data); // Update the airports state with the fetched data
+        setFlightFunc(data);
       } catch (error) {
         console.error(
           "There has been a problem with your fetch operation:",
@@ -61,8 +57,14 @@ const AddExtrasFlight = () => {
         );
       }
     };
-    fetchData();
-  }, []);
+    if (flightNumberOutbound) {
+      fetchData(flightNumberOutbound, setOutboundFlight);
+    }
+
+    if (isOneWay === "false" && flightNumberInbound) {
+      fetchData(flightNumberInbound, setInboundFlight);
+    }
+  }, [flightNumberOutbound, flightNumberInbound, isOneWay]);
 
   return (
     <div>
@@ -84,9 +86,9 @@ const AddExtrasFlight = () => {
                 </div>
 
                 <div className="card">
-                  {flight && flight["airline_Code"] ? (
+                  {outboundFlight && outboundFlight["airline_Code"] ? (
                     <div className="card">
-                      <CardFlightsOptions flight={flight} />
+                      <CardFlightsOptions flight={outboundFlight} />
                     </div>
                   ) : (
                     "Loading..."
@@ -103,9 +105,9 @@ const AddExtrasFlight = () => {
                   </p>
                 </div>
                 <div className="card">
-                  {flight && flight["airline_Code"] ? (
+                  {inboundFlight && inboundFlight["airline_Code"] ? (
                     <div className="card">
-                      <CardFlightsOptions flight={flight} />
+                      <CardFlightsOptions flight={inboundFlight} />
                     </div>
                   ) : (
                     "Loading..."
@@ -125,9 +127,9 @@ const AddExtrasFlight = () => {
                 </div>
 
                 <div className="card">
-                  {flight && flight["airline_Code"] ? (
+                  {outboundFlight && outboundFlight["airline_Code"] ? (
                     <div className="card">
-                      <CardFlightsOptions flight={flight} />
+                      <CardFlightsOptions flight={outboundFlight} />
                     </div>
                   ) : (
                     "Loading..."
@@ -265,7 +267,9 @@ const AddExtrasFlight = () => {
               </div>
             </div>
             <div style={{ marginTop: "2%", alignSelf: "end" }}>
-              <button className="buttonContinue" onClick={hanleContinue}>Continue</button>
+              <button className="buttonContinue" onClick={hanleContinue}>
+                Continue
+              </button>
             </div>
           </div>
           <div className="col-3">

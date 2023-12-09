@@ -4,6 +4,7 @@ import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import "./flights.css"; // Import the CSS file
 import CardFlights from "../../components/cardFlights/CardFlights";
+import { useLocation } from 'react-router-dom';
 
 const FlightBookingPage = () => {
   const [minPrice, setMinPrice] = useState(0);
@@ -14,7 +15,8 @@ const FlightBookingPage = () => {
   const [durationFilter, setDurationFilter] = useState("Any");
   const [airlineFilter, setAirlineFilter] = useState("Any");
 
-  const [flightData, setFlights] = useState([]);
+  const location = useLocation();
+  const flightsData = location.state?.flightsData;
 
   const handleSelectStops = (value) => {
     setStopsFilter(value);
@@ -32,35 +34,11 @@ const FlightBookingPage = () => {
     setAirlineFilter(value);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/api/flights");
-        console.log(response);
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const data = await response.json();
-        console.log("data");
-        console.log(data);
-        setFlights(data); // Update the airports state with the fetched data
-      } catch (error) {
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error
-        );
-      }
-    };
-    fetchData();
-  }, []);
-
   return (
     <div>
       <Navbar />
-      <Header type='flights' />
-      <div className="containerSearch" style={{alignItems: 'start'}}>
+      <Header type="flights" />
+      <div className="containerSearch" style={{ alignItems: "start" }}>
         <div className="container2">
           <div className="filters">
             <label>Filter by Stops:</label>
@@ -104,15 +82,26 @@ const FlightBookingPage = () => {
               <option value="Any">Any</option>
               <option value="Ryanair">Ryanair</option>
               <option value="Airline B">Airline B</option>
-              {/* Add more airline options as needed //*/}
             </select>
           </div>
         </div>
         <div className="container3">
-          {flightData && flightData.length > 0 ? (
-            flightData.map((flight) => (
-              <CardFlights flight={flight}/>
-            ))
+          {flightsData && flightsData["outboundFlights"].length > 0 ? (
+            flightsData["outboundFlights"].map((outboundFlight, index) => {
+              const returnFlight =
+                flightsData["returnFlights"] &&
+                flightsData["returnFlights"][index]
+                  ? flightsData["returnFlights"][index]
+                  : null;
+
+              return (
+                <CardFlights
+                  outboundFlight={outboundFlight}
+                  inboundFlight={returnFlight}
+                  key={index}
+                />
+              );
+            })
           ) : (
             <p>No flights available</p>
           )}
