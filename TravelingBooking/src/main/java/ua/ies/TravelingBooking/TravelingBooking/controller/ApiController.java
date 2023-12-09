@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Airline;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Airport;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Flight;
+import ua.ies.TravelingBooking.TravelingBooking.entity.FlightSearchRequest;
 import ua.ies.TravelingBooking.TravelingBooking.entity.LoginDTO;
 import ua.ies.TravelingBooking.TravelingBooking.entity.User;
 import ua.ies.TravelingBooking.TravelingBooking.service.AirlineService;
@@ -12,9 +13,11 @@ import ua.ies.TravelingBooking.TravelingBooking.service.FlightService;
 import ua.ies.TravelingBooking.TravelingBooking.service.UserService;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +79,29 @@ public class ApiController {
         Flight flight = flightService.getFlight(flightId);
         return new ResponseEntity<>(flight, HttpStatus.OK);
     }
+
+    @PostMapping(path = "/searchFlight", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> searchFlights(@RequestBody FlightSearchRequest request) {
+        List<Flight> outboundFlights = flightService.searchFlights(
+                request.getAirportCodeOrigin(), request.getAirportCodeDestination(), request.getDepartureDate());
+
+        List<Flight> returnFlights = new ArrayList<>();
+
+        if (request.getReturnDate() != null) {
+            returnFlights = flightService.searchFlights(
+                    request.getAirportCodeDestination(), request.getAirportCodeOrigin(), request.getReturnDate());
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("outboundFlights", outboundFlights);
+
+        if (request.getReturnDate() != null) {
+            response.put("returnFlights", returnFlights);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    
 
     @GetMapping("/users/{userId}")
     public ResponseEntity<User> getUser(@PathVariable("userId") String userId) {
