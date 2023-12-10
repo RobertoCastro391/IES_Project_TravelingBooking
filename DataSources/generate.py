@@ -46,6 +46,7 @@ airports = {
     'HKG': ("Hong Kong International Airport", (22.3080, 113.9185)),
     'NRT': ("Narita International Airport", (35.7739, 140.3929)),
     'PVG': ("Shanghai Pudong International Airport", (31.1443, 121.8083)),
+    'OPO': ("Francisco Sá Carneiro Airport", (41.2370, -8.6700)),
 }
 
 airlines = {

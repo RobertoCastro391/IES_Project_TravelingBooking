@@ -68,6 +68,4 @@ public class User {
 
     @Column(name = "PhoneNumber")
     private String phoneNumber;
-
-    // Getters e Setters
 }

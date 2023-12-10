@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -38,7 +38,13 @@ const FlightsSearch = () => {
   const navigate = useNavigate();
   const [isOneWay, setIsOneWay] = useState(false);
   const [flightClass, setFlightClass] = useState("economy");
-
+  const [filteredAirports, setFilteredAirports] = useState([]);
+  const [airports, setAirports] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [selectedFromCode, setSelectedFromCode] = useState("");
+  const [selectedDestinationCode, setSelectedDestinationCode] = useState("");
+  const [showDestinationDropdown, setShowDestinationDropdown] = useState(false);
+  
   const handleDateChange = (newValue) => {
     localStorage.setItem("flightDate", newValue.format("DD/MM/YYYY"));
     setDepartureDate(newValue);
@@ -77,12 +83,12 @@ const FlightsSearch = () => {
 
   const handleOption = (name, operation) => {
     setOptions((prev) => {
-      localStorage.setItem("flightOptions", JSON.stringify(options));
       return {
         ...prev,
         [name]: operation === "i" ? options[name] + 1 : options[name] - 1,
       };
     });
+    localStorage.setItem("flightOptions", JSON.stringify(options));
   };
 
   const handleClassChange = (event) => {
@@ -95,21 +101,17 @@ const FlightsSearch = () => {
     }));
   };
 
-  // const handleSearch = () => {
-  //   navigate("/flights", { state: { destination, date, options } });
-  // };
-
   const handleOneWayChange = (event) => {
     setIsOneWay(event.target.checked);
     localStorage.setItem("isOneWay", event.target.checked);
   };
 
-  const handleDestinationChange = (value) => {
-    setDestination(value);
-  };
-
   const fetchFlights = async () => {
     try {
+
+      console.log("from code")
+      console.log(selectedFromCode)
+      console.log(selectedDestinationCode)
       const isRoundTrip = !isOneWay;
 
       let formattedDepartureDate = 0;
@@ -131,8 +133,8 @@ const FlightsSearch = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          airportCodeOrigin: from, 
-          airportCodeDestination: destination,
+          airportCodeOrigin: selectedFromCode, 
+          airportCodeDestination: selectedDestinationCode,
           departureDate: formattedDepartureDate,
           returnDate: formattedReturnDate,
         }),
@@ -162,30 +164,150 @@ const FlightsSearch = () => {
     fetchFlights();
   };
 
+  const handleAirportSearch = (value, field) => {
+    if (field === "from") {
+      setFrom(value);
+    }
+
+    const searchValue = value.toLowerCase();
+    if (searchValue.length > 0) {
+      const filtered = airports.filter(
+        (airport) =>
+          airport.airportName.toLowerCase().includes(searchValue) ||
+          airport.airportCode.toLowerCase().includes(searchValue)
+      );
+      setFilteredAirports(filtered);
+      setShowDropdown(true);
+    } else {
+      setShowDropdown(false);
+    }
+  };
+
+  const handleAirportSelect = (airportDisplay, airportCode, field) => {
+    if (field === 'from') {
+      setFrom(airportDisplay); // This will show both name and code in the input
+      setSelectedFromCode(airportCode); // Store the IATA code in a separate state
+    } 
+    setShowDropdown(false);
+  };
+
+
+  const handleDestinationChange = (value, field) => {
+    if (field === "destination") {
+      setDestination(value);
+    }
+
+    const searchValue = value.toLowerCase();
+    if (searchValue.length > 0) {
+      const filtered = airports.filter(
+        (airport) =>
+          airport.airportName.toLowerCase().includes(searchValue) ||
+          airport.airportCode.toLowerCase().includes(searchValue)
+      );
+      setFilteredAirports(filtered);
+      setShowDestinationDropdown(true);
+    } else {
+      setShowDestinationDropdown(false);
+    }
+  };
+  
+  const handleDestinationSelect = (airportDisplay, airportCode, field) => {
+    if (field === 'destination') {
+      setDestination(airportDisplay);
+      setSelectedDestinationCode(airportCode);
+    } 
+    setShowDestinationDropdown(false);
+  };
+
+
+  useEffect(() => {
+    // Fetch the list of airports when the component mounts
+    fetchYourAirportsAPI().then(data => {
+      setAirports(data);
+    });
+  }, []);
+
+  const fetchYourAirportsAPI = async () => {
+    try {
+      // Replace with your actual endpoint URL
+      const response = await fetch('http://localhost:8080/api/airports');
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      // Assuming the response is a list of airports
+      return data; 
+    } catch (error) {
+      console.error("Error fetching airports:", error);
+      return []; // Return an empty array in case of an error
+    }
+  };
+
   return (
     <div className="headerFlights">
       <h1>Quickly scan all your favourite flights</h1>
 
       <div className="containerSearch">
         <div className="headerSearch">
-          <div className="headerSearchItemLeft">
+          <div className="headerSearchFlightsItemLeft">
             <FontAwesomeIcon icon={faPlaneDeparture} className="headerIcon" />
             <input
               type="text"
               value={from}
               placeholder="From:"
               className="headerSearchInput"
-              onChange={(e) => setFrom(e.target.value)}
+              onChange={(e) => handleAirportSearch(e.target.value, "from")}
             />
+            {showDropdown && (
+              <div className="dropdown">
+                {filteredAirports.map((airport) => (
+                  <div
+                    key={airport.code}
+                    onClick={() =>
+                      handleAirportSelect(
+                        `${airport.airportName} - ${airport.airportCode}`,
+                        airport.airportCode,
+                        "from"
+                      )
+                    }
+                    className="dropdownItem"
+                  >
+                    {`${airport.airportName} - ${airport.airportCode}`}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div className="headerSearchItem">
             <FontAwesomeIcon icon={faPlaneArrival} className="headerIcon" />
             <input
               type="text"
+              value={destination}
               placeholder="To:"
               className="headerSearchInput"
-              onChange={(e) => handleDestinationChange(e.target.value)}
+              onChange={(e) => handleDestinationChange(e.target.value, "destination")}
             />
+            {showDestinationDropdown && (
+              <div className="dropdown">
+                {filteredAirports.map((airport) => (
+                  <div
+                    key={airport.airportCode}
+                    onClick={() =>
+                      handleDestinationSelect(
+                        `${airport.airportName} - ${airport.airportCode}`,
+                        airport.airportCode,
+                        "destination"
+                      )
+                    }
+                    className="dropdownItem"
+                  >
+                    {`${airport.airportName} - ${airport.airportCode}`}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           {isOneWay === true && (
             <div className="headerSearchItem">

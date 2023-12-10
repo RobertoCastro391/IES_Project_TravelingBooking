@@ -28,38 +28,15 @@ const FlightCheckout = () => {
   const [bag, setbag] = useState("");
   const [priceFlight, setPriceFlight] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [optionalPrice, setOptionalPrice] = useState(0);
   const isOneWay = localStorage.getItem("isOneWay");
   const flightOptions = JSON.parse(localStorage.getItem("flightOptions"));
   const flightNumberOutbound = localStorage.getItem("flightOutbound");
   const flightNumberInbound = localStorage.getItem("flightInbound");
   const [outboundFlight, setOutboundFlight] = useState(null);
   const [inboundFlight, setInboundFlight] = useState(null);
-
+  const [passengers, setPassengers] = useState([]);
   const navigate = useNavigate();
-  
-  
-  const handleCheckout = () => {
-    alert("You have suceefuly booked your flight!");
-    navigate("/");
-  };
-
-  const handleGenderChange = (event) => {
-    setSex(event.target.value);
-  };
-
-  useEffect(() => {
-    if (outboundFlight && outboundFlight["price"] && flightOptions && flightOptions.adult !== undefined && flightOptions.children !== undefined) {
-      let price = parseFloat((flightOptions.adult * outboundFlight["price"] + flightOptions.children * outboundFlight["price"]/2).toFixed(2));  
-     
-      if (isOneWay === "false") {
-        price *= 2;
-      }
-      
-      setPriceFlight(price);
-      const priceTotal = parseFloat((price + outboundFlight["price"] / 3).toFixed(2));
-      setTotalPrice(priceTotal);
-    }
-  }, [outboundFlight, flightOptions, isOneWay]);
 
   useEffect(() => {
     const fetchData = async (flightNumber, setFlightFunc) => {
@@ -88,8 +65,116 @@ const FlightCheckout = () => {
     }
   }, [flightNumberOutbound, flightNumberInbound, isOneWay]);
 
+  useEffect(() => {
+    if (
+      outboundFlight &&
+      outboundFlight["price"] &&
+      flightOptions &&
+      flightOptions.adult !== undefined &&
+      flightOptions.children !== undefined
+    ) {
+      let price = parseFloat(
+        (
+          flightOptions.adult * outboundFlight["price"] +
+          (flightOptions.children * outboundFlight["price"]) / 2
+        ).toFixed(2)
+      );
 
-  const [passengers, setPassengers] = useState([]);
+      if (isOneWay === "false") {
+        price += parseFloat(
+          (
+            flightOptions.adult * inboundFlight["price"] +
+            (flightOptions.children * inboundFlight["price"]) / 2
+          ).toFixed(2)
+        );
+        setOptionalPrice(
+          parseFloat(
+            ((outboundFlight["price"] + inboundFlight["price"]) / 3).toFixed(2)
+          )
+        );
+      } else {
+        setOptionalPrice(parseFloat((outboundFlight["price"] / 3).toFixed(2)));
+      }
+
+      setPriceFlight(price);
+      const priceTotal = parseFloat((price + optionalPrice).toFixed(2));
+      setTotalPrice(priceTotal);
+    }
+  }, [outboundFlight, flightOptions, isOneWay, inboundFlight, optionalPrice]);
+
+  useEffect(() => {
+    if (flightOptions) {
+      const adultPassengers = Array.from(
+        { length: flightOptions.adult },
+        () => ({
+          type: "Adult",
+          firstName: "",
+          lastName: "",
+          sex: "",
+          nationality: "",
+          birthDate: "",
+          passportNumber: "",
+        })
+      );
+
+      const childPassengers = Array.from(
+        { length: flightOptions.children },
+        () => ({
+          type: "Children",
+          firstName: "",
+          lastName: "",
+          sex: "",
+          nationality: "",
+          birthDate: "",
+          passportNumber: "",
+        })
+      );
+
+      setPassengers([...adultPassengers, ...childPassengers]);
+    }
+  }, [flightOptions.adult,flightOptions.children]);
+
+  const handleCheckout = async () => {
+    // Construct the reservation data
+    const reservationData = {
+      // Assuming userID is stored in localStorage and other necessary data
+      userID: parseInt(localStorage.getItem("userId")),
+      flightNumberOutbound: flightNumberOutbound,
+      flightNumberInbound: flightNumberInbound === "null" ? null : flightNumberInbound,
+      isRoundTrip: isOneWay === "true" ? false : true,
+      totalPrice: totalPrice,
+      reservationDate: new Date().toISOString(),
+      passengers: passengers,
+    };
+
+    console.log("Reservation data:", reservationData);
+  
+    try {
+      const response = await fetch("http://localhost:8080/api/createReservation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(reservationData)
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const responseData = await response.json();
+      console.log("Reservation successful:", responseData);
+      alert(`You have successfully booked your flight!\nYour confirmation conde is ${responseData.reservationId}\nThank you for choosing TravellingBooking by IES!`);
+      navigate("/"); // Redirect to home or confirmation page
+    } catch (error) {
+      console.error("Error in making reservation:", error.Error);
+      alert("Failed to book the flight. Please try again.");
+    }
+  };
+
+  const handleGenderChange = (event) => {
+    setSex(event.target.value);
+  };
 
   const handleInputChange = (index, field, value) => {
     const newPassengers = [...passengers];
@@ -97,32 +182,8 @@ const FlightCheckout = () => {
     setPassengers(newPassengers);
   };
 
-
-  useEffect(() => {
-    if (flightOptions) {
-      const adultPassengers = Array.from({ length: flightOptions.adult }, () => ({
-        type: "Adult",
-        firstName: "",
-        lastName: "",
-        gender: "",
-        nationality: "",
-        dob: "",
-        passport: "",
-      }));
-  
-      const childPassengers = Array.from({ length: flightOptions.children }, () => ({
-        type: "Children",
-        firstName: "",
-        lastName: "",
-        gender: "",
-        nationality: "",
-        dob: "",
-        passport: "",
-      }));
-  
-      setPassengers([...adultPassengers, ...childPassengers]);
-    }
-  }, [flightOptions]);
+  console.log("passengers");
+  console.log(passengers);
 
   return (
     <div>
@@ -187,7 +248,7 @@ const FlightCheckout = () => {
               />
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <select
-                  value={passenger.gender}
+                  value={passenger.sex}
                   onChange={(e) =>
                     handleInputChange(index, "sex", e.target.value) &&
                     handleGenderChange(e.target.value)
@@ -209,7 +270,7 @@ const FlightCheckout = () => {
                 </select>
 
                 <input
-                  id="nacionality"
+                  id="nationality"
                   type="text"
                   style={{
                     flex: 1,
@@ -221,17 +282,17 @@ const FlightCheckout = () => {
                     fontSize: "16px",
                     fontWeight: "bold",
                   }}
-                  placeholder="Enter your nacionality"
-                  value={passenger.nacionality}
+                  placeholder="Enter your nationality"
+                  value={passenger.nationality}
                   onChange={(e) =>
-                    handleInputChange(index, "nacionality", e.target.value)
+                    handleInputChange(index, "nationality", e.target.value)
                   }
                   required
                 />
               </div>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <input
-                  id="dob"
+                  id="birthDate"
                   type="date"
                   style={{
                     flex: 1,
@@ -244,9 +305,9 @@ const FlightCheckout = () => {
                     fontWeight: "bold",
                   }}
                   placeholder="Enter your date of birth"
-                  value={passenger.dob}
+                  value={passenger.birthDate}
                   onChange={(e) =>
-                    handleInputChange(index, "dob", e.target.value)
+                    handleInputChange(index, "birthDate", e.target.value)
                   }
                   required
                 />
@@ -266,9 +327,9 @@ const FlightCheckout = () => {
                     fontWeight: "bold",
                   }}
                   placeholder="Enter your passport number"
-                  value={passenger.passport}
+                  value={passenger.passportNumber}
                   onChange={(e) =>
-                    handleInputChange(index, "passport", e.target.value)
+                    handleInputChange(index, "passportNumber", e.target.value)
                   }
                   required
                 />
@@ -590,7 +651,7 @@ const FlightCheckout = () => {
                       flexDirection: "column",
                     }}
                   >
-                    <FlightDetails flight={inboundFlight} type="Inbound"/>
+                    <FlightDetails flight={inboundFlight} type="Inbound" />
                   </div>
                 </div>
               ) : (
@@ -652,7 +713,7 @@ const FlightCheckout = () => {
               >
                 <p>Additional Options:</p>
                 {outboundFlight && outboundFlight["price"] ? (
-                  <p style={{color: 'black'}}>{parseFloat(outboundFlight["price"] / 3).toFixed(2)}€</p>
+                  <p style={{ color: "black" }}>{optionalPrice}€</p>
                 ) : (
                   <p>Loading ...</p>
                 )}
