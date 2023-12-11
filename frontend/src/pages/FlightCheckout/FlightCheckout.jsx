@@ -135,9 +135,7 @@ const FlightCheckout = () => {
   }, [flightOptions.adult,flightOptions.children]);
 
   const handleCheckout = async () => {
-    // Construct the reservation data
     const reservationData = {
-      // Assuming userID is stored in localStorage and other necessary data
       userID: parseInt(localStorage.getItem("userId")),
       flightNumberOutbound: flightNumberOutbound,
       flightNumberInbound: flightNumberInbound === "null" ? null : flightNumberInbound,
@@ -145,6 +143,17 @@ const FlightCheckout = () => {
       totalPrice: totalPrice,
       reservationDate: new Date().toISOString(),
       passengers: passengers,
+      emailContact: email,
+      phoneContact: phoneNumber,
+      nameCard: cardName,
+      numberCard: cardNumber,
+      expirationDateCard: cardExpirationDate,
+      cvvCard: cvv,
+      addressCard1: addressLine1,
+      addressCard2: addressLine2 ? addressLine2 : null,
+      cityCard: city,
+      zipCodeCard: postalCode,
+      countryCard: country
     };
 
     console.log("Reservation data:", reservationData);

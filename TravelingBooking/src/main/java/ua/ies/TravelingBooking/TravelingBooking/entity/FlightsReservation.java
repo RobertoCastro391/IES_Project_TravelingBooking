@@ -43,6 +43,39 @@ public class FlightsReservation {
     @Column(name = "reservationDate", nullable = false)
     private Date reservationDate;
 
+    @Column(name = "emailContact", nullable = false)
+    private String emailContact;
+
+    @Column(name = "phoneContact", nullable = false)
+    private String phoneContact;
+
+    @Column(name = "nameCard", nullable = false)
+    private String nameCard;
+
+    @Column(name = "numberCard", nullable = false)
+    private String numberCard;
+
+    @Column(name = "expirationDateCard", nullable = false)
+    private String expirationDateCard;
+
+    @Column(name = "cvvCard", nullable = false)
+    private String cvvCard;
+
+    @Column(name = "addressCard1", nullable = false)
+    private String addressCard1;
+
+    @Column(name = "addressCard2", nullable = true)
+    private String addressCard2;
+
+    @Column(name = "cityCard", nullable = false)
+    private String cityCard;
+
+    @Column(name = "zipCodeCard", nullable = false)
+    private String zipCodeCard;
+
+    @Column(name = "countryCard", nullable = false)
+    private String countryCard;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "flightNumberOutbound", referencedColumnName = "FlightNumber", insertable = false, updatable = false)
     private Flight flightOutbound;

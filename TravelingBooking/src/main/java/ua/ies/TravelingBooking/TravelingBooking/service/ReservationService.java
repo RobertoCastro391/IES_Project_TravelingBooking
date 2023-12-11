@@ -15,4 +15,5 @@ public interface ReservationService {
     List<FlightsReservation> findReservationsByInboundFlight(String flightNumber);
     List<FlightsReservation> findReservationsByDate(Date reservationDate);
     List<FlightsReservation> findReservationsBetweenDates(Date startDate, Date endDate);
+    List<FlightsReservation> findReservationsByUser(Integer userId);
 }

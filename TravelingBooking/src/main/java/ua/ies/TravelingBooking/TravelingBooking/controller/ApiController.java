@@ -132,4 +132,10 @@ public class ApiController {
         FlightsReservation reservation = reservationService.getReservation(reservationId);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
+
+    @GetMapping("/getReservationsByUser/{userId}")
+    public ResponseEntity<List<FlightsReservation>> getReservationsByUser(@PathVariable("userId") String userId) {
+        List<FlightsReservation> reservations = reservationService.findReservationsByUser(Integer.parseInt(userId));
+        return new ResponseEntity<>(reservations, HttpStatus.OK);
+    }
 }
