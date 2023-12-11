@@ -88,6 +88,24 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setRoundTrip(reservationDTO.getRoundTrip());
         reservation.setTotalPrice(reservationDTO.getTotalPrice());
         reservation.setReservationDate(reservationDTO.getReservationDate());
+        reservation.setEmailContact(reservationDTO.getEmailContact());
+        reservation.setPhoneContact(reservationDTO.getPhoneContact());
+        reservation.setNameCard(reservationDTO.getNameCard());
+        reservation.setNumberCard(reservationDTO.getNumberCard());
+        reservation.setExpirationDateCard(reservationDTO.getExpirationDateCard());
+        reservation.setCvvCard(reservationDTO.getCvvCard());
+        reservation.setAddressCard1(reservationDTO.getAddressCard1());
+
+        if (reservationDTO.getAddressCard2() != null) {
+            reservation.setAddressCard2(reservationDTO.getAddressCard2());
+        }
+        else {
+            reservation.setAddressCard2(null);
+        }
+
+        reservation.setCityCard(reservationDTO.getCityCard());
+        reservation.setZipCodeCard(reservationDTO.getZipCodeCard());
+        reservation.setCountryCard(reservationDTO.getCountryCard());
 
         Set<PassengerFlight> passengers = reservationDTO.getPassengers().stream()
                 .map(passengerDTO -> convertPassengerDtoToEntity(passengerDTO, reservation))
@@ -109,5 +127,10 @@ public class ReservationServiceImpl implements ReservationService {
         passenger.setFlightsReservation(reservation); // Set the reservation ID
 
         return passenger;
+    }
+
+    @Override
+    public List<FlightsReservation> findReservationsByUser(Integer userId) {
+        return flightsReservationRepository.findByUser(usersRepository.findByUserID(userId));
     }
 }

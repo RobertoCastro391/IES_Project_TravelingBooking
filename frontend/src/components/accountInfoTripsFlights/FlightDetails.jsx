@@ -7,7 +7,7 @@ const FlightDetails = ({ destination, outboundDate, returnDate, airlineLogo, out
     return (
       <div className="flightDetailsCard">
         <div className="flightDetailsHeader">
-          <img src={airlineLogo} alt="Airline Logo" className="airlineLogo" />
+          <img src={airlineLogo} alt="Airline Logo" className="airlineLogoFlightDetails" />
           <div className="flightTimes">
             <div className="outbound">
               <span className="label">Outbound</span>
