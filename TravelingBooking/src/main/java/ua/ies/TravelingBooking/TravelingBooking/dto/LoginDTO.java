@@ -1,4 +1,4 @@
-package ua.ies.TravelingBooking.TravelingBooking.entity;
+package ua.ies.TravelingBooking.TravelingBooking.dto;
 
 public class LoginDTO {
     private String email;
@@ -16,7 +16,4 @@ public class LoginDTO {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    
-    
 }

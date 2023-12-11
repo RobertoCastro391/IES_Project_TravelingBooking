@@ -1,33 +1,113 @@
 package ua.ies.TravelingBooking.TravelingBooking.service.impl;
 
 import lombok.AllArgsConstructor;
-import ua.ies.TravelingBooking.TravelingBooking.entity.Reservation;
-import ua.ies.TravelingBooking.TravelingBooking.repository.ReservationRepository;
+import ua.ies.TravelingBooking.TravelingBooking.dto.FlightsReservationDTO;
+import ua.ies.TravelingBooking.TravelingBooking.dto.PassengerDTO;
+import ua.ies.TravelingBooking.TravelingBooking.entity.FlightsReservation;
+import ua.ies.TravelingBooking.TravelingBooking.entity.PassengerFlight;
+import ua.ies.TravelingBooking.TravelingBooking.repository.FlightsReservationRepository;
+import ua.ies.TravelingBooking.TravelingBooking.repository.UsersRepository;
 import ua.ies.TravelingBooking.TravelingBooking.service.ReservationService;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
-    private ReservationRepository reservationRepository;
+    private FlightsReservationRepository flightsReservationRepository;
+    protected UsersRepository usersRepository;
 
     @Override
-    public Reservation createReservation(Reservation reservationNumber) {
-        return reservationRepository.save(reservationNumber);
+    @Transactional
+    public FlightsReservation createReservation(FlightsReservationDTO reservationDTO) {
+        FlightsReservation reservation = convertToEntity(reservationDTO);
+        reservation = flightsReservationRepository.save(reservation);
+        return reservation;
     }
 
     @Override
-    public Reservation getReservation(String reservationNumber) {
-        Optional<Reservation> reservation = reservationRepository.findById(reservationNumber);
-        return reservation.get();
+    public FlightsReservation getReservation(String reservationId) {
+        Optional<FlightsReservation> reservation = flightsReservationRepository.findById(reservationId);
+        return reservation.orElse(null);
     }
 
     @Override
-    public void deleteReservation(String reservationNumber) {
-        reservationRepository.deleteById(reservationNumber);
-    }  
+    public void deleteReservation(String reservationId) {
+        flightsReservationRepository.deleteById(reservationId);
+    }
+
+    @Override
+    public List<FlightsReservation> getAllReservations() {
+        return flightsReservationRepository.findAll();
+    }
+
+    @Override
+    public List<FlightsReservation> findReservationsByOutboundFlight(String flightNumber) {
+        return flightsReservationRepository.findByFlightNumberOutbound(flightNumber);
+    }
+
+    @Override
+    public List<FlightsReservation> findReservationsByInboundFlight(String flightNumber) {
+        return flightsReservationRepository.findByFlightNumberInbound(flightNumber);
+    }
+
+    @Override
+    public List<FlightsReservation> findReservationsByDate(Date reservationDate) {
+        return flightsReservationRepository.findByReservationDate(reservationDate);
+    }
+
+    @Override
+    public List<FlightsReservation> findReservationsBetweenDates(Date startDate, Date endDate) {
+        return flightsReservationRepository.findByReservationDateBetween(startDate, endDate);
+    }
+
+    private FlightsReservation convertToEntity(FlightsReservationDTO reservationDTO) {
+        FlightsReservation reservation = new FlightsReservation();
+        
+        System.out.println("USER ID: " + reservationDTO.getUserID());
+        System.out.println("USER: " + usersRepository.findByUserID(reservationDTO.getUserID()).getEmail());
+        
+        reservation.setUser(usersRepository.findByUserID(reservationDTO.getUserID()));
+        reservation.generateReservationId();
+        reservation.setFlightNumberOutbound(reservationDTO.getFlightNumberOutbound());
+        
+        if (reservationDTO.getFlightNumberInbound() != null) {
+            reservation.setFlightNumberInbound(reservationDTO.getFlightNumberInbound());
+        }
+        else {
+            reservation.setFlightNumberInbound(null);
+        }
+        System.out.println("IS ROUND TRIP: " + reservationDTO.getRoundTrip());
+        reservation.setRoundTrip(reservationDTO.getRoundTrip());
+        reservation.setTotalPrice(reservationDTO.getTotalPrice());
+        reservation.setReservationDate(reservationDTO.getReservationDate());
+
+        Set<PassengerFlight> passengers = reservationDTO.getPassengers().stream()
+                .map(passengerDTO -> convertPassengerDtoToEntity(passengerDTO, reservation))
+                .collect(Collectors.toSet());
+        reservation.setPassengers(passengers);
+
+        return reservation;
+    }
+
+    private PassengerFlight convertPassengerDtoToEntity(PassengerDTO passengerDTO, FlightsReservation reservation) {
+        PassengerFlight passenger = new PassengerFlight();
+        passenger.setType(passengerDTO.getType());
+        passenger.setFirstName(passengerDTO.getFirstName());
+        passenger.setLastName(passengerDTO.getLastName());
+        passenger.setSex(passengerDTO.getSex());
+        passenger.setNationality(passengerDTO.getNationality());
+        passenger.setBirthDate(passengerDTO.getBirthDate());
+        passenger.setPassportNumber(passengerDTO.getPassportNumber());
+        passenger.setFlightsReservation(reservation); // Set the reservation ID
+
+        return passenger;
+    }
 }

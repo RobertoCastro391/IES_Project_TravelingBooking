@@ -6,6 +6,7 @@ import ua.ies.TravelingBooking.TravelingBooking.repository.FlightsRepository;
 import ua.ies.TravelingBooking.TravelingBooking.service.FlightService;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,5 +35,28 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public List<Flight> getAllFlights() {
         return flightsRepository.findAll();
+    }
+
+    @Override
+    public List<Flight> searchFlights(String airportCodeOrigin, String airportCodeDestination, Date date) {
+        System.out.println("searchFlights");
+
+        System.out.println("airportCodeOrigin: " + airportCodeOrigin);
+        System.out.println("airportCodeDestination: " + airportCodeDestination);
+        System.out.println("date: " + date);
+
+        
+        List<Flight> flights = flightsRepository.findByAirportCodeOriginAndAirportCodeDestinationAndFlightDate(
+                airportCodeOrigin, airportCodeDestination, date);
+
+        if (flights == null) {
+            System.out.println("flights is null");
+        } else {
+            System.out.println("flights is not null");
+            System.out.println(flights);
+        }
+        
+        return flightsRepository.findByAirportCodeOriginAndAirportCodeDestinationAndFlightDate(
+                airportCodeOrigin, airportCodeDestination, date);
     }
 } 
