@@ -14,26 +14,26 @@ import java.util.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "TicketsTrain")
-public class Ticket_train {
+public class TicketTrain {
     
     @Id
     @Column(name = "TicketNumber")
     private String ticketNumber;
     
-    @Column(name = "User_id")
+    @Column(name = "UserId")
     private String userId;
 
-    @Column(name = "Train_number")
+    @Column(name = "TrainNumber")
     private String trainNumber;
 
     @Column(name = "Seat", nullable = false)
     private String seat;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "User_id", referencedColumnName = "UserID", insertable = false, updatable = false)
+    @JoinColumn(name = "UserId", referencedColumnName = "UserID", insertable = false, updatable = false)
     private User UserID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Train_number", referencedColumnName = "TrainNumber", insertable = false, updatable = false)
+    @JoinColumn(name = "TrainNumber", referencedColumnName = "TrainNumber", insertable = false, updatable = false)
     private Train TrainNumber;
 }

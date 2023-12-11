@@ -20,17 +20,17 @@ public class Reservation {
     @Column(name = "ReservationNumber")
     private String reservationNumber;
 
-    @Column(name = "User_id")
+    @Column(name = "UserId")
     private String userId;
 
-    @Column(name = "Ticket_number")
+    @Column(name = "TicketNumber")
     private String ticketNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "User_id", referencedColumnName = "UserID", insertable = false, updatable = false)
+    @JoinColumn(name = "UserId", referencedColumnName = "UserID", insertable = false, updatable = false)
     private User UserID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Ticket_number", referencedColumnName = "TicketNumber", insertable = false, updatable = false)
-    private Ticket_flight TicketNumber;
+    @JoinColumn(name = "TicketNumber", referencedColumnName = "TicketNumber", insertable = false, updatable = false)
+    private TicketFlight TicketNumber;
 }

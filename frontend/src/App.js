@@ -12,6 +12,8 @@ import Register from "./pages/Register/Register";
 import Account from "./pages/Account/Account";
 import FlightCheckout from "./pages/FlightCheckout/FlightCheckout";
 import AddExtrasFlight from "./pages/AddExtrasFlight/AddExtrasFlight";
+import Trains from "./pages/searchTrains/Trains";
+import TrainCheckout from "./pages/TrainCheckout/TrainCheckout";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
         <Route path="/account" element={<Account/>}/>
         <Route path="/flightcheckout" element={<FlightCheckout/>}/>
         <Route path="/AddExtrasFlight" element={<AddExtrasFlight/>}/>
+        <Route path="/trains" element={<Trains/>}/>
+        <Route path="/traincheckout" element={<TrainCheckout/>}/>
       </Routes>
     </BrowserRouter>
   );

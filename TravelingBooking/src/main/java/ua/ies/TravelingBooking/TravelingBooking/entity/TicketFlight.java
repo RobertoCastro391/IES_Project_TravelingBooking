@@ -14,19 +14,19 @@ import java.util.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "TicketsFlight")
-public class Ticket_flight {
+public class TicketFlight {
  
     @Id
     @Column(name = "TicketNumber")
     private String ticketNumber;
 
-    @Column(name = "Flight_number", nullable = false)
+    @Column(name = "FlightNumber", nullable = false)
     private String flightNumber;
 
     @Column(name = "Seat", nullable = false)
     private String seat;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Flight_number", referencedColumnName = "FlightNumber", insertable = false, updatable = false)
+    @JoinColumn(name = "FlightNumber", referencedColumnName = "FlightNumber", insertable = false, updatable = false)
     private Flight FlightNumber;
 }

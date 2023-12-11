@@ -1,0 +1,161 @@
+.train-card {
+    width: 90%;
+    height: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.selected .train-card {
+    background-color: #3498db;
+}
+
+.train-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.Traininfo {
+    flex: 0.2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+    border-left: grey 1px solid;
+}
+
+.text {
+    vertical-align: middle;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.train-details1 {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    gap: 10px;
+    justify-content: "center";
+}
+
+.trainCompanyLogo {
+    flex: 1;
+    width: 50px;
+}
+
+.buttonTrainSearch {
+    all: unset;
+    align-items: center;
+    background-color: #00a698;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: inline-flex;
+    gap: 6.14px;
+    padding: 6px 16px 6px 17px;
+    position: relative;
+}
+
+.buttonTrainSearch:hover {
+    background-color: #00a698;
+}
+
+.buttonTrainSearch .text-wrapper {
+    color: #ffffff;
+    font-family: "Roboto-Bold", Helvetica;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-top: 4px;
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+.buttonTrainSearch .text-wrapper:hover {
+    color: #7DCFC8;
+}
+
+.buttonTrainSearch .svg {
+    height: 18px;
+    position: relative;
+    width: 18px;
+}
+
+.div {
+    justify-content: space-between;
+    background-color: #545860;
+    height: 2px;
+    position: relative;
+    flex: 6;
+    margin: auto;
+}
+
+.div .svg-layer {
+    height: 20px;
+    position: absolute;
+    top: -17px;
+    width: 20px;
+    right: -7px; /* Align the plane image to the right */
+}
+
+.TrainDetails {
+    padding-left: 80%;
+}
+
+.buttonTrainDetails {
+    all: unset;
+    align-items: center;
+    background-color: #0062E3;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: inline-flex;
+    gap: 6.14px;
+    padding: 6px 16px 6px 17px;
+    position: relative;
+    color: #ffffff;
+}
+
+.buttonTrainDetails:hover {
+    background-color: #0062E3;
+}
+
+.Traininfo > div {
+    display: flex;
+}
+
+.Traininfo .secondclass {
+    flex: 1;
+    margin-right: 7px;
+    font-size: 12px;
+    color: #545860;
+}
+
+.Traininfo .firstclass {
+  flex: 1;
+  margin-right: 7px;
+  font-size: 12px;
+  color: #545860;
+}
+
+.Traininfo .price {
+    flex: 1;
+    margin-right: 5px;
+    font-size: 20px;
+    color:#000000;
+}

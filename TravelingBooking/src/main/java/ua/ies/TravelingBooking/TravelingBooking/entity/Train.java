@@ -23,17 +23,23 @@ public class Train {
     @Column(name = "TravelDate", nullable = false)
     private Date travelDate;
 
-    @Column(name = "StationCode_partida", nullable = false)
+    @Column(name = "StationCodePartida", nullable = false)
     private String aeroCodePartida;
 
-    @Column(name = "StationCode_chegada", nullable = false)
+    @Column(name = "StationCodeChegada", nullable = false)
     private String aeroCodeChegada;
 
-    @Column(name = "Departure_hour", nullable = false)
+    @Column(name = "DepartureHour", nullable = false)
     private String departureHour;
 
-    @Column(name = "Arrival_hour", nullable = false)
+    @Column(name = "ArrivalHour", nullable = false)
     private String arrivalHour;
 
+    @Column(name = "Price2ndclass", nullable = false)
+    private Double price2ndclass;
+
+    @Column(name = "Price1stclass", nullable = false)
+    private Double price1stclass;
+    
     // Getters e Setters
 }
