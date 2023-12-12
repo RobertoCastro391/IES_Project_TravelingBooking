@@ -4,12 +4,19 @@ import lombok.AllArgsConstructor;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Airline;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Airport;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Flight;
+import ua.ies.TravelingBooking.TravelingBooking.entity.TrainCompany;
+import ua.ies.TravelingBooking.TravelingBooking.entity.Station;
+import ua.ies.TravelingBooking.TravelingBooking.entity.Train;
 import ua.ies.TravelingBooking.TravelingBooking.entity.FlightSearchRequest;
 import ua.ies.TravelingBooking.TravelingBooking.entity.FlightsReservation;
+import ua.ies.TravelingBooking.TravelingBooking.entity.TrainSearchRequest;
 import ua.ies.TravelingBooking.TravelingBooking.entity.User;
 import ua.ies.TravelingBooking.TravelingBooking.service.AirlineService;
 import ua.ies.TravelingBooking.TravelingBooking.service.AirportService;
 import ua.ies.TravelingBooking.TravelingBooking.service.FlightService;
+import ua.ies.TravelingBooking.TravelingBooking.service.TrainCompanyService;
+import ua.ies.TravelingBooking.TravelingBooking.service.StationService;
+import ua.ies.TravelingBooking.TravelingBooking.service.TrainService;
 import ua.ies.TravelingBooking.TravelingBooking.service.UserService;
 import ua.ies.TravelingBooking.TravelingBooking.dto.FlightsReservationDTO;
 import ua.ies.TravelingBooking.TravelingBooking.dto.LoginDTO;
@@ -36,6 +43,9 @@ public class ApiController {
     private FlightService flightService;
     private UserService userService;
     private ReservationService reservationService;
+    private TrainCompanyService trainCompanyService;
+    private StationService stationService;
+    private TrainService trainService;
 
     @GetMapping("/airports")
     public ResponseEntity<List<Airport>> getAirports() {
@@ -53,6 +63,24 @@ public class ApiController {
     public ResponseEntity<List<Flight>> getFlights() {
         List<Flight> flights = flightService.getAllFlights();
         return new ResponseEntity<>(flights, HttpStatus.OK);
+    }
+
+    @GetMapping("/stations")
+    public ResponseEntity<List<Station>> getStations() {
+        List<Station> stations = stationService.getAllStations();
+        return new ResponseEntity<>(stations, HttpStatus.OK);
+    }
+
+    @GetMapping("/trainCompanies")
+    public ResponseEntity<List<TrainCompany>> getTrainCompanies() {
+        List<TrainCompany> trainCompanies = trainCompanyService.getAllTrainCompanies();
+        return new ResponseEntity<>(trainCompanies, HttpStatus.OK);
+    }
+
+    @GetMapping("/trains")
+    public ResponseEntity<List<Train>> getTrains() {
+        List<Train> trains = trainService.getAllTrains();
+        return new ResponseEntity<>(trains, HttpStatus.OK);
     }
 
     @PostMapping("/register")
@@ -137,5 +165,33 @@ public class ApiController {
     public ResponseEntity<List<FlightsReservation>> getReservationsByUser(@PathVariable("userId") String userId) {
         List<FlightsReservation> reservations = reservationService.findReservationsByUser(Integer.parseInt(userId));
         return new ResponseEntity<>(reservations, HttpStatus.OK);
+    }
+
+    @GetMapping("/trainCheckout/{trainId}")
+    public ResponseEntity<Train> getTrainCheckout(@PathVariable("trainId") String trainId) {
+        Train train = trainService.getTrain(trainId);
+        return new ResponseEntity<>(train, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/searchTrain", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> searchTrains(@RequestBody TrainSearchRequest request) {
+        List<Train> outboundTrains = trainService.searchTrains(
+                request.getStationCodeOrigin(), request.getStationCodeDestination(), request.getDepartureDate());
+
+        List<Train> returnTrains = new ArrayList<>();
+
+        if (request.getReturnDate() != null) {
+            returnTrains = trainService.searchTrains(
+                    request.getStationCodeDestination(), request.getStationCodeOrigin(), request.getReturnDate());
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("outboundTrains", outboundTrains);
+
+        if (request.getReturnDate() != null) {
+            response.put("returnTrains", returnTrains);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

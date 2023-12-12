@@ -29,7 +29,7 @@ public class Train {
     @Column(name = "StationCodeOrigin", nullable = false)
     private String stationCodeOrigin;
 
-    @Column(name = "StationCodeDestionation", nullable = false)
+    @Column(name = "StationCodeDestination", nullable = false)
     private String stationCodeDestination;
 
     @Column(name = "DepartureHour", nullable = false)
@@ -64,6 +64,4 @@ public class Train {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "StationCodeDestination", referencedColumnName = "StationCode", insertable = false, updatable = false)
     private Station stationDestinationInfo;
-    
-    // Getters e Setters
 }
