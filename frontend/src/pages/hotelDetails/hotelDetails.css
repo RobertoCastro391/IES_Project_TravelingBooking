@@ -1,0 +1,49 @@
+.containerDetailsHotel {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+label {
+  display: block;
+}
+
+
+.buttonFlights {
+  background-color: #0071c2;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Add a transition effect */
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.image-layout {
+  display: flex;
+  flex-direction: row;
+}
+
+.image-large img {
+  width: 50%; /* Adjust width as necessary */
+  height: auto;
+}
+
+.image-group img {
+  width: 25%; /* Adjust width as necessary */
+  height: auto;
+}

@@ -4,14 +4,14 @@ import {
   Route,
 } from "react-router-dom";
 import Home from "./pages/home/Home";
-import Hotel from "./pages/hotel/Hotel";
-import List from "./pages/list/List";
+import Hotel from "./pages/searchHotel/Hotel";
 import Flights from "./pages/searchFlights/Flights";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Account from "./pages/Account/Account";
 import FlightCheckout from "./pages/FlightCheckout/FlightCheckout";
 import AddExtrasFlight from "./pages/AddExtrasFlight/AddExtrasFlight";
+import HotelDetails from "./pages/hotelDetails/HotelDetails";
 import Trains from "./pages/searchTrains/Trains";
 import TrainCheckout from "./pages/TrainCheckout/TrainCheckout";
 import Museums from "./pages/Museums/Museums";
@@ -23,14 +23,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/hotels" element={<List/>}/>
-        <Route path="/hotels/:id" element={<Hotel/>}/>
+        <Route path="/hotels" element={<Hotel/>}/>
         <Route path="/flights" element={<Flights/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/account" element={<Account/>}/>
         <Route path="/flightcheckout" element={<FlightCheckout/>}/>
         <Route path="/AddExtrasFlight" element={<AddExtrasFlight/>}/>
+        <Route path="/hotelDetails" element={<HotelDetails/>}/>
         <Route path="/trains" element={<Trains/>}/>
         <Route path="/trainCheckout" element={<TrainCheckout/>}/>
         <Route path="/museums" element={<Museums/>}/>
