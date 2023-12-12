@@ -1,0 +1,62 @@
+.reviews-card {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .reviews-title {
+    margin: 0;
+    color: #333;
+    font-size: 1.5rem;
+  }
+  
+  .average-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .average-score {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .total-reviews {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .rating-bar {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  .rating-category {
+    flex-basis: 20%;
+    font-size: 1rem;
+  }
+  
+  .rating-track {
+    flex-grow: 1;
+    height: 10px;
+    background-color: #e0e0e0;
+    margin: 0 20px;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .rating-fill {
+    height: 100%;
+    background-color: #4caf50;
+    width: 0; /* Default width, will be set by inline style */
+  }
+  
+  .rating-score {
+    flex-basis: 30px;
+    text-align: right;
+    font-size: 1rem;
+  }
+  

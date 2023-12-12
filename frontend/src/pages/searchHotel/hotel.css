@@ -1,0 +1,45 @@
+.containerSearchHotel {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;  
+  margin-top: 20px;
+}
+
+.container2hotel {
+  display: flex;
+  padding-left: 40px;
+  flex-basis: 15%; 
+}
+
+.container3hotel {
+  flex: 10; 
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* This adds some space between your flight cards */
+  margin-right: 80px;
+}
+
+label {
+  display: block;
+}
+
+
+.buttonFlights {
+  background-color: #0071c2;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Add a transition effect */
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
