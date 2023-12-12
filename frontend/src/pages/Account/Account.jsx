@@ -111,7 +111,7 @@ const Account = () => {
     <div>
       <Navbar />
       <div class="loginheader">
-        <div class="logintexttitle">Create an account</div>
+        <div class="logintexttitle">Your account information</div>
       </div>
       <AccountInfo
         name={userInfo.name}
@@ -142,26 +142,16 @@ const Account = () => {
           </button>
         </div>
 
+        
         {activeTab === "Flights" && (
           <div>
-            <FlightDetails 
-                destination="New York"
-                outboundDate="Thu, Nov 24, 2023" 
-                returnDate="Fri, Dec 1, 2023"
-                airlineLogo={tap}
-                outboundFlightInfo="14:00 OPO → 20:05 JFK"
-                returnFlightInfo="22:00 JFK → 13:00+1 OPO"
-                imageUrl={newyork}
-                />
-            <FlightDetails 
-                destination="Paris" 
-                outboundDate="Thu, Nov 24, 2023" 
-                returnDate="Fri, Dec 1, 2023"
-                airlineLogo={tap}
-                outboundFlightInfo="14:00 OPO → 20:05 JFK"
-                returnFlightInfo="22:00 JFK → 13:00+1 OPO"
+            {userTrips.map((reservationInfo, index) => (
+              <FlightDetails
+                key={index}
+                reservationInfo={reservationInfo}
                 imageUrl={paris}
-                />
+              />
+            ))}
           </div>
         )}
         {activeTab === "Trains" && (
