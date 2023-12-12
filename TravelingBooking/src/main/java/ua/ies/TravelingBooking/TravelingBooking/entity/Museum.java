@@ -42,16 +42,16 @@ public class Museum {
     @Column(name = "Email", nullable = false)
     private String email;
 
-    @Column(name = "Ticketprice_adult", nullable = false)
+    @Column(name = "TicketpriceAdult", nullable = false)
     private String ticketPriceAdult;
 
-    @Column(name = "Ticketprice_child")
+    @Column(name = "TicketpriceChild")
     private String ticketPriceChild;
 
-    @Column(name = "Ticketprice_group")
+    @Column(name = "TicketpriceGroup")
     private String ticketPriceGroup;
 
-    @Column(name = "Ticketprice_groupchild")
+    @Column(name = "TicketpriceGroupchild")
     private String ticketPriceGroupChild;
 
     // Getters e Setters

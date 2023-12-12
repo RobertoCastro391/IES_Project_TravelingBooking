@@ -21,12 +21,14 @@ const Account = () => {
     city: ''
   });
 
-  const [name, setName] = useState("Roberto");
-  const [surname, setSurname] = useState("Mourinho");
-  const [email, setEmail] = useState("roberto@ua.pt");
-  const [address, setAddress] = useState("Rua do Deti 5");
-  const [postalCode, setPostalCode] = useState("3880-100");
-  const [city, setCity] = useState("Aveiro");
+  const [userTrips, setUserTrips] = useState([]);
+
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [city, setCity] = useState("");
 
   useEffect(() => {
     const userId = localStorage.getItem("userId"); // Or however you're storing the user's ID
@@ -54,9 +56,42 @@ const Account = () => {
         console.error('Failed to fetch user info:', error);
       }
     };
+
+    const fetchUserTrips = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/api/getReservationsByUser/${userId}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+    
+        console.log('Fetched Data:');
+        console.log(data);
+    
+        // Assuming data is an array of reservations
+        const userTrips = data.map(trip => ({
+          reservationID: trip.id,
+          flightNumberOutbound: trip.flightNumberOutbound,
+          flightNumberInbound: trip.flightNumberInbound,
+          roundTrip: trip.roundTrip,
+          totalPrice: trip.totalPrice,
+          reservationDate: trip.reservationDate,
+          passengers: trip.passengers
+        }));
+    
+        setUserTrips(userTrips);
+    
+        console.log('User Trips after processing:');
+        console.log(userTrips);
+    
+      } catch (error) {
+        console.error('Failed to fetch user info:', error);
+      }
+    };
   
     if (userId) {
       fetchUserInfo();
+      fetchUserTrips();
     }
   }, []);
 

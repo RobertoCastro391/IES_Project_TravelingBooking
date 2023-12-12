@@ -51,16 +51,16 @@ public class Hotel {
     @Column(name = "Email", nullable = false)
     private String email;
 
-    @Column(name = "Inicial_price", nullable = false)
+    @Column(name = "InicialPrice", nullable = false)
     private String initialPrice;
 
-    @Column(name = "Person_number")
+    @Column(name = "PersonNumber")
     private int personNumber;
 
     @Column(name = "Baggages")
     private int baggages;
 
-    @Column(name = "Food_included", nullable = false)
+    @Column(name = "FoodIncluded", nullable = false)
     private String foodIncluded;
 
     @Column(name = "AC")

@@ -14,16 +14,20 @@
     width: 100%;
     background: #EFEFEF;
     display: flex;
-    justify-content: space-between;
     align-items: center;
   }
   
-  .airlineLogo {
-    height: 50px; /* Adjust as needed */
+  .airlineLogoFlightDetails {
+    flex: 0.7;
+    height: 70px;
+    margin-left: 2%;
   }
   
   .flightTimes {
+    margin-left: 2%;
+    flex: 3;
     display: flex;
+    justify-content: space-between;
   }
   
   .outbound, .return {

@@ -49,7 +49,7 @@ public class Room {
     @Column(name = "Smoking")
     private boolean smoking;
 
-    @Column(name = "Meals_included", nullable = false)
+    @Column(name = "MealsIncluded", nullable = false)
     private int mealsIncluded;
 
     // Getters e Setters
