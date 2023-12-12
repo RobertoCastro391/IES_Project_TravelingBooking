@@ -24,38 +24,19 @@ public class Hotel {
     @Column(name = "HotelName", nullable = false)
     private String hotelName;
 
-    @Column(name = "HotelDescription", nullable = false)
-    private String hotelDescription;
-
-    @Column(name = "HotelLocation", nullable = false)
-    private String hotelLocation;
-
-    @Column(name = "HotelImage")
-    private String hotelImage;
-
-    @Column(name = "HotelImage2")
-    private String hotelImage2;
-
-    @Column(name = "HotelImage3")
-    private String hotelImage3;
-
-    @Column(name = "HotelImage4")
     private String hotelImage4;
 
-    @Column(name = "StreetAddress")
-    private String streetAddress;
+    @Column(name = "Address")
+    private String Address;
 
     @Column(name = "PhoneNumber")
     private String phoneNumber;
 
-    @Column(name = "Email", nullable = false)
-    private String email;
-
     @Column(name = "InicialPrice", nullable = false)
     private String initialPrice;
 
-    @Column(name = "PersonNumber")
-    private int personNumber;
+    @Column(name = "FinalPrice")
+    private String finalPrice;
 
     @Column(name = "Baggages")
     private int baggages;
