@@ -20,13 +20,13 @@ import dayjs from "dayjs";
 
 import "./museumsSearch.css";
 
-const FlightsSearch = () => {
+const MuseumsSearch = ({ showSearchButton }) => {
   const [from, setFrom] = useState("");
 
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    navigate("/flights", { state: { from } });
+    navigate("/museumscity");
   };
 
   return (
@@ -47,14 +47,16 @@ const FlightsSearch = () => {
             />
           </div>
         </div>
-        <div className="searchDiv">
-          <button className="buttonFlightsSearch" onClick={handleSearch}>
-            Search
-          </button>
-        </div>
+        {showSearchButton && (
+          <div className="searchDiv">
+            <button className="buttonMuseumsSearch" onClick={handleSearch}>
+              Search
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default FlightsSearch;
+export default MuseumsSearch;

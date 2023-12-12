@@ -1,0 +1,130 @@
+.museumsCityDetailsContainer {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .museumsCityDetailsContainer h2{
+    width: 1024px;
+    font-size: 25px;
+  }
+  
+  .museumsCityDetailsTitle {
+    width: 1024px;
+    font-size: 30px;
+  }
+  
+  .museumsCityDetailsFeatured {
+    width: 100%;
+    max-width: 1024px;
+    display: flex;
+    gap: 20px;
+    z-index: 1;
+  }
+  
+  
+  
+  .museumCityDetailsCard {
+    width: 33.33333%;
+    position: relative;
+    color: white;
+    border-radius: 10px;
+    height: 100%;
+    background-color: rgb(245, 245, 245);
+    box-sizing: border-box;
+  }
+
+  .museumCityDetailsCard2 {
+    width: 33.33333%;
+    position: relative;
+    color: white;
+    border-radius: 10px;
+    height: 100%px;
+    background-color: rgb(245, 245, 245);
+    box-sizing: border-box;
+    padding-bottom: 25px;
+    flex:1;
+  }
+
+  .museumCityDetailsCard2 h2{
+    color: black;
+    padding-left: 25px;
+    padding-top: 15px;
+    align-content:center;    
+  }
+
+  
+  .museumCityDetailsInfo {
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: flex-start;
+    padding-left: 55px;
+    padding-top: 10px;
+    padding-right: 40px;
+    height: 100%;
+  
+  }
+  
+  .museumCityDetailsInfo p {
+  
+    display: flex;
+    font-size: 18px;
+    color: rgb(48, 47, 47);
+    text-align: left;
+  }
+  
+  .museumCityDetailsCardTitle {
+    position: absolute;
+  
+  }
+  
+  
+  .musuemCityDetailsCardImg {
+    height: 220px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 235, 235, 0.699);
+  
+  }
+  
+  .museumCityDetailsBtn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding-top: 10px;
+    background: rgb(0, 98, 227);
+    color: rgba(255, 255, 255, 0.95);
+    filter: drop-shadow(0);
+    font-weight: bold;
+    transition: all .3s ease;
+  }
+
+  .cityDescriptionTitle{
+    color: black;
+    padding-left: 20px;
+    padding-top: 10px;
+    align-content:center;
+    font-size: 30px;
+  }
+
+  .cityDescription{
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    align-content:center;
+    font-size: 15px;
+  }
+
+  
