@@ -9,16 +9,14 @@ import newyork from "../../static/newyork.png";
 import paris from "../../static/paris.png";
 import { useEffect } from "react";
 
-
 const Account = () => {
-
   const [userInfo, setUserInfo] = useState({
-    name: '',
-    surname: '',
-    email: '',
-    address: '',
-    postalCode: '',
-    city: ''
+    name: "",
+    surname: "",
+    email: "",
+    address: "",
+    postalCode: "",
+    city: "",
   });
 
   const [userTrips, setUserTrips] = useState([]);
@@ -32,18 +30,20 @@ const Account = () => {
 
   useEffect(() => {
     const userId = localStorage.getItem("userId"); // Or however you're storing the user's ID
-  
+
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/users/${userId}`);
+        const response = await fetch(
+          `http://localhost:8080/api/users/${userId}`
+        );
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const data = await response.json();
-       
-        console.log('data');
+
+        console.log("data");
         console.log(data);
-        
+
         setUserInfo({
           name: data.firstName,
           surname: data.lastName,
@@ -53,54 +53,49 @@ const Account = () => {
           city: data.city,
         });
       } catch (error) {
-        console.error('Failed to fetch user info:', error);
+        console.error("Failed to fetch user info:", error);
       }
     };
 
     const fetchUserTrips = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/getReservationsByUser/${userId}`);
+        const response = await fetch(
+          `http://localhost:8080/api/getReservationsByUser/${userId}`
+        );
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const data = await response.json();
-    
-        console.log('Fetched Data:');
+
+        console.log("Fetched Data:");
         console.log(data);
-    
+
         // Assuming data is an array of reservations
-        const userTrips = data.map(trip => ({
+        const userTrips = data.map((trip) => ({
           reservationID: trip.id,
           flightNumberOutbound: trip.flightNumberOutbound,
           flightNumberInbound: trip.flightNumberInbound,
           roundTrip: trip.roundTrip,
           totalPrice: trip.totalPrice,
           reservationDate: trip.reservationDate,
-          passengers: trip.passengers
+          passengers: trip.passengers,
         }));
-    
+
         setUserTrips(userTrips);
-    
-        console.log('User Trips after processing:');
+
+        console.log("User Trips after processing:");
         console.log(userTrips);
-    
       } catch (error) {
-        console.error('Failed to fetch user info:', error);
+        console.error("Failed to fetch user info:", error);
       }
     };
-  
+
     if (userId) {
       fetchUserInfo();
       fetchUserTrips();
     }
   }, []);
 
-
-  
-  
-  
-  
-  
   const [activeTab, setActiveTab] = useState("Flights");
 
   const handleClick = (tab) => {
@@ -142,7 +137,6 @@ const Account = () => {
           </button>
         </div>
 
-        
         {activeTab === "Flights" && (
           <div>
             {userTrips.map((reservationInfo, index) => (

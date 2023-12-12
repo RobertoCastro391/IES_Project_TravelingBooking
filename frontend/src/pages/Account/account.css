@@ -48,6 +48,8 @@
     padding: 10px 40px;
     background-color: #08243c;
     color: #ffffff;
+    font-weight: bold;
+    font-size: 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
