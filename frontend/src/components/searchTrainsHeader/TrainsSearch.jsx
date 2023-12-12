@@ -91,7 +91,7 @@ const TrainsSearch = () => {
   };
 
   const handleSearch = () => {
-    navigate("/flights", { state: { destination, date, options } });
+    navigate("/trains", { state: { destination, date, options } });
   };
 
   return (

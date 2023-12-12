@@ -31,6 +31,8 @@ function App() {
         <Route path="/account" element={<Account/>}/>
         <Route path="/flightcheckout" element={<FlightCheckout/>}/>
         <Route path="/AddExtrasFlight" element={<AddExtrasFlight/>}/>
+        <Route path="/trains" element={<Trains/>}/>
+        <Route path="/trainCheckout" element={<TrainCheckout/>}/>
         <Route path="/museums" element={<Museums/>}/>
         <Route path="/museumscity" element={<MuseumsCity/>}/>
         <Route path="/museumscitydetails" element={<MuseumsCityDetails/>}/>
