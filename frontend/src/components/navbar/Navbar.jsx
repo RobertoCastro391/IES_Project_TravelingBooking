@@ -16,6 +16,10 @@ const Navbar = () => {
     navigate("/", { state: { headerType: headerType } });
   };
 
+  const handleMuseums = (headerType = "home") => {
+    navigate("/museums", { state: { headerType: headerType } });
+  };
+
   const handleAccount = (userID = localStorage.getItem("userId")) => {
     navigate("/account", { state: { userID: userID } });
   };
@@ -58,7 +62,7 @@ const Navbar = () => {
                 <a onClick={() => handleHome("flights")}>Flights</a>
                 <a onClick={() => handleHome("hotels")}>Hotels</a>
                 <a onClick={() => handleHome("trains")}>Trains</a>
-                <a onClick={() => handleHome("museums")}>Museums</a>
+                <a onClick={() => handleMuseums("museums")}>Museums</a>
                 <a onClick={() => handleHome("hotels")}>News and Delays</a>
               </div>
               <div>

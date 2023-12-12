@@ -12,6 +12,9 @@ import Register from "./pages/Register/Register";
 import Account from "./pages/Account/Account";
 import FlightCheckout from "./pages/FlightCheckout/FlightCheckout";
 import AddExtrasFlight from "./pages/AddExtrasFlight/AddExtrasFlight";
+import Museums from "./pages/Museums/Museums";
+import MuseumsCity from "./pages/MuseumsCity/MuseumsCity";
+import MuseumsCityDetails from "./pages/MuseumsCityDetails/MuseumsCityDetails";
 
 function App() {
   return (
@@ -26,6 +29,9 @@ function App() {
         <Route path="/account" element={<Account/>}/>
         <Route path="/flightcheckout" element={<FlightCheckout/>}/>
         <Route path="/AddExtrasFlight" element={<AddExtrasFlight/>}/>
+        <Route path="/museums" element={<Museums/>}/>
+        <Route path="/museumscity" element={<MuseumsCity/>}/>
+        <Route path="/museumscitydetails" element={<MuseumsCityDetails/>}/>
       </Routes>
     </BrowserRouter>
   );

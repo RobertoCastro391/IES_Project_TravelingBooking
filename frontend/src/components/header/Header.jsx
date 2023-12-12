@@ -15,7 +15,9 @@ const Header = ({ type='home' }) => {
 
         {type === "trains" && <TrainsSearch />}
 
-        {type === "museums" && <MuseumsSearch />}
+        {type === "museums" && <MuseumsSearch showSearchButton={true} />}
+
+        {type === "museumscity" && <MuseumsSearch showSearchButton={false} />}
 
         {type === "addExtrasFLight" && <AddExtrasFlightHeader/>}
       
