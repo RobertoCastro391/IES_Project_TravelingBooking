@@ -1,14 +1,11 @@
 import React from "react";
 import "./accountInfo.css";
 
-
 const AccountInfo = ({ name, surname, email, address, postalCode, city }) => {
   return (
     <div className="infoContainerAccount">
       <div className="infoContainer1Account">
-        <input
-          id="name"
-          type="text"
+        <div
           style={{
             borderRadius: "5px",
             border: "1px solid #ccc",
@@ -16,12 +13,14 @@ const AccountInfo = ({ name, surname, email, address, postalCode, city }) => {
             marginBottom: "20px",
             fontSize: "20px",
             fontWeight: "bold",
+            display: "flex",
+            paddingLeft: "2%",
+            alignItems: "center"
           }}
-          value={name}
-        />
-        <input
-          id="surname"
-          type="text"
+        >
+          {name}
+        </div>
+        <div
           style={{
             borderRadius: "5px",
             border: "1px solid #ccc",
@@ -29,26 +28,46 @@ const AccountInfo = ({ name, surname, email, address, postalCode, city }) => {
             marginBottom: "20px",
             fontSize: "20px",
             fontWeight: "bold",
+            display: "flex",
+            paddingLeft: "2%",
+            alignItems: "center"
           }}
-          value={surname}
-        />
-        <input
-          id="email"
-          type="email"
+        >
+          {surname}
+        </div>
+        <div
           style={{
             borderRadius: "5px",
             border: "1px solid #ccc",
             height: "50px",
+            marginBottom: "20px",
             fontSize: "20px",
             fontWeight: "bold",
+            display: "flex",
+            paddingLeft: "2%",
+            alignItems: "center"
           }}
-          value={email}
-        />
+        >
+          {email}
+        </div>
       </div>
       <div className="infoContainer1Account">
-        <input
-          id="address"
-          type="text"
+        <div
+            style={{
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              height: "50px",
+              marginBottom: "20px",
+              fontSize: "20px",
+              fontWeight: "bold",
+              display: "flex",
+              paddingLeft: "2%",
+              alignItems: "center"
+            }}
+          >
+            {address}
+          </div>
+          <div
           style={{
             borderRadius: "5px",
             border: "1px solid #ccc",
@@ -56,38 +75,32 @@ const AccountInfo = ({ name, surname, email, address, postalCode, city }) => {
             marginBottom: "20px",
             fontSize: "20px",
             fontWeight: "bold",
+            display: "flex",
+            paddingLeft: "2%",
+            alignItems: "center"
           }}
-          value={address}
-        />
-        <input
-          id="postalCode"
-          type="text"
-          style={{
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-            height: "50px",
-            marginBottom: "20px",
-            fontSize: "20px",
-            fontWeight: "bold",
-          }}
-          value={postalCode}
-        />
+        >
+          {postalCode}
+        </div>
 
-        <input
-          id="city"
-          type="text"
+        <div
           style={{
             borderRadius: "5px",
             border: "1px solid #ccc",
             height: "50px",
+            marginBottom: "20px",
             fontSize: "20px",
             fontWeight: "bold",
+            display: "flex",
+            paddingLeft: "2%",
+            alignItems: "center"
           }}
-          value={city}
-        />
+        >
+          {city}
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default AccountInfo;
