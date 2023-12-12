@@ -17,6 +17,7 @@ import TrainCheckout from "./pages/TrainCheckout/TrainCheckout";
 import Museums from "./pages/Museums/Museums";
 import MuseumsCity from "./pages/MuseumsCity/MuseumsCity";
 import MuseumsCityDetails from "./pages/MuseumsCityDetails/MuseumsCityDetails";
+import HotelCheckout from "./pages/HotelCheckout/HotelCheckout";
 
 function App() {
   return (
@@ -36,6 +37,8 @@ function App() {
         <Route path="/museums" element={<Museums/>}/>
         <Route path="/museumscity" element={<MuseumsCity/>}/>
         <Route path="/museumscitydetails" element={<MuseumsCityDetails/>}/>
+        <Route path="/hotelcheckout" element={<HotelCheckout/>}/>
+        
       </Routes>
     </BrowserRouter>
   );
