@@ -17,6 +17,8 @@ conf = {
 
 producer = Producer(conf)
 
+# flights
+
 airports = {
     'LAX': ("Los Angeles International Airport", (33.9416, -118.4085)),
     'JFK': ("John F. Kennedy International Airport", (40.6413, -73.7781)),
@@ -282,7 +284,6 @@ def generate_random_flight():
         "price": round(random.uniform(50.0, 1000.0), 2),
         "seats": random.randint(1, 300)
     }
-
 def generate_random_hotels():
     """Generates random flight data with realistic duration, departure, and arrival times."""
     name = random.choice(list(hoteis.keys()))
@@ -310,7 +311,7 @@ def generate_random_hotels():
     }
     
 
-    
+
 def send_airport_data_to_kafka(topic):
     """Sends airport data to Kafka."""
     for airport_code, coordinates in airports.items():
@@ -334,10 +335,149 @@ def send_airline_data_to_kafka(topic):
         producer.produce(topic, key=airline_code, value=json.dumps(airline_data))
     producer.flush()
 
+# trains
+
+trainCompanies = {
+    'AC':	{ 'name' : 'Australian Rail Track Corporation' },
+    'BR':	{ 'name' : 'British Rail' },
+    'CN':	{ 'name' : 'Canadian National Railway' },
+    'CR':	{ 'name' : 'China Railway' },
+    'DB':	{ 'name' : 'Deutsche Bahn' },
+    'FR':	{ 'name' : 'French National Railways' },
+    'JR':	{ 'name' : 'Japan Railways Group' },
+    'NS':	{ 'name' : 'Nederlandse Spoorwegen' },
+    'OE':	{ 'name' : 'Orient Express' },
+    'CP':	{ 'name' : 'Comboios de Portugal' },
+    'SBB':	{ 'name' : 'Swiss Federal Railways' },
+    'SJ':	{ 'name' : 'Statens Järnvägar' },
+    'SNCF':	{ 'name' : 'Société Nationale des Chemins de Fer Français' },
+    'TX':	{ 'name' : 'Texas Department of Transportation' },
+    'VIA':	{ 'name' : 'VIA Rail Canada' }
+}
+
+stations = {
+    'ATH1' : { "StationName": "Attiki station", "StationCity": "Athens, Greece", "Coordinates": (37.983333, 23.716667) },
+    'BAR1' : { "StationName": "Barceloneta station", "StationCity": "Barcelona, Catalonia, Spain", "Coordinates": (41.383333, 2.183333) },
+    'BER1' : { "StationName": "Berlin Hauptbahnhof", "StationCity": "Mitte, Berlin, Germany", "Coordinates": (52.518333, 13.408056) },
+    'BRS1' : { "StationName": "Brussels-Central Station", "StationCity": "Brussels, Belgium", "Coordinates": (50.848333, 4.333333) },
+    'CPH1' : { "StationName": "Københavns Hovedbanegård", "StationCity": "København K, Denmark", "Coordinates": (55.675000, 12.550000) },
+    'FRA1' : { "StationName": "Gare de Paris-Nord", "StationCity": "10e Arrondissement, Paris, France", "Coordinates": (48.866667, 2.350000) },
+    'LON1' : { "StationName": "London Euston Station", "StationCity": "Euston, Camden, London, England", "Coordinates": (51.525000, -0.125000) },
+    'MAD1' : { "StationName": "Madrid Puerta de Atocha", "StationCity": "Retiro, Madrid, Spain", "Coordinates": (40.416667, -3.650000) },
+    'ROM1' : { "StationName": "Roma Termini", "StationCity": "Roma, Lazio, Italy", "Coordinates": (41.908333, 12.483333) },
+    'POR1' : { "StationName": "São Bento Railway Station", "StationCity": "Porto, Portugal", "Coordinates": (41.158533, -8.610667) },
+    'FRA2' : { "StationName": "Gare de Lyon-Saint-Paul", "StationCity": "5e Arrondissement, Paris, France", "Coordinates": (48.858333, 2.350000) },
+    'FRA3' : { "StationName": "Gare de Marseille-Saint-Charles", "StationCity": "1er Arrondissement, Marseille, France", "Coordinates": (43.298333, 5.383333) },
+    'GER1' : { "StationName": "Frankfurt (Main) Hauptbahnhof", "StationCity": "Frankfurt am Main, Hesse, Germany", "Coordinates": (50.116667, 8.650000) },
+    'GER2' : { "StationName": "Hamburg Hauptbahnhof", "StationCity": "Hamburg, Germany", "Coordinates": (53.550000, 10.000000) },
+    'ITA1' : { "StationName": "Roma Termini", "StationCity": "Roma, Lazio, Italy", "Coordinates": (41.908333, 12.483333) },
+    'ITA2' : { "StationName": "Napoli Centrale Station", "StationCity": "Napoli, Campania, Italy", "Coordinates": (40.833333, 14.250000) },
+    'NLD1' : {"StationName": "Amsterdam Centraal Station", "StationCity": "Amsterdam, Netherlands", "Coordinates": (52.375000, 4.883333) },
+    'POL1' : { "StationName": "Warszawa Centralna", "StationCity": "Warszawa, Poland", "Coordinates": (52.225000, 21.000000) },
+    'POR2' : { "StationName": "Lisboa - Santa Apolónia", "StationCity": "Santa Maria Maior, Lisboa, Portugal", "Coordinates": (38.710833, -9.125556) },
+    'BEL1' : { "StationName": "Gare du Midi/Zuidstation", "StationCity": "Ixelles, Brussels, Belgium", "Coordinates": (50.833333, 4.333333) },
+    'BGR1' : { "StationName": "Sofia Central Station", "StationCity": "Sofia, Bulgaria", "Coordinates": (42.698333, 23.316667) },
+    'CZ1' : { "StationName": "Praha hlavní nádraží", "StationCity": "Praha, Czech Republic", "Coordinates": (50.083333, 14.416667) },
+    'DNK1' : { "StationName": "Københavns Hovedbanegård", "StationCity": "København K, Denmark", "Coordinates": (55.675000, 12.550000) },
+    'ESP1' : { "StationName": "Madrid Puerta de Atocha", "StationCity": "Retiro, Madrid, Spain", "Coordinates": (40.416667, -3.650000) },
+    'EST1' : { "StationName": "Tallinn Central Railway Station", "StationCity": "Tallinn, Estonia", "Coordinates": (59.433333, 24.750000) },
+    'FIN1' : { "StationName": "Helsinki Central Station", "StationCity": "Kluuvi, Helsinki, Finland", "Coordinates": (60.150000, 24.933333) },
+    'FRA4' : { "StationName": "Gare de Lyon-Perrache", "StationCity": "2e Arrondissement, Lyon, France", "Coordinates": (45.750000, 4.816667) },
+    'GRC1' : { "StationName": "Athens Railway Station", "StationCity": "Nea Ionia, Athens, Greece", "Coordinates": (37.983333, 23.716667) },
+    'HUN1' : { "StationName": "Keleti pályaudvar", "StationCity": "Budapest, Hungary", "Coordinates": (47.483333, 19.050000)  },
+    'IRL1' : { "StationName": "Dublin Connolly Station", "StationCity": "Dublin, Ireland", "Coordinates": (53.341667, -6.250000)  },
+    'GE2' : { "StationName": "Genève-Eaux-Vives", "StationCity": "Genève, Switzerland", "Coordinates": (46.183333, 6.133333) },
+    'ITA3' : { "StationName": "Venezia Santa Lucia", "StationCity": "Venezia, Veneto, Italy", "Coordinates": (45.433333, 12.316667) },
+    'NLD2' : { "StationName": "Rotterdam Centraal", "StationCity": "Rotterdam, Netherlands", "Coordinates": (51.925000, 4.450000) },
+    'POL2' : { "StationName": "Gdańsk Główny", "StationCity": "Gdańsk, Poland", "Coordinates": (54.333333, 18.650000) },
+    'GE3' : { "StationName": "Genève-Cornavin", "StationCity": "Genève, Switzerland", "Coordinates": (46.175000, 6.150000) },
+    'BRG1' : { "StationName": "Estação de Braga", "StationCity": "Braga, Portugal", "Coordinates": (41.547321, -8.434821) },
+    'AVR1' : { "StationName": "Estação Ferroviária de Aveiro", "StationCity": "Aveiro, Portugal", "Coordinates": (40.710833, -9.125556) },
+    'FAO1' : { "StationName": "Estação Ferroviária de Faro", "StationCity": "Faro, Portugal", "Coordinates": (37.019447, -7.940680) }
+}
+
+train_types = {
+    'High-speed train' : 300,
+    'Intercity train' : 200,
+    'Regional train' : 100,
+    'Suburban train' : 80, 
+    'S-Bahn' : 60
+}
+
+def calculate_duration_train(origin, destination): # done
+    """Estimate train duration based on distance and train velocity."""
+    coords_1 = stations[origin]['Coordinates']
+    coords_2 = stations[destination]['Coordinates']
+    distance = geopy.distance.distance(coords_1, coords_2).km
+    train_type = random.choice(list(train_types.keys()))
+    average_speed_km_per_hour = train_types[train_type]
+    duration_hours = distance / average_speed_km_per_hour
+    return timedelta(hours=duration_hours)
+
+def generate_random_train():
+    """Generates random train travel data with realistic duration, departure, and arrival times."""
+    origin, destination = random.sample(list(stations.keys()), 2)
+    train_company_code = random.choice(list(trainCompanies.keys()))
+    departure_time = datetime.now() + timedelta(days=random.randint(1, 30), hours=random.randint(0, 23), minutes=random.randint(0, 59))
+    duration = calculate_duration_train(origin, destination)
+    arrival_time = departure_time + duration
+    price2ndclass = round(random.uniform(50.0, 1000.0), 2)
+    carriages = random.randint(4, 15)
+
+    return {
+        "trainNumber": train_company_code + faker.bothify(text='####'),
+        "travelDate": departure_time.strftime('%Y-%m-%d'),
+        "trainCompanyCode": train_company_code,
+        "stationCodeOrigin": origin,
+        "stationCodeDestination": destination,
+        "departureHour": departure_time.strftime('%Y-%m-%d %H:%M'),
+        "arrivalHour": arrival_time.strftime('%Y-%m-%d %H:%M'),
+        "duration": str(duration),
+        "price2ndclass": price2ndclass,
+        "price1stclass": round(price2ndclass + round(random.uniform(50.0, 200.0), 2), 2),
+        "carriages": carriages,
+        "seats": random.randint(1, 40) * carriages
+    }
+
+# send train info to kafka
+
+def send_station_data_to_kafka(topic):
+    """Sends station data to Kafka."""
+    for station_code, station_info in stations.items():
+        station_data = {
+            "stationCode": station_code,
+            "stationName": station_info['StationName'],
+            "stationCity": station_info['StationCity'],
+            "stationLat": station_info['Coordinates'][0],
+            "stationLong": station_info['Coordinates'][1]
+        }
+        print("Sending station")
+        print(station_data)
+        producer.produce(topic, key=station_code, value=json.dumps(station_data))
+    producer.flush()
+
+def send_train_company_data_to_kafka(topic):
+    """Sends train company data to Kafka."""
+    for train_company_code, train_company_info in trainCompanies.items():
+        train_company_data = {
+            "trainCompanyCode": train_company_code,
+            "trainCompanyName": train_company_info['name']
+        }
+        print("Sending train company data")
+        print(train_company_data)
+        producer.produce(topic, key=train_company_code, value=json.dumps(train_company_data))
+    producer.flush()
+    
+# send to kafka
 
 def send_to_kafka(topic, flight_data):
     """Sends flight data to Kafka."""
     producer.produce(topic, key=str(flight_data['flightNumber']), value=json.dumps(flight_data))
+    producer.flush()
+
+def send_to_kafka_trains(topic, train_data):
+    """Sends train data to Kafka."""
+    producer.produce(topic, key=str(train_data['trainNumber']), value=json.dumps(train_data))
     producer.flush()
 
 def send_to_kafka_hotel(topic, hotel_data):
@@ -347,11 +487,15 @@ def send_to_kafka_hotel(topic, hotel_data):
     
 
 send_airport_data_to_kafka('airports_topic')  
-send_airline_data_to_kafka('airlines_topic')  
+send_airline_data_to_kafka('airlines_topic')
+send_station_data_to_kafka('station_topic')
+send_train_company_data_to_kafka('train_company_topic')  
 
 
 for _ in range(10):
     flight_data = generate_random_flight()
     hotel_data = generate_random_hotels()
     send_to_kafka('flighs_data', flight_data)
-    send_to_kafka_hotel('hotel_topic',hotel_data)
+    train_data = generate_random_train()
+    print(train_data)
+    send_to_kafka_trains('train_data', train_data)    send_to_kafka_hotel('hotel_topic',hotel_data)
