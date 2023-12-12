@@ -96,6 +96,8 @@ const Cardhotels = ({type = "details"} ) => {
             {type==="checkout" &&
                   <button className="buttonhotelSearch" onClick={() => navigate("/hotelDetails")}>Checkout</button>
           }
+          {type==="book"
+  }
           
         </div>
       </div>
