@@ -127,7 +127,7 @@ const FlightsSearch = () => {
       }
       
   
-      const response = await fetch('http://localhost:8080/api/searchFlight', {
+      const response = await fetch('http://localhost:8080/api/flights/searchFlight', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -230,7 +230,7 @@ const FlightsSearch = () => {
   const fetchYourAirportsAPI = async () => {
     try {
       // Replace with your actual endpoint URL
-      const response = await fetch('http://localhost:8080/api/airports');
+      const response = await fetch('http://localhost:8080/api/flights/airports');
   
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

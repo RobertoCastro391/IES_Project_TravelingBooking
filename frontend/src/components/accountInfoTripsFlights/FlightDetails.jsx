@@ -19,8 +19,9 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
   useEffect(() => {
     const fetchFlightInfo = async () => {
       try {
+        
         const response = await fetch(
-          `http://localhost:8080/api/flightCheckout/${reservationInfo["flightNumberOutbound"]}`
+          `http://localhost:8080/api/flights/flightCheckout/${reservationInfo["flightNumberOutbound"]}`
         );
 
         if (!response.ok) {
@@ -297,7 +298,9 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                 <div style={{ display: "flex", marginTop: "1%" }}>
                   <p>Reservation Code</p>
                   <p style={{ marginRight: "1%" }}>:</p>
-                  <p style={{ color: "black", fontWeight: "500" }}>{reservationInfo["reservationID"]}</p>
+                  <p style={{ color: "black", fontWeight: "500" }}>
+                    {reservationInfo["reservationID"]}
+                  </p>
                 </div>
                 <div
                   style={{
@@ -318,10 +321,18 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                     reservationInfo["passengers"].length > 0 ? (
                       reservationInfo["passengers"].map((passenger, index) => (
                         <div key={index} style={{ display: "flex" }}>
-                          <p style={{ color: "black", fontWeight: "500", marginRight: "1%" }}>
+                          <p
+                            style={{
+                              color: "black",
+                              fontWeight: "500",
+                              marginRight: "1%",
+                            }}
+                          >
                             {passenger.firstName}
                           </p>
-                          <p style={{ color: "black", fontWeight: "500" }}>{passenger.lastName}</p>
+                          <p style={{ color: "black", fontWeight: "500" }}>
+                            {passenger.lastName}
+                          </p>
                         </div>
                       ))
                     ) : (
@@ -337,7 +348,9 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                 >
                   <p>Reservation Date</p>
                   <p style={{ marginRight: "1%" }}>:</p>
-                  <p style={{ color: "black", fontWeight: "500" }}>{reservationInfo["reservationDate"].split("T")[0]}</p>
+                  <p style={{ color: "black", fontWeight: "500" }}>
+                    {reservationInfo["reservationDate"].split("T")[0]}
+                  </p>
                 </div>
                 <div
                   style={{
@@ -347,10 +360,14 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                 >
                   <p>Price</p>
                   <p style={{ marginRight: "1%" }}>:</p>
-                  <p style={{ color: "black", fontWeight: "500" }}>{reservationInfo["totalPrice"]} €</p>
+                  <p style={{ color: "black", fontWeight: "500" }}>
+                    {reservationInfo["totalPrice"]} €
+                  </p>
                 </div>
-                <div style={{display: "flex", justifyContent: "center"}}>
-                  <button className="detailsButton" onClick={toggleModal}>Close</button>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <button className="detailsButton" onClick={toggleModal}>
+                    Close
+                  </button>
                 </div>
               </div>
             )}

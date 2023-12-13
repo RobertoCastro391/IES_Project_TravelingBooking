@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./hotel.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
-import MailList from "../../components/cardHotel/CardHotel";
 import Footer from "../../components/footer/Footer";
 import HotelCard from "../../components/cardHotel/CardHotel"
+import { useLocation } from 'react-router-dom';
 
-import CardFlights from "../../components/cardFlights/CardFlights";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 const Hotel = () => {
@@ -19,7 +17,11 @@ const Hotel = () => {
   const [durationFilter, setDurationFilter] = useState("Any");
   const [airlineFilter, setAirlineFilter] = useState("Any");
 
-  const [flightData, setFlights] = useState([]);
+  const location = useLocation();
+  const hotelsData = location.state?.hotels;
+
+  console.log("hotelsData");
+  console.log(hotelsData);
 
   const handleSelectStops = (value) => {
     setStopsFilter(value);
@@ -37,35 +39,13 @@ const Hotel = () => {
     setAirlineFilter(value);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/api/flights");
-        console.log(response);
 
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const data = await response.json();
-        console.log("data");
-        console.log(data);
-        setFlights(data); // Update the airports state with the fetched data
-      } catch (error) {
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error
-        );
-      }
-    };
-    fetchData();
-  }, []);
 
   return (
     <div>
       <Navbar />
-      <Header type='hotels' />
-      <div className="containerSearchHotel" style={{alignItems: 'start'}}>
+      <Header type="hotels" />
+      <div className="containerSearchHotel" style={{ alignItems: "start" }}>
         <div className="container2hotel">
           <div className="filters">
             <label>Filter by Stops:</label>
@@ -114,9 +94,17 @@ const Hotel = () => {
           </div>
         </div>
         <div className="container3hotel">
-          <HotelCard />
+          {hotelsData.length > 0 ? (
+            hotelsData.map((hotel, index) => (
+              <HotelCard
+                key={index}
+                hotel={hotel}
+              />
+            ))
+          ) : (
+            <p>No hotels found</p>
+          )}
         </div>
-
       </div>
       <Footer />
     </div>

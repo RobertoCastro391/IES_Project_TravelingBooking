@@ -17,8 +17,7 @@ conf = {
 
 producer = Producer(conf)
 
-# flights
-
+#DATA FOR FLIGHTS
 airports = {
     'LAX': ("Los Angeles International Airport", (33.9416, -118.4085)),
     'JFK': ("John F. Kennedy International Airport", (40.6413, -73.7781)),
@@ -49,6 +48,26 @@ airports = {
     'NRT': ("Narita International Airport", (35.7739, 140.3929)),
     'PVG': ("Shanghai Pudong International Airport", (31.1443, 121.8083)),
     'OPO': ("Francisco Sá Carneiro Airport", (41.2370, -8.6700)),
+    'SYD': ("Sydney Kingsford Smith Airport", (-33.9399, 151.1753)),
+    'BKK': ("Suvarnabhumi Airport", (13.689999, 100.7501)),
+    'NRT': ("Narita International Airport", (35.7720, 140.3929)),
+    'ICN': ("Incheon International Airport", (37.4602, 126.4407)),
+    'GRU': ("São Paulo/Guarulhos–Governador André Franco Montoro International Airport", (-23.4356, -46.4731)),
+    'YYZ': ("Toronto Pearson International Airport", (43.6777, -79.6248)),
+    'YVR': ("Vancouver International Airport", (49.1939, -123.1844)),
+    'MEX': ("Mexico City International Airport", (19.4363, -99.0721)),
+    'JNB': ("O.R. Tambo International Airport", (-26.1392, 28.246)),
+    'CPT': ("Cape Town International Airport", (-33.9648, 18.6017)),
+    'GRU': ("São Paulo/Guarulhos–Governador André Franco Montoro International Airport", (-23.4356, -46.4731)),
+    'EZE': ("Ministro Pistarini International Airport", (-34.8222, -58.5358)),
+    'SVO': ("Sheremetyevo International Airport", (55.9726, 37.4146)),
+    'DME': ("Domodedovo Moscow Airport", (55.4088, 37.9063)),
+    'KUL': ("Kuala Lumpur International Airport", (2.7456, 101.7072)),
+    'CGK': ("Soekarno–Hatta International Airport", (-6.1256, 106.6558)),
+    'BNE': ("Brisbane Airport", (-27.3842, 153.1175)),
+    'AKL': ("Auckland Airport", (-37.0082, 174.7917)),
+    'SFO': ("San Francisco International Airport", (37.6213, -122.3790)),
+    'ORD': ("O'Hare International Airport", (41.9742, -87.9073)),
 }
 
 airlines = {
@@ -71,272 +90,29 @@ airlines = {
     'CX': {'name': 'Cathay Pacific', 'icao': 'CPA'},
     'NH': {'name': 'All Nippon Airways', 'icao': 'ANA'},
     'JL': {'name': 'Japan Airlines', 'icao': 'JAL'},
+    'AA': {'name': 'American Airlines', 'icao': 'AAL'},
+    'DL': {'name': 'Delta Air Lines', 'icao': 'DAL'},
+    'UA': {'name': 'United Airlines', 'icao': 'UAL'},
+    'AC': {'name': 'Air Canada', 'icao': 'ACA'},
+    'QF': {'name': 'Qantas', 'icao': 'QFA'},
+    'NZ': {'name': 'Air New Zealand', 'icao': 'ANZ'},
+    'LA': {'name': 'LATAM Airlines', 'icao': 'LAN'},
+    'SA': {'name': 'South African Airways', 'icao': 'SAA'},
+    'ET': {'name': 'Ethiopian Airlines', 'icao': 'ETH'},
+    'EY': {'name': 'Etihad Airways', 'icao': 'ETD'},
+    'TK': {'name': 'Turkish Airlines', 'icao': 'THY'},
+    'VA': {'name': 'Virgin Australia', 'icao': 'VOZ'},
+    'VS': {'name': 'Virgin Atlantic', 'icao': 'VIR'},
+    'AI': {'name': 'Air India', 'icao': 'AIC'},
+    'SU': {'name': 'Aeroflot', 'icao': 'AFL'},
+    'KE': {'name': 'Korean Air', 'icao': 'KAL'},
+    'AM': {'name': 'Aeroméxico', 'icao': 'AMX'},
+    'AR': {'name': 'Aerolíneas Argentinas', 'icao': 'ARG'},
+    'AV': {'name': 'Avianca', 'icao': 'AVA'}
 }
 
-hoteis = {
-    "Hotel Luz do Amanhecer": {
-        "endereco": "Rua das Flores, 123, Lisboa, Portugal",
-        "telefone": "+351 123 456 789"
-    },
-    "Etoile de Paris": {
-        "endereco": "45 Rue de Rivoli, 75001 Paris, França",
-        "telefone": "+33 1 23 45 67 89"
-    },
-    "The Royal Garden": {
-        "endereco": "100 Garden Road, Central, Hong Kong",
-        "telefone": "+852 1234 5678"
-    },
-    "Casa Azul": {
-        "endereco": "Av. Reforma, 500, Cidade do México, México",
-        "telefone": "+52 55 1234 5678"
-    },
-    "Safari Adventure Lodge": {
-        "endereco": "123 Savana Rd, Nairobi, Quênia",
-        "telefone": "+254 20 1234567"
-    },
-    "New York Dream Hotel": {
-        "endereco": "789 Broadway, Nova York, NY 10003, EUA",
-        "telefone": "+1 212-123-4567"
-    },
-    "Aurora Boreal Resort": {
-        "endereco": "500 Lights Ave, Reykjavik, Islândia",
-        "telefone": "+354 123 4567"
-    },
-    "Palácio Taj Mahal": {
-        "endereco": "123 Royal Road, Agra, Índia",
-        "telefone": "+91 12345 67890"
-    },
-    "Oásis do Deserto": {
-        "endereco": "456 Dune St, Dubai, Emirados Árabes Unidos",
-        "telefone": "+971 4 1234567"
-    },
-    "Torres Celestiais de Tóquio": {
-        "endereco": "789 Skyline Blvd, Tóquio, Japão",
-        "telefone": "+81 3-1234-5678"
-    },
-    "Casa de la Playa": {
-        "endereco": "321 Ocean View Rd, Barcelona, Espanha",
-        "telefone": "+34 123 456 789"
-    },
-    "Refúgio Alpino": {
-        "endereco": "654 Mountain Way, Zermatt, Suíça",
-        "telefone": "+41 21 123 45 67"
-    },
-    "Villa Mediterrânea": {
-        "endereco": "100 Seaside Blvd, Santorini, Grécia",
-        "telefone": "+30 210 1234567"
-    },
-    "Retiro Andino": {
-        "endereco": "789 Montaña Rd, Cusco, Peru",
-        "telefone": "+51 84 123456"
-    },
-    "Estrelas do Nilo": {
-        "endereco": "456 Riverbank St, Cairo, Egito",
-        "telefone": "+20 2 1234567"
-    },
-    "Sonhos da Toscana": {
-        "endereco": "321 Vineyard Way, Florença, Itália",
-        "telefone": "+39 055 1234567"
-    },
-    "Castelo de Edimburgo": {
-        "endereco": "222 Castle Rd, Edimburgo, Escócia",
-        "telefone": "+44 131 123 4567"
-    },
-    "Mirante da Table Mountain": {
-        "endereco": "123 Peak Dr, Cidade do Cabo, África do Sul",
-        "telefone": "+27 21 123 4567"
-    },
-    "Oásis Australiano": {
-        "endereco": "400 Outback Ln, Sydney, Austrália",
-        "telefone": "+61 2 1234 5678"
-    },
-    "Refúgio da Floresta Amazônica": {
-        "endereco": "500 Jungle Ave, Manaus, Brasil",
-        "telefone": "+55 92 1234 5678"
-    },
-    "Porto Celestial": {
-        "endereco": "789 Harbor View, Vancouver, Canadá",
-        "telefone": "+1 604-123-4567"
-    },
-    "Luzes da Aurora": {
-        "endereco": "321 Northern St, Tromsø, Noruega",
-        "telefone": "+47 123 45 678"
-    },
-    "Mirante das Montanhas Rochosas": {
-        "endereco": "789 Mountain View Rd, Banff, Canadá",
-        "telefone": "+1 403 123 4567"
-    },
-    "Refúgio Siberiano": {
-        "endereco": "321 Frostbite Ln, Siberia, Rússia",
-        "telefone": "+7 495 123 4567"
-    },
-    "Sol da Tasmânia": {
-        "endereco": "456 Island Rd, Hobart, Austrália",
-        "telefone": "+61 3 1234 5678"
-    },
-    "Paraíso do Caribe": {
-        "endereco": "789 Beach Blvd, Nassau, Bahamas",
-        "telefone": "+1 242 123 4567"
-    },
-    "Pérola do Oriente": {
-        "endereco": "123 Harbor St, Singapura",
-        "telefone": "+65 1234 5678"
-    },
-    "Esconderijo Alpino": {
-        "endereco": "654 Snowtop Rd, Innsbruck, Áustria",
-        "telefone": "+43 512 123456"
-    },
-    "Santuário do Mar Egeu": {
-        "endereco": "321 Coastal Way, Míconos, Grécia",
-        "telefone": "+30 22890 12345"
-    },
-    "Jóia da Patagônia": {
-        "endereco": "789 Glacier Ln, El Calafate, Argentina",
-        "telefone": "+54 2902 49-1234"
-    },
-    "Portão do Sahara": {
-        "endereco": "456 Desert Ave, Marrakech, Marrocos",
-        "telefone": "+212 5243-78865"
-    },
-    "Oásis de Bali": {
-        "endereco": "321 Paradise Rd, Bali, Indonésia",
-        "telefone": "+62 361 123456"
-    },
-    "Refúgio da Grande Muralha": {
-        "endereco": "789 Wall St, Pequim, China",
-        "telefone": "+86 10 1234 5678"
-    },
-        "Refúgio do Fiordo": {
-        "endereco": "123 Lakeside Rd, Oslo, Noruega",
-        "telefone": "+47 1234 5678"
-    },
-    "Estalagem das Colinas Verdes": {
-        "endereco": "456 Hilltop Dr, Dublin, Irlanda",
-        "telefone": "+353 1 234 5678"
-    },
-    "Retiro dos Alpes Japoneses": {
-        "endereco": "789 Alpine Way, Nagano, Japão",
-        "telefone": "+81 26 123 4567"
-    },
-    "Portal da Amazônia": {
-        "endereco": "321 Jungle Rd, Belém, Brasil",
-        "telefone": "+55 91 1234 5678"
-    },
-    "Vista do Mediterrâneo": {
-        "endereco": "654 Seaside Ave, Nice, França",
-        "telefone": "+33 4 93 123456"
-    },
-    "Oásis da Cidade do Cabo": {
-        "endereco": "123 Ocean View Rd, Cidade do Cabo, África do Sul",
-        "telefone": "+27 21 123 4567"
-    },
-    "Estalagem das Mil Ilhas": {
-        "endereco": "456 River Rd, Jacarta, Indonésia",
-        "telefone": "+62 21 1234 5678"
-    },
-    "Refúgio do Himalaia": {
-        "endereco": "789 Mountain Path, Katmandu, Nepal",
-        "telefone": "+977 1-1234567"
-    },
-    "Paradise Island Resort": {
-        "endereco": "321 Paradise Ln, Maldivas",
-        "telefone": "+960 1234 567"
-    },
-    "Tesouro do Pacífico": {
-        "endereco": "456 Ocean Breeze St, Fiji",
-        "telefone": "+679 123 4567"
-    },
-    "Retiro da Floresta Negra": {
-        "endereco": "789 Forest Rd, Baden-Baden, Alemanha",
-        "telefone": "+49 7221 123456"
-    }
-}
 
-hotel_type = ["All Inclusive", "Bed and Breakfast", "Half board", "Full board", "Self catering", "Room only"]
-
-
-def calculate_duration(origin, destination):
-    """Estimate flight duration based on distance."""
-    coords_1 = airports[origin][1]
-    coords_2 = airports[destination][1]
-    distance = geopy.distance.distance(coords_1, coords_2).km
-    average_speed_km_per_hour = 800
-    duration_hours = distance / average_speed_km_per_hour
-    return timedelta(hours=duration_hours)
-
-def generate_random_flight():
-    """Generates random flight data with realistic duration, departure, and arrival times."""
-    origin, destination = random.sample(list(airports.keys()), 2)
-    airline_code = random.choice(list(airlines.keys()))
-    departure_time = datetime.now() + timedelta(days=random.randint(1, 30), hours=random.randint(0, 23), minutes=random.randint(0, 59))
-    duration = calculate_duration(origin, destination)
-    arrival_time = departure_time + duration
-
-    return {
-        "flightNumber": airline_code + faker.bothify(text='####'),
-        "flightDate": departure_time.strftime('%Y-%m-%d'),
-        "airlineCode": airline_code,
-        "airportCodeOrigin": origin,
-        "airportCodeDestination": destination,
-        "departureHour": departure_time.strftime('%Y-%m-%d %H:%M'),
-        "arrivalHour": arrival_time.strftime('%Y-%m-%d %H:%M'),
-        "duration": str(duration),
-        "price": round(random.uniform(50.0, 1000.0), 2),
-        "seats": random.randint(1, 300)
-    }
-def generate_random_hotels():
-    """Generates random flight data with realistic duration, departure, and arrival times."""
-    name = random.choice(list(hoteis.keys()))
-    address = hoteis[name]['endereco']
-    phone = hoteis[name]['telefone']
-    typeRoom = random.choice(hotel_type)
-    ac= random.choice([True, False])
-    wifi= random.choice([True, False])
-    return {
-        "hotelName": name,
-        "Address": address,
-        "phoneNumber": phone,
-        "initialPrice": round(random.uniform(100.0, 1000.0), 2),
-        "baggages": random.randint(1, 10),
-        "foodIncluded": typeRoom,
-        "ac": ac,
-        "wifi": wifi,
-        "numberOfReviews":random.randint(1000,20000),
-        "cleanlinessReview": round(random.uniform(0, 5.0), 2),
-        "serviceReview": round(random.uniform(0, 5.0), 2),
-        "valueReview": round(random.uniform(0, 5.0), 2),
-        "locationReview": round(random.uniform(0, 5.0), 2),
-        "roomsReview": round(random.uniform(0, 5.0), 2),
-        "sleepQualityReview": round(random.uniform(0, 5.0), 2)
-    }
-    
-
-
-def send_airport_data_to_kafka(topic):
-    """Sends airport data to Kafka."""
-    for airport_code, coordinates in airports.items():
-        airport_data = {
-            "airportCode": airport_code,
-            "airportName": coordinates[0],
-            "airportLat": coordinates[1][0],
-            "airportLong": coordinates[1][1]
-        }
-        producer.produce(topic, key=airport_code, value=json.dumps(airport_data))
-    producer.flush()
-
-def send_airline_data_to_kafka(topic):
-    """Sends airline company data to Kafka."""
-    for airline_code, airline_info in airlines.items():
-        airline_data = {
-            "airlineCode": airline_code,
-            "airlineName": airline_info['name'],
-            "airlineICAO": airline_info['icao']
-        }
-        producer.produce(topic, key=airline_code, value=json.dumps(airline_data))
-    producer.flush()
-
-# trains
-
+# DATA FOR TRAINS
 trainCompanies = {
     'AC':	{ 'name' : 'Australian Rail Track Corporation' },
     'BR':	{ 'name' : 'British Rail' },
@@ -403,6 +179,268 @@ train_types = {
     'Suburban train' : 80, 
     'S-Bahn' : 60
 }
+
+
+hotels = {
+    "Dawn Light Hotel": {
+        "address": "Rua das Flores, 123, Lisbon, Portugal",
+        "phone": "+351 123 456 789"
+    },
+    "Star of Paris": {
+        "address": "45 Rue de Rivoli, 75001 Paris, France",
+        "phone": "+33 1 23 45 67 89"
+    },
+    "The Royal Garden": {
+        "address": "100 Garden Road, Central, Hong Kong",
+        "phone": "+852 1234 5678"
+    },
+    "Blue House": {
+        "address": "Av. Reforma, 500, Mexico City, Mexico",
+        "phone": "+52 55 1234 5678"
+    },
+    "Safari Adventure Lodge": {
+        "address": "123 Savana Rd, Nairobi, Kenya",
+        "phone": "+254 20 1234567"
+    },
+    "New York Dream Hotel": {
+        "address": "789 Broadway, New York, NY 10003, USA",
+        "phone": "+1 212-123-4567"
+    },
+    "Aurora Boreal Resort": {
+        "address": "500 Lights Ave, Reykjavik, Iceland",
+        "phone": "+354 123 4567"
+    },
+    "Taj Mahal Palace": {
+        "address": "123 Royal Road, Agra, India",
+        "phone": "+91 12345 67890"
+    },
+    "Desert Oasis": {
+        "address": "456 Dune St, Dubai, United Arab Emirates",
+        "phone": "+971 4 1234567"
+    },
+    "Tokyo Celestial Towers": {
+        "address": "789 Skyline Blvd, Tokyo, Japan",
+        "phone": "+81 3-1234-5678"
+    },"Beach House": {
+        "address": "321 Ocean View Rd, Barcelona, Spain",
+        "phone": "+34 123 456 789"
+    },
+    "Alpine Refuge": {
+        "address": "654 Mountain Way, Zermatt, Switzerland",
+        "phone": "+41 21 123 45 67"
+    },
+    "Mediterranean Villa": {
+        "address": "100 Seaside Blvd, Santorini, Greece",
+        "phone": "+30 210 1234567"
+    },
+    "Andean Retreat": {
+        "address": "789 Montaña Rd, Cusco, Peru",
+        "phone": "+51 84 123456"
+    },
+    "Stars of the Nile": {
+        "address": "456 Riverbank St, Cairo, Egypt",
+        "phone": "+20 2 1234567"
+    },
+    "Dreams of Tuscany": {
+        "address": "321 Vineyard Way, Florence, Italy",
+        "phone": "+39 055 1234567"
+    },
+    "Edinburgh Castle": {
+        "address": "222 Castle Rd, Edinburgh, Scotland",
+        "phone": "+44 131 123 4567"
+    },
+    "Table Mountain Lookout": {
+        "address": "123 Peak Dr, Cape Town, South Africa",
+        "phone": "+27 21 123 4567"
+    },
+    "Australian Oasis": {
+        "address": "400 Outback Ln, Sydney, Australia",
+        "phone": "+61 2 1234 5678"
+    },
+    "Amazon Forest Refuge": {
+        "address": "500 Jungle Ave, Manaus, Brazil",
+        "phone": "+55 92 1234 5678"
+    },
+    "Heavenly Harbor": {
+        "address": "789 Harbor View, Vancouver, Canada",
+        "phone": "+1 604-123-4567"
+    },
+    "Aurora Lights": {
+        "address": "321 Northern St, Tromsø, Norway",
+        "phone": "+47 123 45 678"
+    },
+    "Rocky Mountains Lookout": {
+        "address": "789 Mountain View Rd, Banff, Canada",
+        "phone": "+1 403 123 4567"
+    },
+    "Siberian Refuge": {
+        "address": "321 Frostbite Ln, Siberia, Russia",
+        "phone": "+7 495 123 4567"
+    },
+    "Tasmanian Sun": {
+        "address": "456 Island Rd, Hobart, Australia",
+        "phone": "+61 3 1234 5678"
+    },
+    "Caribbean Paradise": {
+        "address": "789 Beach Blvd, Nassau, Bahamas",
+        "phone": "+1 242 123 4567"
+    },
+    "Pearl of the Orient": {
+        "address": "123 Harbor St, Singapore",
+        "phone": "+65 1234 5678"
+    },
+    "Alpine Hideaway": {
+        "address": "654 Snowtop Rd, Innsbruck, Austria",
+        "phone": "+43 512 123456"
+    },
+    "Aegean Sea Sanctuary": {
+        "address": "321 Coastal Way, Mykonos, Greece",
+        "phone": "+30 22890 12345"
+    },
+    "Patagonia Jewel": {
+        "address": "789 Glacier Ln, El Calafate, Argentina",
+        "phone": "+54 2902 49-1234"
+    },
+    "Sahara Gate": {
+        "address": "456 Desert Ave, Marrakech, Morocco",
+        "phone": "+212 5243-78865"
+    },
+    "Bali Oasis": {
+        "address": "321 Paradise Rd, Bali, Indonesia",
+        "phone": "+62 361 123456"
+    },
+    "Great Wall Refuge": {
+        "address": "789 Wall St, Beijing, China",
+        "phone": "+86 10 1234 5678"
+    },
+    "Fjord Refuge": {
+        "address": "123 Lakeside Rd, Oslo, Norway",
+        "phone": "+47 1234 5678"
+    },
+    "Green Hills Inn": {
+        "address": "456 Hilltop Dr, Dublin, Ireland",
+        "phone": "+353 1 234 5678"
+    },
+    "Japanese Alps Retreat": {
+        "address": "789 Alpine Way, Nagano, Japan",
+        "phone": "+81 26 123 4567"
+    },
+    "Amazon Gateway": {
+        "address": "321 Jungle Rd, Belém, Brazil",
+        "phone": "+55 91 1234 5678"
+    },
+    "Mediterranean View": {
+        "address": "654 Seaside Ave, Nice, France",
+        "phone": "+33 4 93 123456"
+    },
+    "Cape Town Oasis": {
+        "address": "123 Ocean View Rd, Cape Town, South Africa",
+        "phone": "+27 21 123 4567"
+    },
+    "Thousand Islands Inn": {
+        "address": "456 River Rd, Jakarta, Indonesia",
+        "phone": "+62 21 1234 5678"
+    },
+    "Himalayan Refuge": {
+        "address": "789 Mountain Path, Kathmandu, Nepal",
+        "phone": "+977 1-1234567"
+    },
+    "Paradise Island Resort": {
+        "address": "321 Paradise Ln, Maldives",
+        "phone": "+960 1234 567"
+    },
+    "Pacific Treasure": {
+        "address": "456 Ocean Breeze St, Fiji",
+        "phone": "+679 123 4567"
+    },
+    "Black Forest Retreat": {
+        "address": "789 Forest Rd, Baden-Baden, Germany",
+        "phone": "+49 7221 123456"
+    }
+}
+
+hotel_type = ["All Inclusive", "Bed and Breakfast", "Half board", "Full board", "Self catering", "Room only"]
+
+def calculate_duration(origin, destination):
+    """Estimate flight duration based on distance."""
+    coords_1 = airports[origin][1]
+    coords_2 = airports[destination][1]
+    distance = geopy.distance.distance(coords_1, coords_2).km
+    average_speed_km_per_hour = 800
+    duration_hours = distance / average_speed_km_per_hour
+    return timedelta(hours=duration_hours)
+
+def generate_random_flight():
+    """Generates random flight data with realistic duration, departure, and arrival times."""
+    origin, destination = random.sample(list(airports.keys()), 2)
+    airline_code = random.choice(list(airlines.keys()))
+    departure_time = datetime.now() + timedelta(days=random.randint(1, 30), hours=random.randint(0, 23), minutes=random.randint(0, 59))
+    duration = calculate_duration(origin, destination)
+    arrival_time = departure_time + duration
+
+    return {
+        "flightNumber": airline_code + faker.bothify(text='####'),
+        "flightDate": departure_time.strftime('%Y-%m-%d'),
+        "airlineCode": airline_code,
+        "airportCodeOrigin": origin,
+        "airportCodeDestination": destination,
+        "departureHour": departure_time.strftime('%Y-%m-%d %H:%M'),
+        "arrivalHour": arrival_time.strftime('%Y-%m-%d %H:%M'),
+        "duration": str(duration),
+        "price": round(random.uniform(50.0, 1000.0), 2),
+        "seats": random.randint(1, 300)
+    }
+
+def generate_random_hotels():
+    """Generates random flight data with realistic duration, departure, and arrival times."""
+    name = random.choice(list(hotels.keys()))
+    address = hotels[name]['address']
+    phone = hotels[name]['phone']
+    typeRoom = random.choice(hotel_type)
+    ac = random.choice([True, False])
+    wifi = random.choice([True, False])
+    return {
+        "hotelName": name,
+        "address": address,
+        "phoneNumber": phone,
+        "initialPrice": round(random.uniform(100.0, 1000.0), 2),
+        "baggages": random.randint(1, 10),
+        "foodIncluded": typeRoom,
+        "ac": ac,
+        "wifi": wifi,
+        "numberOfReviews":random.randint(1000,20000),
+        "cleanlinessReview": round(random.uniform(0, 5.0), 2),
+        "serviceReview": round(random.uniform(0, 5.0), 2),
+        "valueReview": round(random.uniform(0, 5.0), 2),
+        "locationReview": round(random.uniform(0, 5.0), 2),
+        "roomsReview": round(random.uniform(0, 5.0), 2),
+        "sleepQualityReview": round(random.uniform(0, 5.0), 2)
+    }
+    
+
+
+def send_airport_data_to_kafka(topic):
+    """Sends airport data to Kafka."""
+    for airport_code, coordinates in airports.items():
+        airport_data = {
+            "airportCode": airport_code,
+            "airportName": coordinates[0],
+            "airportLat": coordinates[1][0],
+            "airportLong": coordinates[1][1]
+        }
+        producer.produce(topic, key=airport_code, value=json.dumps(airport_data))
+    producer.flush()
+
+def send_airline_data_to_kafka(topic):
+    """Sends airline company data to Kafka."""
+    for airline_code, airline_info in airlines.items():
+        airline_data = {
+            "airlineCode": airline_code,
+            "airlineName": airline_info['name'],
+            "airlineICAO": airline_info['icao']
+        }
+        producer.produce(topic, key=airline_code, value=json.dumps(airline_data))
+    producer.flush()
 
 def calculate_duration_train(origin, destination): # done
     """Estimate train duration based on distance and train velocity."""
@@ -498,4 +536,11 @@ for _ in range(10):
     send_to_kafka('flighs_data', flight_data)
     train_data = generate_random_train()
     print(train_data)
-    send_to_kafka_trains('train_data', train_data)    send_to_kafka_hotel('hotel_topic',hotel_data)
+    send_to_kafka_trains('train_data', train_data)    
+    send_to_kafka_hotel('hotel_topic',hotel_data)
+
+
+
+
+
+

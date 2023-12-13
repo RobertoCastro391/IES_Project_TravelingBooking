@@ -42,7 +42,7 @@ const FlightCheckout = () => {
     const fetchData = async (flightNumber, setFlightFunc) => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/flightCheckout/${flightNumber}`
+          `http://localhost:8080/api/flights/flightCheckout/${flightNumber}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -159,7 +159,7 @@ const FlightCheckout = () => {
     console.log("Reservation data:", reservationData);
   
     try {
-      const response = await fetch("http://localhost:8080/api/createReservation", {
+      const response = await fetch("http://localhost:8080/api/flights/createReservation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

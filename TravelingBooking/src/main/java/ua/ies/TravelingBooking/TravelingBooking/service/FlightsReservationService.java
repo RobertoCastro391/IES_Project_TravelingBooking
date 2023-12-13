@@ -6,7 +6,7 @@ import java.util.List;
 import ua.ies.TravelingBooking.TravelingBooking.dto.FlightsReservationDTO;
 import ua.ies.TravelingBooking.TravelingBooking.entity.FlightsReservation;
 
-public interface ReservationService {
+public interface FlightsReservationService {
     FlightsReservation createReservation(FlightsReservationDTO reservationDTO);
     FlightsReservation getReservation(String reservationId);
     void deleteReservation(String reservationId);

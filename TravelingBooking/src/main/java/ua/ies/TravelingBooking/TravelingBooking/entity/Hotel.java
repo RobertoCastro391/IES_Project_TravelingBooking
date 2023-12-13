@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.*;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,10 +22,8 @@ public class Hotel {
     @Column(name = "HotelName", nullable = false)
     private String hotelName;
 
-    private String hotelImage4;
-
     @Column(name = "Address")
-    private String Address;
+    private String address;
 
     @Column(name = "PhoneNumber")
     private String phoneNumber;
@@ -70,6 +66,4 @@ public class Hotel {
 
     @Column(name = "SleepQualityReview")
     private String sleepQualityReview;
-
-    // Getters e Setters
 }

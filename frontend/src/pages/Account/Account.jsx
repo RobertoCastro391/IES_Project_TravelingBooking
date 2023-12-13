@@ -34,7 +34,7 @@ const Account = () => {
     const fetchUserInfo = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/users/${userId}`
+          `http://localhost:8080/api/user/users/${userId}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -60,7 +60,7 @@ const Account = () => {
     const fetchUserTrips = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/getReservationsByUser/${userId}`
+          `http://localhost:8080/api/flights/getReservationsByUser/${userId}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -139,6 +139,13 @@ const Account = () => {
 
         {activeTab === "Flights" && (
           <div>
+            {userTrips.length === 0 && (
+              <div className="noTrips">
+                <div className="noTripsText">
+                  You have no trips yet, book your next trip now!
+                </div>
+              </div>
+            )}
             {userTrips.map((reservationInfo, index) => (
               <FlightDetails
                 key={index}

@@ -7,7 +7,7 @@ import ua.ies.TravelingBooking.TravelingBooking.entity.FlightsReservation;
 import ua.ies.TravelingBooking.TravelingBooking.entity.PassengerFlight;
 import ua.ies.TravelingBooking.TravelingBooking.repository.FlightsReservationRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.UsersRepository;
-import ua.ies.TravelingBooking.TravelingBooking.service.ReservationService;
+import ua.ies.TravelingBooking.TravelingBooking.service.FlightsReservationService;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class ReservationServiceImpl implements ReservationService {
+public class FlightsReservationServiceImpl implements FlightsReservationService {
     private FlightsReservationRepository flightsReservationRepository;
     protected UsersRepository usersRepository;
 
