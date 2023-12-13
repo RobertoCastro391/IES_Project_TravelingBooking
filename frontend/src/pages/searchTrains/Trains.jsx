@@ -4,6 +4,7 @@ import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import "./trains.css"; // Import the CSS file
 import CardTrains from "../../components/cardTrains/CardTrains";
+import { useLocation } from 'react-router-dom';
 
 const TrainBookingPage = () => {
   const [minPrice, setMinPrice] = useState(0);
@@ -12,9 +13,10 @@ const TrainBookingPage = () => {
   const [stopsFilter, setStopsFilter] = useState("Any");
   const [departureTimeFilter, setDepartureTimeFilter] = useState("Any");
   const [durationFilter, setDurationFilter] = useState("Any");
-  const [airlineFilter, setAirlineFilter] = useState("Any");
+  const [airlineFilter, setTrainCompanyFilter] = useState("Any");
 
-  const [trainData, setTrains] = useState([]);
+  const location = useLocation();
+  const trainData = location.state?.trainsData;
 
   const handleSelectStops = (value) => {
     setStopsFilter(value);
@@ -28,34 +30,11 @@ const TrainBookingPage = () => {
     setDurationFilter(value);
   };
 
-  const handleSelectAirline = (value) => {
-    setAirlineFilter(value);
+  const handleSelectTrainCompany = (value) => {
+    setTrainCompanyFilter(value);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/api/trains");
-        console.log(response);
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const data = await response.json();
-        console.log("data");
-        console.log(data);
-        setTrains(data); // Update the airports state with the fetched data
-      } catch (error) {
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error
-        );
-      }
-    };
-    fetchData();
-  }, []);
-
+  
   return (
     <div>
       <Navbar />
@@ -99,7 +78,7 @@ const TrainBookingPage = () => {
             <label>Filter by Train Company:</label>
             <select
               value={airlineFilter}
-              onChange={(e) => handleSelectAirline(e.target.value)}
+              onChange={(e) => handleSelectTrainCompany(e.target.value)}
             >
               <option value="Any">Any</option>
               <option value="Orient Express">Orient Express</option>
@@ -109,14 +88,13 @@ const TrainBookingPage = () => {
           </div>
         </div>
         <div className="container3">
-          <CardTrains/>
-          {/* {trainData && trainData.length > 0 ? (
-            trainData.map((train) => (
-              <CardTrains train={train}/>
+          {trainData["outboundTrains"] && trainData["outboundTrains"].length > 0 ? (
+            trainData["outboundTrains"].map((train) => (
+              <CardTrains outboundTrain={train}/>
             ))
           ) : (
             <p>No trains available</p>
-          )} */}
+          )}
         </div>
       </div>
       <Footer />

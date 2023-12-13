@@ -11,86 +11,40 @@ import frame from "../images/Frame.png";
 import trainengine from "../images/trainfigma.png";
 import tracks from "../images/tracksfigma.png";
 
-const CardTrains = () => {
+const CardTrains = ({ outboundTrain }) => {
+
+  console.log("CardTrains")
+  console.log(outboundTrain)
+
   const navigate = useNavigate();
 
   const [selectedTrain, setSelectedTrain] = useState(null);
 
-  // const handleSelectTrain = (train) => {
-  //   setSelectedTrain(train.id);
-  // };
+  const handleSelectTrain = (train) => {
+    setSelectedTrain(train.id);
+  };
 
-  // const handleBookTrain = (e, train) => {
-  //   e.stopPropagation();
-  //   navigate("/traincheckout");
-  //   localStorage.setItem("train", train['trainNumber']);
-  //   alert(`You have booked train ${train['trainNumber']}!`);
-  // };
+  const handleBookTrain = (e, train) => {
+    e.stopPropagation();
+
+    const userId = localStorage.getItem("userId");
+
+    if (userId) {
+      navigate("/traincheckout");
+      localStorage.setItem("trainNumberOutbound", train['trainNumber']);
+      localStorage.setItem("trainNumberInbound", null)
+      alert(`You have booked train ${train['trainNumber']}!`);
+    } else {
+      navigate("/login");
+    }
+  };
 
   return (
-    <div className={`train-card`} >
+    <div className={`train-card ${selectedTrain === outboundTrain ? "selected" : ""}`} >
       <div className="train-details">
         <div className="train-details1">
-          {/* <img
-            src={`https://www.flightaware.com/images/airline_logos/90p/${train["airline_Code"]["airlineICAO"]}.png`}
-            className="airlineLogo"
-            alt="Airline logo"
-          /> */}
-          <div style={{ flex: 20, display: "flex", flexDirection: "row" }}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                marginLeft: "1%",
-                marginRight: "2%",
-              }}
-            >
-              <p className="text">05h19</p>
-              <p className="text">Zurich</p>
-            </div>
-            <div className="div">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginTop: "0.5%",
-                }}
-              >
-                <p className="text">77456</p>
-                <p className="text">Golden Express</p>
-                <p className="text">
-                  03h12
-                </p>
-              </div>
-              <img className="svg-layer" src={trainengine} />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                marginLeft: "2%",
-              }}
-            >
-              <p className="text">08h31</p>
-              <p className="text">Geneva</p>
-            </div>
-          </div>
-        </div>
 
-        <div className="TrainDetails">
-          <button className="buttonTrainDetails" onClick>
-            <div className="text-wrapper">View details</div>
-          </button>
-        </div>
-
-        {/* <div className="train-details1">
-            <img
-              src={`https://www.flightaware.com/images/airline_logos/90p/${train["airline_Code"]["airlineICAO"]}.png`}
-              className="airlineLogo"
-              alt="Airline logo"
-            />
+          {outboundTrain && (
             <div style={{ flex: 20, display: "flex", flexDirection: "row" }}>
               <div
                 style={{
@@ -101,29 +55,35 @@ const CardTrains = () => {
                   marginRight: "2%",
                 }}
               >
-                <p className="text">{train["arrivalHour"].split(" ")[1]}</p>
-                <p className="text">{train["airport_code_destination"]}</p>
+                <p className="text">
+                  {outboundTrain["departureHour"].split(" ")[1]}
+                </p>
+                <p className="text">
+                  {outboundTrain["stationOriginInfo"]["stationName"]}
+                </p>
               </div>
               <div className="div">
                 <div
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    marginTop: "0.5%z",
+                    marginTop: "0.5%",
                   }}
                 >
-                  <p className="text">{train["trainNumber"]}</p>
                   <p className="text">
-                    {train["airline_Code"]["airlineName"]}
+                    {outboundTrain["trainNumber"]}
                   </p>
+                  <p className="text">{outboundTrain["companyCode"]["trainCompanyName"]}</p>
                   <p className="text">
-                    {train["duration"].split(":")[0] +
+                    {
+                      outboundTrain["duration"].split(":")[0] +
                       "H:" +
-                      train["duration"].split(":")[1] +
-                      "M"}
+                      outboundTrain["duration"].split(":")[1] +
+                      "M"
+                    }
                   </p>
                 </div>
-                <img className="svg-layer" alt="Svg layer" src={layer1} />
+                <img className="svg-layer" src={trainengine} />
               </div>
               <div
                 style={{
@@ -133,32 +93,48 @@ const CardTrains = () => {
                   marginLeft: "2%",
                 }}
               >
-                <p className="text">{train["departureHour"].split(" ")[1]}</p>
-                <p className="text">{train["airport_code_origin"]}</p>
+                <p className="text">
+                  {outboundTrain["arrivalHour"].split(" ")[1]}
+                </p>
+                <p className="text">
+                  {outboundTrain["stationDestinationInfo"]["stationName"]}
+                </p>
               </div>
             </div>
-          </div> */}
+
+          )}
+        </div>
+
+        <div className="TrainDetails">
+          <button className="buttonTrainDetails" onClick>
+            <div className="text-wrapper">View details</div>
+          </button>
+        </div>
+
       </div>
       <div className="Traininfo">
-        <div className="Prices">
-          <div className="secondclass">
-            <div className="class">
-              2nd class
+        {outboundTrain && (
+          <div className="Prices">
+            <div className="secondclass">
+              <div className="class">
+                2nd class
+              </div>
+              <div className="price">
+                {outboundTrain["price2ndclass"]}€
+              </div>
             </div>
-            <div className="price">
-              85.80€
+            <div className="firstclass">
+              <div className="class">
+                1st class
+              </div>
+              <div className="price">
+                {outboundTrain["price1stclass"]}€
+              </div>
             </div>
           </div>
-          <div className="firstclass">
-            <div className="class">
-              1st class
-            </div>
-            <div className="price">
-              147€
-            </div>
-          </div>
-        </div>
-        <button className="buttonTrainSearch" onClick>
+
+        )}
+        <button className="buttonTrainSearch" onClick={(e) => handleBookTrain(e, outboundTrain)}>
           <div className="text-wrapper">Select</div>
           <img className="svg" alt="Svg" src={frame} />
         </button>

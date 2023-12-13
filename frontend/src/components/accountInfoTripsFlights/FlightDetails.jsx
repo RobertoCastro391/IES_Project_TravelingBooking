@@ -10,17 +10,18 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
     if (!isModalVisible) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
   };
 
   useEffect(() => {
     const fetchFlightInfo = async () => {
       try {
+        
         const response = await fetch(
-          `http://localhost:8080/api/flightCheckout/${reservationInfo["flightNumberOutbound"]}`
+          `http://localhost:8080/api/flights/flightCheckout/${reservationInfo["flightNumberOutbound"]}`
         );
 
         if (!response.ok) {
@@ -45,7 +46,6 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
           const data2 = await response2.json();
           setFlightInbound(data2);
         }
-
       } catch (error) {
         console.error("Failed to fetch flight info:", error);
       }
@@ -288,27 +288,89 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
       {isModalVisible && (
         <div className="modal">
           <div className="modal-content">
-            {reservationInfo && reservationInfo["passengers"].length > 0 ? (
-              reservationInfo["passengers"].map((passenger, index) => (
-                <div key={index}>
-                  <span>{passenger.firstName}</span>
+            {flightOutbound && reservationInfo && (
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <p style={{ textAlign: "center" }}>
+                    {flightOutbound["airportDestinationInfo"]["airportName"]}
+                  </p>
                 </div>
-              ))
-              
-            ) : (
-              <span>No passengers found.</span>
-            )}
-            
-            {reservationInfo && (
-              <div style={{display: 'flex', flexDirection: 'column'}}>
-                <span>{reservationInfo["reservationID"]}</span>
-                <span>{reservationInfo["reservationDate"]}</span>
-                <span>{reservationInfo["totalPrice"]}</span>
+                <div style={{ display: "flex", marginTop: "1%" }}>
+                  <p>Reservation Code</p>
+                  <p style={{ marginRight: "1%" }}>:</p>
+                  <p style={{ color: "black", fontWeight: "500" }}>
+                    {reservationInfo["reservationID"]}
+                  </p>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    marginTop: "1%",
+                  }}
+                >
+                  <p>Passengers</p>
+                  <p style={{ marginRight: "1%" }}>:</p>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      width: "100%",
+                    }}
+                  >
+                    {reservationInfo &&
+                    reservationInfo["passengers"].length > 0 ? (
+                      reservationInfo["passengers"].map((passenger, index) => (
+                        <div key={index} style={{ display: "flex" }}>
+                          <p
+                            style={{
+                              color: "black",
+                              fontWeight: "500",
+                              marginRight: "1%",
+                            }}
+                          >
+                            {passenger.firstName}
+                          </p>
+                          <p style={{ color: "black", fontWeight: "500" }}>
+                            {passenger.lastName}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <span>No passengers found.</span>
+                    )}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    marginTop: "1%",
+                  }}
+                >
+                  <p>Reservation Date</p>
+                  <p style={{ marginRight: "1%" }}>:</p>
+                  <p style={{ color: "black", fontWeight: "500" }}>
+                    {reservationInfo["reservationDate"].split("T")[0]}
+                  </p>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    marginTop: "1%",
+                  }}
+                >
+                  <p>Price</p>
+                  <p style={{ marginRight: "1%" }}>:</p>
+                  <p style={{ color: "black", fontWeight: "500" }}>
+                    {reservationInfo["totalPrice"]} €
+                  </p>
+                </div>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <button className="detailsButton" onClick={toggleModal}>
+                    Close
+                  </button>
+                </div>
               </div>
             )}
-            <span className="close-button" onClick={toggleModal}>
-              &times;
-            </span>
           </div>
         </div>
       )}

@@ -35,7 +35,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("userId");
     setIsLoggedIn(false);
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -50,6 +50,12 @@ const Navbar = () => {
         <div className="navItems">
           {isLoggedIn ? (
             <div>
+              <a onClick={() => handleHome("flights")}>Help</a>
+              <a onClick={() => handleHome("flights")}>Flights</a>
+              <a onClick={() => handleHome("hotels")}>Hotels</a>
+              <a onClick={() => handleHome("trains")}>Trains</a>
+              <a onClick={() => handleMuseums("museums")}>Museums</a>
+              <a onClick={() => handleHome("hotels")}>News and Delays</a>
               <a onClick={() => handleAccount("account")}>Profile</a>
               <button className="navButton" onClick={handleLogout}>
                 Logout

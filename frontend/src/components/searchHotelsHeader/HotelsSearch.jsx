@@ -77,9 +77,38 @@ const HotelsSearch = () => {
     });
   };
 
-  const handleSearch = () => {
-    navigate("/flights", { state: { destination, date, options } });
-  };
+  const handleSearch = async () => {
+    const searchParams = {
+        city: from,
+        checkIn: format(date[0].startDate, "yyyy-MM-dd"),
+        checkOut: format(date[0].endDate, "yyyy-MM-dd")
+    };
+
+    console.log(searchParams);
+
+    try {
+        const response = await fetch("http://localhost:8080/api/hotels/searchHotels", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(searchParams)
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const hotels = await response.json();
+        
+        console.log("Hotels:");
+        console.log(hotels);
+
+        navigate("/hotels", { state: { hotels, date, options } });
+    } catch (error) {
+        console.error("Error fetching hotels:", error);
+    }
+};
 
   return (
     <div className="headerFlights">
