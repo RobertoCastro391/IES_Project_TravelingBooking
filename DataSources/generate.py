@@ -72,82 +72,6 @@ airlines = {
 }
 
 
-def calculate_duration(origin, destination):
-    """Estimate flight duration based on distance."""
-    coords_1 = airports[origin][1]
-    coords_2 = airports[destination][1]
-    distance = geopy.distance.distance(coords_1, coords_2).km
-    average_speed_km_per_hour = 800
-    duration_hours = distance / average_speed_km_per_hour
-    return timedelta(hours=duration_hours)
-
-def generate_random_flight():
-    """Generates random flight data with realistic duration, departure, and arrival times."""
-    origin, destination = random.sample(list(airports.keys()), 2)
-    airline_code = random.choice(list(airlines.keys()))
-    departure_time = datetime.now() + timedelta(days=random.randint(1, 30), hours=random.randint(0, 23), minutes=random.randint(0, 59))
-    duration = calculate_duration(origin, destination)
-    arrival_time = departure_time + duration
-
-    return {
-        "flightNumber": airline_code + faker.bothify(text='####'),
-        "flightDate": departure_time.strftime('%Y-%m-%d'),
-        "airlineCode": airline_code,
-        "airportCodeOrigin": origin,
-        "airportCodeDestination": destination,
-        "departureHour": departure_time.strftime('%Y-%m-%d %H:%M'),
-        "arrivalHour": arrival_time.strftime('%Y-%m-%d %H:%M'),
-        "duration": str(duration),
-        "price": round(random.uniform(50.0, 1000.0), 2),
-        "seats": random.randint(1, 300)
-    }
-
-    
-def send_airport_data_to_kafka(topic):
-    """Sends airport data to Kafka."""
-    for airport_code, coordinates in airports.items():
-        airport_data = {
-            "airportCode": airport_code,
-            "airportName": coordinates[0],
-            "airportLat": coordinates[1][0],
-            "airportLong": coordinates[1][1]
-        }
-        producer.produce(topic, key=airport_code, value=json.dumps(airport_data))
-    producer.flush()
-
-def send_airline_data_to_kafka(topic):
-    """Sends airline company data to Kafka."""
-    for airline_code, airline_info in airlines.items():
-        airline_data = {
-            "airlineCode": airline_code,
-            "airlineName": airline_info['name'],
-            "airlineICAO": airline_info['icao']
-        }
-        producer.produce(topic, key=airline_code, value=json.dumps(airline_data))
-    producer.flush()
-
-
-
-def send_to_kafka(topic, flight_data):
-    """Sends flight data to Kafka."""
-    producer.produce(topic, key=str(flight_data['flightNumber']), value=json.dumps(flight_data))
-    producer.flush()
-
-send_airport_data_to_kafka('airports_topic')  
-send_airline_data_to_kafka('airlines_topic')  
-
-
-for _ in range(10):
-    flight_data = generate_random_flight()
-    send_to_kafka('flighs_data', flight_data)
-
-
-
-
-
-
-
-
 
 ### MUSEUMS DATA
 
@@ -686,8 +610,17 @@ for museum, details in museums.items():
 
 ## random data for museums
 
+def calculate_duration(origin, destination):
+    """Estimate flight duration based on distance."""
+    coords_1 = airports[origin][1]
+    coords_2 = airports[destination][1]
+    distance = geopy.distance.distance(coords_1, coords_2).km
+    average_speed_km_per_hour = 800
+    duration_hours = distance / average_speed_km_per_hour
+    return timedelta(hours=duration_hours)
+
 def generate_random_flight():
-    """Generates random museum prices and opening hours."""
+    """Generates random flight data with realistic duration, departure, and arrival times."""
     origin, destination = random.sample(list(airports.keys()), 2)
     airline_code = random.choice(list(airlines.keys()))
     departure_time = datetime.now() + timedelta(days=random.randint(1, 30), hours=random.randint(0, 23), minutes=random.randint(0, 59))
@@ -745,5 +678,6 @@ send_airline_data_to_kafka('airlines_topic')
 for _ in range(10):
     flight_data = generate_random_flight()
     send_to_kafka('flighs_data', flight_data)
+
 
 
