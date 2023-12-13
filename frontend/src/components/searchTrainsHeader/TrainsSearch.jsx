@@ -34,7 +34,7 @@ const TrainsSearch = () => {
 
   const [openDate, setOpenDate] = useState(false);
   const handleClassChange = (event) => {
-    setFlightClass(event.target.value);
+    setTrainClass(event.target.value);
     const selectedClass = event.target.value;
     setOptions((prevOptions) => ({
       ...prevOptions,
@@ -56,7 +56,7 @@ const TrainsSearch = () => {
     setIsOneWay(event.target.checked);
   };
 
-  const [flightClass, setFlightClass] = useState("economy");
+  const [trainClass, setTrainClass] = useState("economy");
 
   const [openOptions, setOpenOptions] = useState(false);
 
@@ -90,12 +90,14 @@ const TrainsSearch = () => {
   const navigate = useNavigate();
 
   const handleOption = (name, operation) => {
+    
     setOptions((prev) => {
       return {
         ...prev,
         [name]: operation === "i" ? options[name] + 1 : options[name] - 1,
       };
     });
+    localStorage.setItem("trainOptions", JSON.stringify(options));
   };
 
   function formatDate(date) {
@@ -151,14 +153,10 @@ const TrainsSearch = () => {
       }
 
       const data = await response.json();
-
-      console.log("dataaaaaaaaacaralho")
-      console.log(data)
       
-      
-      // if (data && data.outboundFlights && data.outboundFlights.length > 0) {
+      // if (data && data.outboundTrains && data.outboundTrains.length > 0) {
       //   const destinationCode =
-      //     data.outboundFlights[0].airportDestinationInfo.airportName;
+      //     data.outboundTrains[0].stationDestinationInfo.stationName;
       //   localStorage.setItem("trainDestination", destinationCode);
       // }
 
@@ -233,12 +231,12 @@ const TrainsSearch = () => {
   };
 
   useEffect(() => {
-    fetchYourAirportsAPI().then((data) => {
+    fetchYourStationsAPI().then((data) => {
       setStations(data);
     });
   }, []);
 
-  const fetchYourAirportsAPI = async () => {
+  const fetchYourStationsAPI = async () => {
     try {
       const response = await fetch("http://localhost:8080/api/trains/stations");
       if (!response.ok) {
@@ -247,7 +245,7 @@ const TrainsSearch = () => {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error("Error fetching airports:", error);
+      console.error("Error fetching stations:", error);
       return [];
     }
   };
@@ -257,7 +255,7 @@ const TrainsSearch = () => {
   }
 
   return (
-    <div className="headerFlights">
+    <div className="headerTrains">
       <h1>Quickly scan all your train travels!</h1>
       <div className="containerSearch">
         <div className="headerSearch">
@@ -276,7 +274,7 @@ const TrainsSearch = () => {
               <div className="dropdown">
                 {filteredStations.map((station) => (
                   <div
-                    key={station.airportCode}
+                    key={station.stationCode}
                     onClick={() =>
                       handleOriginSelect(
                         `${station.stationName} - ${station.stationCode}`,
@@ -307,7 +305,7 @@ const TrainsSearch = () => {
               <div className="dropdown">
                 {filteredStations.map((station) => (
                   <div
-                    key={station.airportCode}
+                    key={station.stationCode}
                     onClick={() =>
                       handleDestinationSelect(
                         `${station.stationName} - ${station.stationCode}`,
@@ -411,14 +409,12 @@ const TrainsSearch = () => {
                 <div className="optionItem">
                   <span className="optionText">Class</span>
                   <select
-                    value={flightClass}
+                    value={trainClass}
                     onChange={handleClassChange}
                     className="optionSelect"
                   >
-                    <option value="economy">Economy</option>
-                    <option value="premium economy">Premium Economy</option>
-                    <option value="business">Business</option>
-                    <option value="first class">First Class</option>
+                    <option value="2ndclass">Economy</option>
+                    <option value="1stclass">First Class</option>
                   </select>
                 </div>
               </div>
@@ -426,7 +422,7 @@ const TrainsSearch = () => {
           </div>
         </div>
         <div className="searchDiv">
-          <button className="buttonFlightsSearch" onClick={handleSearch}>
+          <button className="buttonTrainsSearch" onClick={handleSearch}>
             Search
           </button>
         </div>

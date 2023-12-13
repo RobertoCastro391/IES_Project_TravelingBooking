@@ -2,10 +2,15 @@ package ua.ies.TravelingBooking.TravelingBooking.controller;
 
 import lombok.AllArgsConstructor;
 import ua.ies.TravelingBooking.TravelingBooking.entity.TrainCompany;
+import ua.ies.TravelingBooking.TravelingBooking.dto.TrainsReservationDTO;
+import ua.ies.TravelingBooking.TravelingBooking.dto.TrainsReservationDTO;
+import ua.ies.TravelingBooking.TravelingBooking.entity.TrainsReservation;
+import ua.ies.TravelingBooking.TravelingBooking.entity.TrainsReservation;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Station;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Train;
 import ua.ies.TravelingBooking.TravelingBooking.entity.TrainSearchRequest;
 import ua.ies.TravelingBooking.TravelingBooking.service.TrainCompanyService;
+import ua.ies.TravelingBooking.TravelingBooking.service.TrainsReservationService;
 import ua.ies.TravelingBooking.TravelingBooking.service.StationService;
 import ua.ies.TravelingBooking.TravelingBooking.service.TrainService;
 
@@ -28,6 +33,8 @@ public class TrainsController {
     private TrainCompanyService trainCompanyService;
     private StationService stationService;
     private TrainService trainService;
+    private TrainsReservationService reservationService;
+
 
     @GetMapping("/stations")
     public ResponseEntity<List<Station>> getStations() {
@@ -73,5 +80,39 @@ public class TrainsController {
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/createReservation")
+    public ResponseEntity<?> createReservation(@RequestBody TrainsReservationDTO reservationDTO) {
+        var reservation = reservationService.createReservation(reservationDTO);
+        if (reservation == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating reservation");
+        }
+        else {
+            
+            System.out.println("AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+            System.out.println("okkk");
+            Map<String, Object> response = new HashMap<>();
+            response.put("reservationId", reservation.getId());
+            return ResponseEntity.ok().body(response);
+        }
+    }
+
+    @GetMapping("/getAllReservations")
+    public ResponseEntity<List<TrainsReservation>> getAllReservations() {
+        List<TrainsReservation> reservations = reservationService.getAllReservations();
+        return new ResponseEntity<>(reservations, HttpStatus.OK);
+    }
+
+    @GetMapping("/getReservation/{reservationId}")
+    public ResponseEntity<TrainsReservation> getReservation(@PathVariable("reservationId") String reservationId) {
+        TrainsReservation reservation = reservationService.getReservation(reservationId);
+        return new ResponseEntity<>(reservation, HttpStatus.OK);
+    }
+
+    @GetMapping("/getReservationsByUser/{userId}")
+    public ResponseEntity<List<TrainsReservation>> getReservationsByUser(@PathVariable("userId") String userId) {
+        List<TrainsReservation> reservations = reservationService.findReservationsByUser(Integer.parseInt(userId));
+        return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
 }

@@ -31,7 +31,8 @@ const CardTrains = ({ outboundTrain }) => {
 
     if (userId) {
       navigate("/traincheckout");
-      localStorage.setItem("train", train['trainNumber']);
+      localStorage.setItem("trainNumberOutbound", train['trainNumber']);
+      localStorage.setItem("trainNumberInbound", null)
       alert(`You have booked train ${train['trainNumber']}!`);
     } else {
       navigate("/login");
@@ -133,7 +134,7 @@ const CardTrains = ({ outboundTrain }) => {
           </div>
 
         )}
-        <button className="buttonTrainSearch" onClick={handleBookTrain}>
+        <button className="buttonTrainSearch" onClick={(e) => handleBookTrain(e, outboundTrain)}>
           <div className="text-wrapper">Select</div>
           <img className="svg" alt="Svg" src={frame} />
         </button>

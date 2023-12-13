@@ -2,20 +2,15 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
+import Header from "../../components/header/Header";
 import "./traincheckout.css";
-import {
-  faInfoCircle,
-  faPhone,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import CardTrains from "../../components/cardTrains/CardTrains";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import visa from "../../components/images/visa.png";
 import mastercard from "../../components/images/master-card.png";
 import card from "../../components/images/card.png";
-import layer1 from "../../components/images/Layer_1.png";
 import cancelation from "../../components/images/cancelation.png";
 import { useNavigate } from "react-router-dom";
-// Import other necessary components and hooks
+import CardTrainCheckout from "../../components/cardTrainCheckout/CardTrainCheckout";
 
 const TrainCheckout = () => {
   const [sex, setSex] = useState("");
@@ -31,43 +26,29 @@ const TrainCheckout = () => {
   const [country, setCountry] = useState("");
   const [cvv, setCvv] = useState("");
   const [bag, setbag] = useState("");
-
+  const [priceTrain, setPriceTrain] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [optionalPrice, setOptionalPrice] = useState(0);
+  const isOneWay = localStorage.getItem("isOneWayTrains");
+  const trainOptions = JSON.parse(localStorage.getItem("trainOptions"));
+  const trainNumberOutbound = localStorage.getItem("trainNumberOutbound");
+  const trainNumberInbound = localStorage.getItem("trainNumberInbound");
+  const [outboundTrain, setOutboundTrain] = useState(null);
+  const [inboundTrain, setInboundTrain] = useState(null);
+  const [passengers, setPassengers] = useState([]);
   const navigate = useNavigate();
 
-  const handleCheckout = () => {
-    alert("You have suceefuly booked your train!");
-    navigate("/");
-  };
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleGenderChange = (event) => {
-    setSex(event.target.value);
-  };
-
-  const [train, setTrain] = useState([]);
-
-  const trainNumber = localStorage.getItem("train");
-  const url = "http://localhost:8080/api/trainCheckout/" + trainNumber;
-
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (trainNumber, setTrainFunc) => {
       try {
-        const response = await fetch(url);
-        console.log(response);
-
+        const response = await fetch(
+          `http://localhost:8080/api/trains/trainCheckout/${trainNumber}`
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-
         const data = await response.json();
-        console.log("data");
-        console.log(data);
-        setTrain(data); // Update the airports state with the fetched data
+        setTrainFunc(data);
       } catch (error) {
         console.error(
           "There has been a problem with your fetch operation:",
@@ -75,12 +56,134 @@ const TrainCheckout = () => {
         );
       }
     };
-    fetchData();
-  }, []);
+    if (trainNumberOutbound) {
+      fetchData(trainNumberOutbound, setOutboundTrain);
+    }
 
-  const [passengers, setPassengers] = useState([
-    { firstName: "", lastName: "", gender: "", dob: "", passport: "" },
-  ]);
+    if (isOneWay === "false" && trainNumberInbound) {
+      fetchData(trainNumberInbound, setInboundTrain);
+    }
+  }, [trainNumberOutbound, trainNumberInbound, isOneWay]);
+
+  useEffect(() => {
+    if (
+      outboundTrain &&
+      outboundTrain["price1stclass"] &&
+      trainOptions &&
+      trainOptions.adult !== undefined &&
+      trainOptions.children !== undefined
+    ) {
+      let price = parseFloat(
+        (
+          trainOptions.adult * outboundTrain["price1stclass"] +
+          (trainOptions.children * outboundTrain["price1stclass"]) / 2
+        ).toFixed(2)
+      );
+
+      if (isOneWay === "false") {
+        price += parseFloat(
+          (
+            trainOptions.adult * inboundTrain["price1stclass"] +
+            (trainOptions.children * inboundTrain["price1stclass"]) / 2
+          ).toFixed(2)
+        );
+        setOptionalPrice(
+          parseFloat(
+            ((outboundTrain["price1stclass"] + inboundTrain["price1stclass"]) / 3).toFixed(2)
+          )
+        );
+      } else {
+        setOptionalPrice(parseFloat((outboundTrain["price1stclass"] / 3).toFixed(2)));
+      }
+
+      setPriceTrain(price); 
+      const priceTotal = parseFloat((price + optionalPrice).toFixed(2));
+      setTotalPrice(priceTotal);
+    }
+  }, [outboundTrain, trainOptions, isOneWay, inboundTrain, optionalPrice]);
+
+  useEffect(() => {
+    if (trainOptions) {
+      const adultPassengers = Array.from(
+        { length: trainOptions.adult },
+        () => ({
+          type: "Adult",
+          firstName: "",
+          lastName: "",
+          sex: "",
+          nationality: "",
+          birthDate: "",
+          passportNumber: "",
+        })
+      );
+
+      const childPassengers = Array.from(
+        { length: trainOptions.children },
+        () => ({
+          type: "Children",
+          firstName: "",
+          lastName: "",
+          sex: "",
+          nationality: "",
+          birthDate: "",
+          passportNumber: "",
+        })
+      );
+
+      setPassengers([...adultPassengers, ...childPassengers]);
+    }
+  }, [trainOptions.adult,trainOptions.children]);
+
+  const handleCheckout = async () => {
+    const reservationData = {
+      userID: parseInt(localStorage.getItem("userId")),
+      trainNumberOutbound: trainNumberOutbound,
+      trainNumberInbound: trainNumberInbound === "null" ? null : trainNumberInbound,
+      roundTrip: isOneWay === "true" ? false : true,
+      totalPrice: totalPrice,
+      reservationDate: new Date().toISOString(),
+      passengers: passengers,
+      emailContact: email,
+      phoneContact: phoneNumber,
+      nameCard: cardName,
+      numberCard: cardNumber,
+      expirationDateCard: cardExpirationDate,
+      cvvCard: cvv,
+      addressCard1: addressLine1,
+      addressCard2: addressLine2 ? addressLine2 : null,
+      cityCard: city,
+      zipCodeCard: postalCode,
+      countryCard: country
+    };
+
+    console.log("Reservation data:", reservationData);
+  
+    try {
+      const response = await fetch("http://localhost:8080/api/trains/createReservation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(reservationData)
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const responseData = await response.json();
+      console.log("Reservation successful:", responseData);
+      alert(`You have successfully booked your train!\nYour confirmation conde is ${responseData.reservationId}\nThank you for choosing TravellingBooking by IES!`);
+      navigate("/"); // Redirect to home or confirmation page
+    } catch (error) {
+      console.error("Error in making reservation:", error.Error);
+      alert("Failed to book the train. Please try again.");
+    }
+  };
+
+  const handleGenderChange = (event) => {
+    setSex(event.target.value);
+  };
 
   const handleInputChange = (index, field, value) => {
     const newPassengers = [...passengers];
@@ -88,33 +191,13 @@ const TrainCheckout = () => {
     setPassengers(newPassengers);
   };
 
-  const addPassenger = () => {
-    setPassengers([
-      ...passengers,
-      {
-        firstName: "",
-        lastName: "",
-        gender: "",
-        nacionality: "",
-        dob: "",
-        passport: "",
-      },
-    ]);
-  };
-
-  const removePassenger = (index) => {
-    if (passengers.length === 1) {
-      alert("You must have at least one passenger");
-      return;
-    }
-    const newPassengers = [...passengers];
-    newPassengers.splice(index, 1);
-    setPassengers(newPassengers);
-  };
+  console.log("passengers");
+  console.log(passengers);
 
   return (
     <div>
       <Navbar />
+      {/* <Header type="addExtrasFLight" /> */}
       <div className="containerCheckout">
         <div className="container1">
           <p style={{ fontSize: "25px" }}>
@@ -129,7 +212,10 @@ const TrainCheckout = () => {
           </p>
 
           {passengers.map((passenger, index) => (
-            <>
+            <div key={index}>
+              <p style={{ fontWeight: "bold", marginTop: "20px" }}>
+                {passenger.type} {index + 1}
+              </p>
               <input
                 id="firstName"
                 type="text"
@@ -171,9 +257,9 @@ const TrainCheckout = () => {
               />
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <select
-                  value={passenger.gender}
+                  value={passenger.sex}
                   onChange={(e) =>
-                    handleInputChange(index, "gender", e.target.value) &&
+                    handleInputChange(index, "sex", e.target.value) &&
                     handleGenderChange(e.target.value)
                   }
                   style={{
@@ -193,7 +279,7 @@ const TrainCheckout = () => {
                 </select>
 
                 <input
-                  id="nacionality"
+                  id="nationality"
                   type="text"
                   style={{
                     flex: 1,
@@ -205,17 +291,17 @@ const TrainCheckout = () => {
                     fontSize: "16px",
                     fontWeight: "bold",
                   }}
-                  placeholder="Enter your nacionality"
-                  value={passenger.nacionality}
+                  placeholder="Enter your nationality"
+                  value={passenger.nationality}
                   onChange={(e) =>
-                    handleInputChange(index, "nacionality", e.target.value)
+                    handleInputChange(index, "nationality", e.target.value)
                   }
                   required
                 />
               </div>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <input
-                  id="dob"
+                  id="birthDate"
                   type="date"
                   style={{
                     flex: 1,
@@ -228,9 +314,9 @@ const TrainCheckout = () => {
                     fontWeight: "bold",
                   }}
                   placeholder="Enter your date of birth"
-                  value={passenger.dob}
+                  value={passenger.birthDate}
                   onChange={(e) =>
-                    handleInputChange(index, "dob", e.target.value)
+                    handleInputChange(index, "birthDate", e.target.value)
                   }
                   required
                 />
@@ -250,30 +336,14 @@ const TrainCheckout = () => {
                     fontWeight: "bold",
                   }}
                   placeholder="Enter your passport number"
-                  value={passenger.passport}
+                  value={passenger.passportNumber}
                   onChange={(e) =>
-                    handleInputChange(index, "passport", e.target.value)
+                    handleInputChange(index, "passportNumber", e.target.value)
                   }
                   required
                 />
               </div>
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                <button
-                  className="buttonSearchTrains"
-                  onClick={addPassenger}
-                  style={{ marginRight: "10px" }}
-                >
-                  Add More Passengers
-                </button>
-                <button
-                  className="buttonSearchTrains"
-                  style={{ backgroundColor: "red", marginLeft: "10px" }}
-                  onClick={removePassenger}
-                >
-                  Delete Passenger
-                </button>
-              </div>
-            </>
+            </div>
           ))}
 
           <p style={{ fontSize: "25px", marginTop: "30px" }}>Booking Contact</p>
@@ -542,368 +612,69 @@ const TrainCheckout = () => {
               }}
             >
               <p>Train Details</p>
-
               <div>
-                <div style={{}}>
-                  <p>
-                    {train && train["airline_Code"] ? (
-                      <div className="train-details">
-                        <div className="train-details1">
-                          <img
-                            src={`https://www.trainaware.com/images/airline_logos/90p/${train["airline_Code"]["airlineICAO"]}.png`}
-                            className="airlineLogo"
-                            alt="Airline logo"
-                          />
-                          <div
-                            style={{
-                              flex: 20,
-                              display: "flex",
-                              flexDirection: "row",
-                            }}
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                marginLeft: "1%",
-                                marginRight: "2%",
-                              }}
-                            >
-                              <p className="text">
-                                {train["departureHour"].split(" ")[1]}
-                              </p>
-                              <p className="text">
-                                {train["airport_code_origin"]}
-                              </p>
-                            </div>
-                            <div className="div">
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  paddingLeft: "5%",
-                                  paddingRight: "5%",
-                                  marginTop: "1%",
-                                }}
-                              >
-                                <p className="text">
-                                  {train["airline_Code"]["airlineName"]}
-                                </p>
-                                <p className="text">
-                                  {train["duration"].split(":")[0] +
-                                    "H:" +
-                                    train["duration"].split(":")[1] +
-                                    "M"}
-                                </p>
-                              </div>
-                              <img
-                                className="svg-layer"
-                                alt="Svg layer"
-                                src={layer1}
-                              />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                marginLeft: "2%",
-                              }}
-                            >
-                              <p className="text">
-                                {train["arrivalHour"].split(" ")[1]}
-                              </p>
-                              <p className="text">
-                                {train["airport_code_destination"]}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="train-details1">
-                          <img
-                            src={`https://www.trainaware.com/images/airline_logos/90p/${train["airline_Code"]["airlineICAO"]}.png`}
-                            className="airlineLogo"
-                            alt="Airline logo"
-                          />
-                          <div
-                            style={{
-                              flex: 20,
-                              display: "flex",
-                              flexDirection: "row",
-                            }}
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                marginLeft: "1%",
-                                marginRight: "2%",
-                              }}
-                            >
-                              <p className="text">
-                                {train["arrivalHour"].split(" ")[1]}
-                              </p>
-                              <p className="text">
-                                {train["airport_code_destination"]}
-                              </p>
-                            </div>
-                            <div className="div">
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  paddingLeft: "5%",
-                                  paddingRight: "5%",
-                                  marginTop: "1%",
-                                }}
-                              >
-                                <p className="text">
-                                  {train["airline_Code"]["airlineName"]}
-                                </p>
-                                <p className="text">
-                                  {train["duration"].split(":")[0] +
-                                    "H:" +
-                                    train["duration"].split(":")[1] +
-                                    "M"}
-                                </p>
-                              </div>
-                              <img
-                                className="svg-layer"
-                                alt="Svg layer"
-                                src={layer1}
-                              />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                marginLeft: "2%",
-                              }}
-                            >
-                              <p className="text">
-                                {train["departureHour"].split(" ")[1]}
-                              </p>
-                              <p className="text">
-                                {train["airport_code_origin"]}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                {isOneWay === "true" ? (
+                  <div>
+                    {outboundTrain && outboundTrain["companyCode"] ? (
+                      <CardTrainCheckout train={outboundTrain} />
+                    ) : (
+                      "Loading..."
+                    )} 
+                  </div>
+                ) : (
+                  <div>
+                    {outboundTrain && outboundTrain["companyCode"] ? (
+                      <CardTrainCheckout train={outboundTrain} />
                     ) : (
                       "Loading..."
                     )}
-                  </p>
-                </div>
+                    {inboundTrain && inboundTrain["companyCode"] ? (
+                      <CardTrainCheckout train={inboundTrain} />
+                    ) : (
+                      "Loading..."
+                    )}
+                  </div>
+                )}
               </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  marginTop: "2%",
-                }}
-              >
+              {isOneWay === "false" ? (
                 <div
-                  style={{ flex: 1, display: "flex", flexDirection: "column" }}
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    marginTop: "10%",
+                  }}
                 >
-                  <div style={{ paddingLeft: "4%" }}>
-                    <p>Outbound</p>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <p style={{ color: "black", fontSize: "18px" }}>
-                        Train Number:
-                      </p>
-                      <p
-                        style={{
-                          color: "black",
-                          fontSize: "18px",
-                          marginLeft: "10px",
-                        }}
-                      >
-                        {" "}
-                        {train["trainNumber"]}
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <p style={{ color: "black", fontSize: "18px" }}>Date:</p>
-                      {train && train["trainDate"] ? (
-                        <p
-                          style={{
-                            color: "black",
-                            fontSize: "18px",
-                            marginLeft: "10px",
-                          }}
-                        >
-                          {train["trainDate"].split("T")[0]}
-                        </p>
-                      ) : (
-                        <p>Loading ...</p>
-                      )}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <p style={{ color: "black", fontSize: "18px" }}>
-                        Departure Time:
-                      </p>
-                      {train && train["departureHour"] ? (
-                        <p
-                          style={{
-                            color: "black",
-                            fontSize: "18px",
-                            marginLeft: "10px",
-                          }}
-                        >
-                          {train["departureHour"].split(" ")[1]}
-                        </p>
-                      ) : (
-                        <p>Loading ...</p>
-                      )}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <p style={{ color: "black", fontSize: "18px" }}>
-                        Arrival Time:
-                      </p>
-                      {train && train["arrivalHour"] ? (
-                        <p
-                          style={{
-                            color: "black",
-                            fontSize: "18px",
-                            marginLeft: "10px",
-                          }}
-                        >
-                          {train["arrivalHour"].split(" ")[1]}
-                        </p>
-                      ) : (
-                        <p>Loading ...</p>
-                      )}
-                    </div>
+                  <div
+                    style={{
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <TrainDetails train={outboundTrain} />
+                  </div>
+                  <div
+                    style={{
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <TrainDetails train={inboundTrain} type="Inbound" />
                   </div>
                 </div>
+              ) : (
                 <div
-                  style={{ flex: 1, display: "flex", flexDirection: "column" }}
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    marginTop: "2%",
+                  }}
                 >
-                  <div style={{ paddingLeft: "4%" }}>
-                    <p>Outbound</p>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <p style={{ color: "black", fontSize: "18px" }}>
-                        Train Number:
-                      </p>
-                      <p
-                        style={{
-                          color: "black",
-                          fontSize: "18px",
-                          marginLeft: "10px",
-                        }}
-                      >
-                        {train["trainNumber"]}
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <p style={{ color: "black", fontSize: "18px" }}>Date:</p>
-                      {train && train["trainDate"] ? (
-                        <p
-                          style={{
-                            color: "black",
-                            fontSize: "18px",
-                            marginLeft: "10px",
-                          }}
-                        >
-                          {train["trainDate"].split("T")[0]}
-                        </p>
-                      ) : (
-                        <p>Loading ...</p>
-                      )}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <p style={{ color: "black", fontSize: "18px" }}>
-                        Departure Time:
-                      </p>
-                      {train && train["departureHour"] ? (
-                        <p
-                          style={{
-                            color: "black",
-                            fontSize: "18px",
-                            marginLeft: "10px",
-                          }}
-                        >
-                          {train["departureHour"].split(" ")[1]}
-                        </p>
-                      ) : (
-                        <p>Loading ...</p>
-                      )}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <p style={{ color: "black", fontSize: "18px" }}>
-                        Arrival Time:
-                      </p>
-                      {train && train["arrivalHour"] ? (
-                        <p
-                          style={{
-                            color: "black",
-                            fontSize: "18px",
-                            marginLeft: "10px",
-                          }}
-                        >
-                          {train["arrivalHour"].split(" ")[1]}
-                        </p>
-                      ) : (
-                        <p>Loading ...</p>
-                      )}
-                    </div>
-                  </div>
+                  <TrainDetails train={outboundTrain} />
                 </div>
-              </div>
+              )}
             </div>
             <div
               style={{
@@ -921,8 +692,23 @@ const TrainCheckout = () => {
                 }}
               >
                 <p>Train:</p>
-                {train && train["price"] ? (
-                  <p>{train["price"]}€</p>
+
+                {outboundTrain ? (
+                  <div>
+                    <div style={{ marginTop: "10px" }}>
+                      <p style={{ color: "black", fontSize: "18px" }}>
+                        Adults: {trainOptions.adult}
+                      </p>
+                      <p style={{ color: "black", fontSize: "18px" }}>
+                        Children: {trainOptions.children}
+                      </p>
+                    </div>
+                    <div style={{ marginTop: "10px" }}>
+                      <p style={{ color: "black", fontSize: "18px" }}>
+                        Total Price: {priceTrain} €
+                      </p>
+                    </div>
+                  </div>
                 ) : (
                   <p>Loading ...</p>
                 )}
@@ -936,8 +722,8 @@ const TrainCheckout = () => {
                 }}
               >
                 <p>Additional Options:</p>
-                {train && train["price"] ? (
-                  <p>{train["price"]}€</p>
+                {outboundTrain && outboundTrain["price1stclass"] ? (
+                  <p style={{ color: "black" }}>{optionalPrice}€</p>
                 ) : (
                   <p>Loading ...</p>
                 )}
@@ -952,8 +738,8 @@ const TrainCheckout = () => {
                 }}
               >
                 <p style={{ marginTop: "10px" }}>Total</p>
-                {train && train["price"] ? (
-                  <p style={{ marginTop: "10px" }}>{train["price"] * 2}€</p>
+                {outboundTrain && outboundTrain["price1stclass"] ? (
+                  <p style={{ marginTop: "10px" }}>{totalPrice}€</p>
                 ) : (
                   <p>Loading ...</p>
                 )}
@@ -989,7 +775,7 @@ const TrainCheckout = () => {
                   Free cancellation
                 </p>
               </div>
-              {train["trainDate"] ? (
+              {/* {outboundTrain["trainDate"] ? (
                 <p
                   style={{
                     marginTop: "10px",
@@ -1000,7 +786,7 @@ const TrainCheckout = () => {
                 >
                   Free cancellation before 11:59 PM on{" "}
                   {(() => {
-                    const trainDate = new Date(train["trainDate"]);
+                    const trainDate = new Date(outboundTrain["trainDate"]);
                     trainDate.setDate(trainDate.getDate() - 1); // Subtract one day
                     return trainDate.toISOString().split("T")[0]; // Format to YYYY-MM-DD
                   })()}{" "}
@@ -1009,7 +795,7 @@ const TrainCheckout = () => {
                 </p>
               ) : (
                 <p>Loading...</p>
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -1020,3 +806,102 @@ const TrainCheckout = () => {
 };
 
 export default TrainCheckout;
+
+const TrainDetails = ({ train, type = "Outbound" }) => {
+  return (
+    <div style={{ paddingLeft: "4%" }}>
+      {train ? (
+        <div>
+          <p>{type}</p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginTop: "10px",
+            }}
+          >
+            <p style={{ color: "black", fontSize: "18px" }}>Train Number:</p>
+            <p
+              style={{
+                color: "black",
+                fontSize: "18px",
+                marginLeft: "10px",
+              }}
+            >
+              {" "}
+              {train["trainNumber"]}
+            </p>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginTop: "10px",
+            }}
+          >
+            <p style={{ color: "black", fontSize: "18px" }}>Date:</p>
+            {train && train["travelDate"] ? (
+              <p
+                style={{
+                  color: "black",
+                  fontSize: "18px",
+                  marginLeft: "10px",
+                }}
+              >
+                {train["travelDate"].split("T")[0]}
+              </p>
+            ) : (
+              <p>Loading ...</p>
+            )}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginTop: "10px",
+            }}
+          >
+            <p style={{ color: "black", fontSize: "18px" }}>Departure Time:</p>
+            {train && train["departureHour"] ? (
+              <p
+                style={{
+                  color: "black",
+                  fontSize: "18px",
+                  marginLeft: "10px",
+                }}
+              >
+                {train["departureHour"].split(" ")[1]}
+              </p>
+            ) : (
+              <p>Loading ...</p>
+            )}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginTop: "10px",
+            }}
+          >
+            <p style={{ color: "black", fontSize: "18px" }}>Arrival Time:</p>
+            {train && train["arrivalHour"] ? (
+              <p
+                style={{
+                  color: "black",
+                  fontSize: "18px",
+                  marginLeft: "10px",
+                }}
+              >
+                {train["arrivalHour"].split(" ")[1]}
+              </p>
+            ) : (
+              <p>Loading ...</p>
+            )}
+          </div>
+        </div>
+      ) : (
+        "Loading..."
+      )}
+    </div>
+  );
+};
