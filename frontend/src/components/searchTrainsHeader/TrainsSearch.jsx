@@ -115,21 +115,23 @@ const TrainsSearch = () => {
         formattedDepartureDate = formatDate(date[0].startDate);
         formattedReturnDate = formatDate(date[0].endDate);
       } else {
-        
         formattedDepartureDate = departureDate.format("YYYY-MM-DD");
+
         formattedReturnDate = null;
       }
 
-      data = {
+      console.log("formattedDepartureDate");
+      console.log(formattedDepartureDate);
+      console.log("formattedReturnDate");
+      console.log(formattedReturnDate);
+
+      const dataToSend = {
         stationCodeOrigin: selectedFromCode,
         stationCodeDestination: selectedDestinationCode,
         departureDate: formattedDepartureDate,
         returnDate: formattedReturnDate,
       }
       
-      console.log("data");
-      console.log(data);
-
       const response = await fetch(
         "http://localhost:8080/api/trains/searchTrain",
         {
@@ -137,7 +139,7 @@ const TrainsSearch = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(dataToSend),
         }
       );
 
