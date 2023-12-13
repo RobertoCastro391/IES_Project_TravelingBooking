@@ -140,9 +140,11 @@ public class KafkaMessageConsumer {
         }
     }
 
-    @KafkaListener(topics = "hotel_topic", groupId = "my-consumer-group")
+    @KafkaListener(topics = "hotel_data", groupId = "my-consumer-group")
     public void listenHotelTopic(String message) {
         try {
+
+            System.out.println("PUTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ");
             System.out.println(message);
             Hotel hotel = objectMapper.readValue(message, Hotel.class);
             

@@ -49,14 +49,14 @@ const Cardhotels = ({ type = "details", key, hotel }) => {
                   <div className="square">
                     <FontAwesomeIcon icon={faUser} className="icon" />
                     <p className="info" style={{ marginLeft: "5px" }}>
-                      2
+                      {hotel.baggages}
                     </p>
                   </div>
 
                   <div className="square" style={{ marginLeft: "10px" }}>
                     <FontAwesomeIcon icon={faLock} className="icon" />
                     <p className="info" style={{ marginLeft: "5px" }}>
-                      2
+                      {hotel.baggages}
                     </p>
                   </div>
                 </div>

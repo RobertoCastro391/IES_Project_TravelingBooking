@@ -34,6 +34,9 @@ public class Hotel {
     @Column(name = "FinalPrice")
     private String finalPrice;
 
+    @Column(name = "People")
+    private int people;
+
     @Column(name = "Baggages")
     private int baggages;
 

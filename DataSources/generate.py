@@ -941,6 +941,7 @@ def generate_random_hotels():
         "hotelName": name,
         "address": address,
         "phoneNumber": phone,
+        "people": random.randint(1, 5),
         "initialPrice": round(random.uniform(100.0, 1000.0), 2),
         "baggages": random.randint(1, 10),
         "foodIncluded": typeRoom,
@@ -1058,6 +1059,7 @@ def send_to_kafka_trains(topic, train_data):
 
 def send_to_kafka_hotel(topic, hotel_data):
     """Sends flight data to Kafka."""
+    print("Sending hotel data")
     producer.produce(topic, key=str(hotel_data['hotelName']), value=json.dumps(hotel_data))
     producer.flush()
     
@@ -1072,3 +1074,4 @@ for _ in range(10):
     flight_data = generate_random_flight()
     hotel_data = generate_random_hotels()
     send_to_kafka('flighs_data', flight_data)
+    send_to_kafka_hotel('hotel_data', hotel_data)
