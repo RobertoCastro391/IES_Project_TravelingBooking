@@ -106,7 +106,7 @@ const Cardhotels = ({ type = "details", key, hotel }) => {
         <div>
           { hotel && (
             <h1>
-              €{hotel.initialPrice}
+              {hotel.initialPrice}€
             </h1>
           )}
         </div>

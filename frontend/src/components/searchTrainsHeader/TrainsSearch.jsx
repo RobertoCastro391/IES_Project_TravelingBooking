@@ -10,8 +10,8 @@ import { useRef, useEffect } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import "react-date-range/dist/styles.css"; // main css file
-import "react-date-range/dist/theme/default.css"; // theme css file
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
 import { Checkbox, FormControlLabel } from "@mui/material";
@@ -23,7 +23,7 @@ const TrainsSearch = () => {
   const [from, setFrom] = useState("");
   const [destination, setDestination] = useState("");
   const [departureDate, setDepartureDate] = useState(dayjs());
-  
+
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -43,12 +43,20 @@ const TrainsSearch = () => {
   };
 
   const [isOneWay, setIsOneWay] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showDestinationDropdown, setShowDestinationDropdown] = useState(false);
+  const [selectedFromCode, setSelectedFromCode] = useState("");
+  const [selectedDestinationCode, setSelectedDestinationCode] = useState("");
+  const [stations, setStations] = useState([]);
+  const [filteredStations, setFilteredStations] = useState([]);
+
+  localStorage.setItem("isOneWayTrains", isOneWay);
 
   const handleOneWayChange = (event) => {
     setIsOneWay(event.target.checked);
   };
 
-  const [flightClass, setFlightClass] = useState("economy"); // Default to 'economy'
+  const [flightClass, setFlightClass] = useState("economy");
 
   const [openOptions, setOpenOptions] = useState(false);
 
@@ -90,34 +98,215 @@ const TrainsSearch = () => {
     });
   };
 
+  function formatDate(date) {
+    return date.toISOString().split("T")[0];
+  }
+
+  const fetchTrains = async () => {
+    try {
+      console.log("from code");
+      const isRoundTrip = !isOneWay;
+
+      let formattedDepartureDate = 0;
+      let formattedReturnDate = 0;
+
+      
+      if (isRoundTrip) {
+        formattedDepartureDate = formatDate(date[0].startDate);
+        formattedReturnDate = formatDate(date[0].endDate);
+      } else {
+        
+        formattedDepartureDate = departureDate.format("YYYY-MM-DD");
+        formattedReturnDate = null;
+      }
+
+      data = {
+        stationCodeOrigin: selectedFromCode,
+        stationCodeDestination: selectedDestinationCode,
+        departureDate: formattedDepartureDate,
+        returnDate: formattedReturnDate,
+      }
+      
+      console.log("data");
+      console.log(data);
+
+      const response = await fetch(
+        "http://localhost:8080/api/trains/searchTrain",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data && data.outboundFlights && data.outboundFlights.length > 0) {
+        const destinationCode =
+          data.outboundFlights[0].airportDestinationInfo.airportName;
+        localStorage.setItem("trainDestination", destinationCode);
+      }
+      navigate("/trains", { state: { trainsData: data } });
+    } catch (error) {
+      console.error("Failed to fetch flights:", error);
+    }
+  };
+
   const handleSearch = () => {
-    navigate("/trains", { state: { destination, date, options } });
+    if (from && destination) {
+      fetchTrains();
+    } else {
+      alert("Please fill in all the fields!");
+    }
+  };
+
+  const handleOriginSelect = (stationDisplay, stationCode, field) => {
+    if (field === "from") {
+      setFrom(stationDisplay);
+      setSelectedFromCode(stationCode);
+    }
+    setShowDropdown(false);
+  };
+
+  const handleDestinationSelect = (stationDisplay, stationCode, field) => {
+    if (field === "destination") {
+      setDestination(stationDisplay);
+      setSelectedDestinationCode(stationCode);
+    }
+    setShowDestinationDropdown(false);
+  };
+
+  const handleDestinationChange = (value, field) => {
+    if (field === "destination") {
+      setDestination(value);
+    }
+
+    const searchValue = value.toLowerCase();
+    if (searchValue.length > 0) {
+      const filtered = stations.filter(
+        (station) =>
+          station.stationName.toLowerCase().includes(searchValue) ||
+          station.stationCode.toLowerCase().includes(searchValue) ||
+          station.stationCity.toLowerCase().includes(searchValue)
+      );
+      setFilteredStations(filtered);
+      setShowDestinationDropdown(true);
+    } else {
+      setShowDestinationDropdown(false);
+    }
+  };
+
+  const handleOriginChange = (value, field) => {
+    if (field === "from") {
+      setFrom(value);
+    }
+    setShowDropdown(true);
+    const searchValue = value.toLowerCase();
+    if (searchValue.length > 0) {
+      const filtered = stations.filter(
+        (station) =>
+          station.stationName.toLowerCase().includes(searchValue) ||
+          station.stationCode.toLowerCase().includes(searchValue) ||
+          station.stationCity.toLowerCase().includes(searchValue)
+      );
+      setFilteredStations(filtered);
+      setShowDropdown(true);
+    } else {
+      setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchYourAirportsAPI().then((data) => {
+      setStations(data);
+    });
+  }, []);
+
+  const fetchYourAirportsAPI = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/trains/stations");
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching airports:", error);
+      return [];
+    }
   };
 
   return (
     <div className="headerFlights">
       <h1>Quickly scan all your train travels!</h1>
-
       <div className="containerSearch">
         <div className="headerSearch">
-          <div className="headerSearchItemLeft">
+          <div className="headerSearchTrainsItemLeft">
             <FontAwesomeIcon icon={faTrain} className="headerIcon" />
             <input
               type="text"
               value={from}
               placeholder="From:"
               className="headerSearchInput"
-              onChange={(e) => setFrom(e.target.value)}
+              onChange={(e) =>
+                handleOriginChange(e.target.value, "from")
+              }
             />
+            {showDropdown && (
+              <div className="dropdown">
+                {filteredStations.map((station) => (
+                  <div
+                    key={station.airportCode}
+                    onClick={() =>
+                      handleOriginSelect(
+                        `${station.stationName} - ${station.stationCode}`,
+                        station.stationCode,
+                        "from"
+                      )
+                    }
+                    className="dropdownItem"
+                  >
+                    {`${station.stationName} - ${station.stationCode}`}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div className="headerSearchItem">
             <FontAwesomeIcon icon={faTrain} className="headerIcon" />
             <input
               type="text"
+              value={destination}
               placeholder="To:"
               className="headerSearchInput"
-              onChange={(e) => setDestination(e.target.value)}
+              onChange={(e) =>
+                handleDestinationChange(e.target.value, "destination")
+              }
             />
+            {showDestinationDropdown && (
+              <div className="dropdown">
+                {filteredStations.map((station) => (
+                  <div
+                    key={station.airportCode}
+                    onClick={() =>
+                      handleDestinationSelect(
+                        `${station.stationName} - ${station.stationCode}`,
+                        station.stationCode,
+                        "destination"
+                      )
+                    }
+                    className="dropdownItem"
+                  >
+                    {`${station.stationName} - ${station.stationCode}`}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           {isOneWay === true && (
             <div className="headerSearchItem">
@@ -125,7 +314,7 @@ const TrainsSearch = () => {
                 <DatePicker
                   value={departureDate}
                   onChange={(newValue) => {
-                    setDepartureDate(newValue); // newValue is a Dayjs object
+                    setDepartureDate(newValue);
                   }}
                   format="DD/MM/YYYY"
                 />

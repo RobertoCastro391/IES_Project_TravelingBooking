@@ -155,7 +155,6 @@ const FlightsSearch = () => {
     }
   };
   
-  // Helper function to format dates
   function formatDate(date) {
     return date.toISOString().split('T')[0];
   }
@@ -227,6 +226,7 @@ const FlightsSearch = () => {
     });
   }, []);
 
+  
   const fetchYourAirportsAPI = async () => {
     try {
       // Replace with your actual endpoint URL
