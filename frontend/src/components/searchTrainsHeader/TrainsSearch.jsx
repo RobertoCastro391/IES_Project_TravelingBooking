@@ -110,7 +110,7 @@ const TrainsSearch = () => {
       let formattedDepartureDate = 0;
       let formattedReturnDate = 0;
 
-      
+
       if (isRoundTrip) {
         formattedDepartureDate = formatDate(date[0].startDate);
         formattedReturnDate = formatDate(date[0].endDate);
@@ -131,7 +131,10 @@ const TrainsSearch = () => {
         departureDate: formattedDepartureDate,
         returnDate: formattedReturnDate,
       }
-      
+
+      console.log("dataToSend");
+      console.log(dataToSend);
+
       const response = await fetch(
         "http://localhost:8080/api/trains/searchTrain",
         {
@@ -148,14 +151,20 @@ const TrainsSearch = () => {
       }
 
       const data = await response.json();
-      if (data && data.outboundFlights && data.outboundFlights.length > 0) {
-        const destinationCode =
-          data.outboundFlights[0].airportDestinationInfo.airportName;
-        localStorage.setItem("trainDestination", destinationCode);
-      }
+
+      console.log("dataaaaaaaaacaralho")
+      console.log(data)
+      
+      
+      // if (data && data.outboundFlights && data.outboundFlights.length > 0) {
+      //   const destinationCode =
+      //     data.outboundFlights[0].airportDestinationInfo.airportName;
+      //   localStorage.setItem("trainDestination", destinationCode);
+      // }
+
       navigate("/trains", { state: { trainsData: data } });
     } catch (error) {
-      console.error("Failed to fetch flights:", error);
+      console.error("Failed to fetch trains:", error);
     }
   };
 
@@ -242,6 +251,10 @@ const TrainsSearch = () => {
       return [];
     }
   };
+
+  function formatDate(date) {
+    return date.toISOString().split('T')[0];
+  }
 
   return (
     <div className="headerFlights">
