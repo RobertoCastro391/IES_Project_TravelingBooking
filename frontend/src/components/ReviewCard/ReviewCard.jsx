@@ -26,7 +26,7 @@ const RatingBar = ({ category, rating }) => {
 };
 
 
-const ReviewCards = () => {
+const ReviewCards = ({hotel}) => {
   
 
   // const handleSelecthotel = (hotel) => {
@@ -40,12 +40,12 @@ const ReviewCards = () => {
   //   alert(You have booked hotel ${hotel['hotelNumber']}!);
   // };
   const ratings = {
-    Cleanliness: 3.5,
-    Location: 4.5,
-    Service: 2,
-    Rooms: 3.0,
-    Value: 3.5,
-    SleepQuality: 3.5
+    Cleanliness: +hotel.cleanlinessReview,
+    Location: +hotel.locationReview,
+    Service: +hotel.serviceReview,
+    Rooms: +hotel.roomsReview,
+    Value: +hotel.valueReview,
+    SleepQuality: +hotel.sleepQualityReview,
   };
 
   const totalRating = Object.values(ratings).reduce((acc, rating) => acc + rating, 0);
