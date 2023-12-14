@@ -15,8 +15,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "PassengerFlight")
-public class PassengerFlight {
+@Table(name = "PassengerHotel")
+public class PassengerHotel {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +44,7 @@ public class PassengerFlight {
     private String passportNumber;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ReservationID", referencedColumnName = "reservationId")
+    @JoinColumn(name = "ReservationIDHotel", referencedColumnName = "reservationIdHotel")
     @JsonIgnore
-    private FlightsReservation flightsReservation;
+    private HotelReservation hotelReservation;
 }
