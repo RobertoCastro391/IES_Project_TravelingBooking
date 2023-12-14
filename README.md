@@ -11,5 +11,8 @@
 | 108307 |  Tiago Caridade Gomes   |Team manager + Developer|
 
 
+Endereço Servidor:
+http://deti-ies-14.ua.pt:5656
+
 
 
