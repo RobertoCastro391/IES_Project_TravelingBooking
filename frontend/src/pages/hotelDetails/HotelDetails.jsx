@@ -65,19 +65,12 @@ const Hotel = () => {
   const [selectedImages, setSelectedImages] = useState([]);
 
   useEffect(() => {
-<<<<<<< HEAD
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/flights`);
-        console.log(response);
-=======
     const selectRandomImages = () => {
       let shuffled = allImages
         .map(value => ({ value, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
         .map(({ value }) => value)
         .slice(0, 4);
->>>>>>> main
 
       setSelectedImages(shuffled);
     };
