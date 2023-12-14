@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.*;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,6 +14,7 @@ import java.util.*;
 @Table(name = "Museums")
 public class Museum {
     
+    //needed?
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MuseumID")
@@ -36,11 +35,14 @@ public class Museum {
     @Column(name = "StreetAddress")
     private String streetAddress;
 
-    @Column(name = "PhoneNumber")
-    private String phoneNumber;
+    @Column(name = "OpeningHours")
+    private String openingHours;
 
-    @Column(name = "Email", nullable = false)
-    private String email;
+    // @Column(name = "PhoneNumber")
+    // private String phoneNumber;
+
+    // @Column(name = "Email", nullable = false)
+    // private String email;
 
     @Column(name = "TicketpriceAdult", nullable = false)
     private String ticketPriceAdult;

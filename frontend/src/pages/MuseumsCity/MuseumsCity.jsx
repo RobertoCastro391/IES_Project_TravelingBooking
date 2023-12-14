@@ -106,3 +106,56 @@ const MuseumsCity = () => {
 };
 
 export default MuseumsCity;
+
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import { useLocation, useNavigate } from 'react-router-dom';
+// import CardMuseumCity from './CardMuseumCity';  
+
+// const MuseumsCity = () => {
+//   const location = useLocation();
+//   const [type, setType] = useState("museumscity");
+
+//   useEffect(() => {
+//     if (location.state && location.state.headerType) {
+//       setType(location.state.headerType);
+//     }
+//   }, [location]);
+
+//   const navigate = useNavigate();
+
+//   const handleSearch = () => {
+//     navigate("/museumscitydetails");
+//   };
+
+//   const museumsData = [];
+
+//   return (
+//     <div>
+//       <Navbar />
+//             <Header type={type} />
+
+
+//       <div className="museumsCityContainer">
+//         <h1 className="museumsCityTitle">Explore this in: <i>Prague</i></h1>
+//         <div className="museumsCityFeatured">
+//           {museumsData.map((museum, index) => (
+//             <CardMuseumCity
+//               key={index}
+//               imageUrl={museum.imageUrl}
+//               name={museum.name}
+//               onClick={handleSearch}
+//             />
+//           ))}
+//         </div>
+//       </div>
+
+//       <Footer />
+//     </div>
+//   );
+// };
+
+// export default MuseumsCity;
+

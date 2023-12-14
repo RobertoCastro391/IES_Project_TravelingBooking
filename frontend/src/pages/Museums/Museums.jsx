@@ -11,7 +11,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const Museums = () => {
     const location = useLocation();
     const [type, setType] = useState("museums");
-    
+
 
     useEffect(() => {
         if (location.state && location.state.headerType) {
@@ -25,7 +25,7 @@ const Museums = () => {
         navigate("/museumscity");
     };
 
-    
+
     return (
         <div>
             <Navbar />
@@ -57,6 +57,7 @@ const Museums = () => {
                             <h1>Reno</h1>
                         </div>
                     </div>
+
                     <div className="museumCard" onClick={handleSearch}>
                         <img
                             src="https://cf.bstatic.com/xdata/images/city/max500/689422.webp?k=2595c93e7e067b9ba95f90713f80ba6e5fa88a66e6e55600bd27a5128808fdf2&o="
@@ -135,6 +136,7 @@ const Museums = () => {
                     </div>
                 </div>
 
+
             </div>
             <Footer />
         </div>
@@ -142,3 +144,65 @@ const Museums = () => {
 };
 
 export default Museums;
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import { useLocation, useNavigate } from 'react-router-dom';
+// import CardMuseum from './CardMuseum';  // Importe o novo componente
+
+// const Museums = () => {
+//     const location = useLocation();
+//     const [museumsData, setMuseumsData] = useState([]);
+
+//     useEffect(() => {
+//         // Fetch data from the API
+//         fetch("http://localhost:8080/api/museums")
+//             .then(response => response.json())
+//             .then(data => setMuseumsData(data))
+//             .catch(error => console.error("Error fetching data:", error));
+//     }, []);
+
+//     const cardsPerRow = 3;
+
+//     // Create an array of arrays, each containing three cards
+//     const rows = [];
+//     for (let i = 0; i < museumsData.length; i += cardsPerRow) {
+//         rows.push(museumsData.slice(i, i + cardsPerRow));
+//     }
+
+//     const navigate = useNavigate();
+
+//     const handleSearch = city => {
+//         navigate("/museumscity");
+//         // Add logic for handling the search
+//     };
+
+//     return (
+//         <div>
+//             <Navbar />
+//             <Header type={type} />
+
+//             <div className="museumsContainer">
+//                 <h1 className="museumsTitle">Discover unique places</h1>
+
+//                 {rows.map((row, rowIndex) => (
+//                     <div className="museumsFeatured">
+//                         {row.map((museum, cardIndex) => (
+//                             <CardMuseum
+//                                 key={cardIndex}
+//                                 imageUrl={museum.imageUrl}
+//                                 title={museum.title}
+//                                 onClick={() => handleSearch(museum.city)}
+//                             />
+//                         ))}
+//                     </div>
+//                 ))}
+//             </div>
+
+//             <Footer />
+//         </div>
+//     );
+// };
+
+// export default Museums;

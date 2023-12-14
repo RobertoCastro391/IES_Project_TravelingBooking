@@ -101,3 +101,108 @@ const MuseumsCityDetails = () => {
 };
 
 export default MuseumsCityDetails;
+
+
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import { useLocation } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+
+// const MuseumsCityDetails = () => {
+//     const location = useLocation();
+//     const [type, setType] = useState("museumscity");
+//     const [museumDetails, setMuseumDetails] = useState({});
+//     const [loading, setLoading] = useState(true);
+//     const navigate = useNavigate();
+
+//     useEffect(() => {
+//         if (location.state && location.state.headerType) {
+//             setType(location.state.headerType);
+//         }
+
+//         const fetchMuseumDetails = async () => {
+//             try {
+//                 const response = await fetch('/museumscitydetails/{museumName}');
+//                 const data = await response.json();
+//                 setMuseumDetails(data);
+//                 setLoading(false);
+//             } catch (error) {
+//                 console.error('Error fetching museum details:', error);
+//                 setLoading(false);
+//             }
+//         };
+
+//         fetchMuseumDetails();
+//     }, [location]);
+
+//     const handleSearch = () => {
+//         navigate("/museumscitydetails");
+//     };
+
+//     if (loading) {
+//         return <div>Loading...</div>;
+//     }
+
+//     return (
+//         <div>
+//             <Navbar />
+
+//             <div className="museumsCityDetailsContainer">
+//                 <h1 className="museumsCityDetailsTitle">
+//                     Prague: <i>{museumDetails.name}</i>
+//                 </h1>
+//                 <div className="museumsCityDetailsFeatured">
+//                     <div className="museumCityDetailsCard">
+//                         <img class="musuemCityDetailsCardImg"
+//                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS5Ibsjk-vwVvrODRHQO-Zf5D0G3NJlb754Q&usqp=CAU"
+//                             alt=""
+//                         />
+//                     </div>
+//                     <div className="museumCityDetailsCard2">
+//                         <h1 className="cityDescriptionTitle">What to expect?</h1>
+//                         <p className="cityDescription">
+//                             The National Museum (Národní muzeum) in Prague is a comprehensive cultural institution housing significant collections in the areas of natural history, history, art, and music.
+//                             Situated in Wenceslas Square, the museum is a striking architectural landmark and an essential source for understanding the rich Czech heritage.
+//                             <a style={{ color: "grey" }}> (Check the latest information on the official website to plan your visit accurately.)</a>
+//                         </p>
+//                     </div>
+//                 </div>
+//                 <h2 className="museumsCityDetailsTitle">Practical Information</h2>
+//                 <div className="museumsCityDetailsFeatured">
+//                     <div className="museumCityDetailsCard2">
+//                         <h2>Opening hours:</h2>
+//                         <div className="museumCityDetailsInfo">
+//                             {museumDetails.openingHours.map((hour, index) => (
+//                                 <p key={index}>{hour}</p>
+//                             ))}
+//                         </div>
+//                     </div>
+//                     <div className="museumCityDetailsCard2">
+//                         <h2>Ticket Prices:</h2>
+//                         <div className="museumCityDetailsInfo">
+//                             {museumDetails.ticketPrices.map((price, index) => (
+//                                 <p key={index}>{price}</p>
+//                             ))}
+//                         </div>
+//                     </div>
+//                 </div>
+//                 <h2 className="museumsCityDetailsTitle">Location:</h2>
+//                 <div className="museumsCityDetailsFeatured">
+//                     <div className="museumCityDetailsCard2">
+//                         <div className="museumCityDetailsInfo2">
+//                             {/* <div style={{ width: '100%', height: '300px', border: '1px solid #ccc' }}>
+//                                 <h1>React Map Example</h1>
+//                                 <MapComponent coordinates={coordinates} zoom={zoom} />
+//                             </div> */}
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+//             <Footer/>
+//         </div>
+//     );
+// };
+
+// export default MuseumsCityDetails;
