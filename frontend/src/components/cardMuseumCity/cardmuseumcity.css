@@ -1,0 +1,60 @@
+.museumCityCard {
+    width: 33.33333%;
+    position: relative;
+    color: white;
+    border-radius: 10px;
+    height: 350px;
+    background-color: rgb(245, 245, 245);
+    box-sizing: border-box;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  
+  .museumCityInfo {
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  
+  }
+  
+  .museumCityInfo p {
+  
+    display: flex;
+    font-size: 20px;
+    color: black;
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 50px;
+  
+  
+  }  
+  
+  .musuemCityCardImg {
+    height: 220px;
+    width: 80%;
+    height: 60%;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 235, 235, 0.699);
+  
+  }
+  
+  .museumCityDetailsBtn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgb(0, 98, 227);
+    color: rgba(255, 255, 255, 0.95);
+    filter: drop-shadow(0);
+    font-weight: bold;
+    transition: all .3s ease;
+  }
