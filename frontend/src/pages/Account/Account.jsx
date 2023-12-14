@@ -95,7 +95,7 @@ const Account = () => {
     const fetchUserHotels = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/hotels/getReservationsByUser/${userId}`
+          `${process.env.REACT_APP_API_URL}/api/hotels/getReservationsByUser/${userId}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
