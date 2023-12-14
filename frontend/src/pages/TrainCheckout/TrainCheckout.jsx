@@ -42,7 +42,7 @@ const TrainCheckout = () => {
     const fetchData = async (trainNumber, setTrainFunc) => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/trains/trainCheckout/${trainNumber}`
+          `${process.env.REACT_APP_API_URL}/api/trains/trainCheckout/${trainNumber}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -159,7 +159,7 @@ const TrainCheckout = () => {
     console.log("Reservation data:", reservationData);
   
     try {
-      const response = await fetch("http://localhost:8080/api/trains/createReservation", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trains/createReservation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

@@ -43,7 +43,7 @@ const HotelCheckout = () => {
     const fetchData = async (hotelNumber, sethotelFunc) => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/hotelCheckout/${hotelNumber}`
+          `${process.env.REACT_APP_API_URL}/api/hotelCheckout/${hotelNumber}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -160,7 +160,7 @@ const HotelCheckout = () => {
     console.log("Reservation data:", reservationData);
   
     try {
-      const response = await fetch("http://localhost:8080/api/createReservation", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/createReservation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

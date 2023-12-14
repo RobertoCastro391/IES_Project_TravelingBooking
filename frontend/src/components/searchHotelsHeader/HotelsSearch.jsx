@@ -87,7 +87,7 @@ const HotelsSearch = () => {
     console.log(searchParams);
 
     try {
-        const response = await fetch("http://localhost:8080/api/hotels/searchHotels", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/hotels/searchHotels`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

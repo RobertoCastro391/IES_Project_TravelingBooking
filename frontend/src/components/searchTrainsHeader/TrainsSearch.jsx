@@ -138,7 +138,7 @@ const TrainsSearch = () => {
       console.log(dataToSend);
 
       const response = await fetch(
-        "http://localhost:8080/api/trains/searchTrain",
+        `${process.env.REACT_APP_API_URL}/api/trains/searchTrain`,
         {
           method: "POST",
           headers: {
@@ -238,7 +238,7 @@ const TrainsSearch = () => {
 
   const fetchYourStationsAPI = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/trains/stations");
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trains/stations`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }

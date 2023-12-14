@@ -1,6 +1,7 @@
 import json
 import random
 from datetime import datetime, timedelta
+import time
 import requests
 from faker import Faker
 from confluent_kafka import Producer
@@ -908,26 +909,60 @@ def calculate_duration(origin, destination):
     duration_hours = distance / average_speed_km_per_hour
     return timedelta(hours=duration_hours)
 
-def generate_random_flight():
-    """Generates random flight data with realistic duration, departure, and arrival times."""
-    origin, destination = random.sample(list(airports.keys()), 2)
-    airline_code = random.choice(list(airlines.keys()))
-    departure_time = datetime.now() + timedelta(days=random.randint(1, 30), hours=random.randint(0, 23), minutes=random.randint(0, 59))
-    duration = calculate_duration(origin, destination)
-    arrival_time = departure_time + duration
+def generate_flights():
+    all_flights = []
 
-    return {
-        "flightNumber": airline_code + faker.bothify(text='####'),
-        "flightDate": departure_time.strftime('%Y-%m-%d'),
-        "airlineCode": airline_code,
-        "airportCodeOrigin": origin,
-        "airportCodeDestination": destination,
-        "departureHour": departure_time.strftime('%Y-%m-%d %H:%M'),
-        "arrivalHour": arrival_time.strftime('%Y-%m-%d %H:%M'),
-        "duration": str(duration),
-        "price": round(random.uniform(50.0, 1000.0), 2),
-        "seats": random.randint(1, 300)
-    }
+    # Escolher uma rota fixa
+    origin, destination = random.sample(list(airports.keys()), 2)
+
+    # Selecionar 5 companhias aéreas diferentes
+    selected_airlines = random.sample(list(airlines.keys()), 5)
+
+    # Replicar voos para cada companhia aérea durante 90 dias
+    for airline_code in selected_airlines:
+        for day_offset in range(90):
+            # Gerar horários aleatórios de partida para cada voo
+            departure_time_ida = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=day_offset)
+            departure_time_ida += timedelta(hours=random.randint(0, 23), minutes=random.randint(0, 59))
+            duration_ida = calculate_duration(origin, destination)
+            arrival_time_ida = departure_time_ida + duration_ida
+
+            departure_time_volta = departure_time_ida + timedelta(hours=random.randint(1, 5))
+            duration_volta = calculate_duration(destination, origin)
+            arrival_time_volta = departure_time_volta + duration_volta
+
+            # Adicionar voos de ida e volta à lista
+            voo_ida = {
+                "flightNumber": airline_code + faker.bothify(text='####'),
+                "flightDate": departure_time_ida.strftime('%Y-%m-%d'),
+                "airlineCode": airline_code,
+                "airportCodeOrigin": origin,
+                "airportCodeDestination": destination,
+                "departureHour": departure_time_ida.strftime('%Y-%m-%d %H:%M'),
+                "arrivalHour": arrival_time_ida.strftime('%Y-%m-%d %H:%M'),
+                "duration": str(duration_ida),
+                "price": round(random.uniform(50.0, 1000.0), 2),
+                "seats": random.randint(1, 300)
+            }
+
+            voo_volta = {
+                "flightNumber": airline_code + faker.bothify(text='####'),
+                "flightDate": departure_time_volta.strftime('%Y-%m-%d'),
+                "airlineCode": airline_code,
+                "airportCodeOrigin": destination,
+                "airportCodeDestination": origin,
+                "departureHour": departure_time_volta.strftime('%Y-%m-%d %H:%M'),
+                "arrivalHour": arrival_time_volta.strftime('%Y-%m-%d %H:%M'),
+                "duration": str(duration_volta),
+                "price": round(random.uniform(50.0, 1000.0), 2),
+                "seats": random.randint(1, 300)
+            }
+
+            all_flights.append(voo_ida)
+            all_flights.append(voo_volta)
+
+    return all_flights
+
 
 def generate_random_hotels():
     """Generates random flight data with realistic duration, departure, and arrival times."""
@@ -1070,8 +1105,16 @@ send_station_data_to_kafka('station_topic')
 send_train_company_data_to_kafka('train_company_topic')  
 
 
-for _ in range(10):
-    flight_data = generate_random_flight()
+
+
+for _ in range(15):
+    flights = generate_flights()
+    for flight in flights:
+        send_to_kafka('flighs_data', flight)
+    
+    trains = generate_random_train()
+    send_to_kafka_trains('train_data', trains)
+
+
     hotel_data = generate_random_hotels()
-    send_to_kafka('flighs_data', flight_data)
     send_to_kafka_hotel('hotel_data', hotel_data)

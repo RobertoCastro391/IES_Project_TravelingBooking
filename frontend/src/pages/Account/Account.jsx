@@ -34,7 +34,7 @@ const Account = () => {
     const fetchUserInfo = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/user/users/${userId}`
+          `${process.env.REACT_APP_API_URL}/api/user/users/${userId}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -60,7 +60,7 @@ const Account = () => {
     const fetchUserTrips = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/flights/getReservationsByUser/${userId}`
+          `${process.env.REACT_APP_API_URL}/api/flights/getReservationsByUser/${userId}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
