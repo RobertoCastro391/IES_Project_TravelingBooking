@@ -16,42 +16,42 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchFlightInfo = async () => {
-  //     try {
+  useEffect(() => {
+    const fetchFlightInfo = async () => {
+      try {
         
         const response = await fetch(
           `${process.env.REACT_APP_API_URL}/api/flights/flightCheckout/${reservationInfo["flightNumberOutbound"]}`
         );
 
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
 
-  //       const data = await response.json();
-  //       setFlightOutbound(data);
+        const data = await response.json();
+        setFlightOutbound(data);
 
         if (
           reservationInfo["flightNumberInbound"] !== null &&
           reservationInfo["roundTrip"] === true
         ) {
           const response2 = await fetch(
-            `http://localhost:8080/api/flightCheckout/${reservationInfo["flightNumberInbound"]}`
+            `${process.env.REACT_APP_API_URL}/api/flightCheckout/${reservationInfo["flightNumberInbound"]}`
           );
 
-  //         if (!response2.ok) {
-  //           throw new Error("Network response was not ok");
-  //         }
+          if (!response2.ok) {
+            throw new Error("Network response was not ok");
+          }
 
-  //         const data2 = await response2.json();
-  //         setFlightInbound(data2);
-  //       }
-  //     } catch (error) {
-  //       console.error("Failed to fetch flight info:", error);
-  //     }
-  //   };
-  //   fetchFlightInfo();
-  // }, []);
+          const data2 = await response2.json();
+          setFlightInbound(data2);
+        }
+      } catch (error) {
+        console.error("Failed to fetch flight info:", error);
+      }
+    };
+    fetchFlightInfo();
+  }, []);
 
   const formatDate = (dateString) => {
     const options = {
