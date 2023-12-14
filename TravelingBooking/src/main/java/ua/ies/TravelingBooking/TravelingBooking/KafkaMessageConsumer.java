@@ -7,6 +7,7 @@ import ua.ies.TravelingBooking.TravelingBooking.entity.Airport;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Airline;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Flight;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Hotel;
+import ua.ies.TravelingBooking.TravelingBooking.entity.Museum;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Station;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Train;
 import ua.ies.TravelingBooking.TravelingBooking.entity.TrainCompany;
@@ -17,6 +18,7 @@ import ua.ies.TravelingBooking.TravelingBooking.repository.StationsRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.TrainsCompanyRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.TrainsRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.HotelsRepository;
+import ua.ies.TravelingBooking.TravelingBooking.repository.MuseumsRepository;
 
 import java.io.IOException;
 
@@ -30,18 +32,19 @@ public class KafkaMessageConsumer {
     private final TrainsCompanyRepository trainCompanyRepository;
     private final TrainsRepository trainsRepository;
     private final HotelsRepository hotelsRepository;
-
+    private final MuseumsRepository museumsRepository;
 
     private final ObjectMapper objectMapper;
 
-    public KafkaMessageConsumer(FlightsRepository flightsRepository, 
-                                AirportsRepository airportsRepository,
-                                AirlinesRepository airlinesRepository,
-                                StationsRepository stationsRepository,
-                                TrainsCompanyRepository trainCompanyRepository,
-                                TrainsRepository trainsRepository,
-                                HotelsRepository hotelsRepository,
-                                ObjectMapper objectMapper) {
+    public KafkaMessageConsumer(FlightsRepository flightsRepository,
+            AirportsRepository airportsRepository,
+            AirlinesRepository airlinesRepository,
+            StationsRepository stationsRepository,
+            TrainsCompanyRepository trainCompanyRepository,
+            TrainsRepository trainsRepository,
+            HotelsRepository hotelsRepository,
+            MuseumsRepository museumsRepository,
+            ObjectMapper objectMapper) {
         this.flightsRepository = flightsRepository;
         this.airportsRepository = airportsRepository;
         this.airlinesRepository = airlinesRepository;
@@ -49,6 +52,8 @@ public class KafkaMessageConsumer {
         this.trainCompanyRepository = trainCompanyRepository;
         this.trainsRepository = trainsRepository;
         this.hotelsRepository = hotelsRepository;
+        this.museumsRepository = museumsRepository;
+
         this.objectMapper = objectMapper;
     }
 
@@ -56,7 +61,7 @@ public class KafkaMessageConsumer {
     public void listenFlighs_data(String message) {
         System.out.println("AQUIiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
         System.out.println("Received message Flighs_data: " + message);
-        
+
         try {
             Flight flight = objectMapper.readValue(message, Flight.class);
             flightsRepository.save(flight);
@@ -130,7 +135,7 @@ public class KafkaMessageConsumer {
         try {
             System.out.println(message);
             Train train = objectMapper.readValue(message, Train.class);
-            
+
             trainsRepository.save(train);
 
             System.out.println("Received and processed train data: " + train);
@@ -145,13 +150,28 @@ public class KafkaMessageConsumer {
         try {
             System.out.println(message);
             Hotel hotel = objectMapper.readValue(message, Hotel.class);
-            
+
             hotelsRepository.save(hotel);
 
             System.out.println("Received and processed hotel data: " + hotel);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error processing train message: " + message);
+        }
+    }
+
+    @KafkaListener(topics = "museums_topic", groupId = "my-consumer-group")
+    public void listenMuseumsTopic(String message) {
+        try {
+            System.out.println(message);
+            Museum museum = objectMapper.readValue(message, Museum.class);
+
+            museumsRepository.save(museum);
+
+            System.out.println("Received and processed museum data: " + museum);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error processing museum message: " + message);
         }
     }
 }
