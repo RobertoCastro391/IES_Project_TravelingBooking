@@ -46,6 +46,12 @@ services:
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'rootpassword'
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 55
     ports:
       - 3306:3306
     volumes:
@@ -60,18 +66,22 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - app-network
       
-  # react-app:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5656:80"
-  #   networks:
-  #     - app-network
+  react-app:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: http://localhost:8080
+        # REACT_APP_API_URL: http://deti-ies-14.ua.pt:8080
+    ports:
+      - "5656:80"
+    networks:
+      - app-network
 
 networks:
   app-network:

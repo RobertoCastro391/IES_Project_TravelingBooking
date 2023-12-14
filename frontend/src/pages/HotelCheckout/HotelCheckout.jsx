@@ -11,9 +11,10 @@ import card from "../../components/images/card.png";
 import cancelation from "../../components/images/cancelation.png";
 import { useNavigate } from "react-router-dom";
 import HotelCard from "../../components/cardHotel/CardHotel";
+import { useLocation } from "react-router-dom";
 
 
-const HotelCheckout = () => {
+const HotelCheckout = ({hotel}) => {
   const [sex, setSex] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [cardName, setCardName] = useState("");
@@ -39,69 +40,48 @@ const HotelCheckout = () => {
   const [passengers, setPassengers] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async (hotelNumber, sethotelFunc) => {
-      try {
-        const response = await fetch(
-          `http://localhost:8080/api/hotelCheckout/${hotelNumber}`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        sethotelFunc(data);
-      } catch (error) {
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error
-        );
-      }
-    };
-    if (hotelNumberOutbound) {
-      fetchData(hotelNumberOutbound, setOutboundhotel);
-    }
+  const location = useLocation();
+  const hotelData = location.state?.hotel;
 
-    if (isOneWay === "false" && hotelNumberInbound) {
-      fetchData(hotelNumberInbound, setInboundhotel);
-    }
-  }, [hotelNumberOutbound, hotelNumberInbound, isOneWay]);
+  console.log("hotelData");
+  console.log(hotelData);
 
-  useEffect(() => {
-    if (
-      outboundhotel &&
-      outboundhotel["price"] &&
-      flightOptions &&
-      flightOptions.adult !== undefined &&
-      flightOptions.children !== undefined
-    ) {
-      let price = parseFloat(
-        (
-          flightOptions.adult * outboundhotel["price"] +
-          (flightOptions.children * outboundhotel["price"]) / 2
-        ).toFixed(2)
-      );
+  // useEffect(() => {
+  //   if (
+  //     outboundhotel &&
+  //     outboundhotel["price"] &&
+  //     flightOptions &&
+  //     flightOptions.adult !== undefined &&
+  //     flightOptions.children !== undefined
+  //   ) {
+  //     let price = parseFloat(
+  //       (
+  //         flightOptions.adult * outboundhotel["price"] +
+  //         (flightOptions.children * outboundhotel["price"]) / 2
+  //       ).toFixed(2)
+  //     );
 
-      if (isOneWay === "false") {
-        price += parseFloat(
-          (
-            flightOptions.adult * inboundhotel["price"] +
-            (flightOptions.children * inboundhotel["price"]) / 2
-          ).toFixed(2)
-        );
-        setOptionalPrice(
-          parseFloat(
-            ((outboundhotel["price"] + inboundhotel["price"]) / 3).toFixed(2)
-          )
-        );
-      } else {
-        setOptionalPrice(parseFloat((outboundhotel["price"] / 3).toFixed(2)));
-      }
+  //     if (isOneWay === "false") {
+  //       price += parseFloat(
+  //         (
+  //           flightOptions.adult * inboundhotel["price"] +
+  //           (flightOptions.children * inboundhotel["price"]) / 2
+  //         ).toFixed(2)
+  //       );
+  //       setOptionalPrice(
+  //         parseFloat(
+  //           ((outboundhotel["price"] + inboundhotel["price"]) / 3).toFixed(2)
+  //         )
+  //       );
+  //     } else {
+  //       setOptionalPrice(parseFloat((outboundhotel["price"] / 3).toFixed(2)));
+  //     }
 
-      setPricehotel(price);
-      const priceTotal = parseFloat((price + optionalPrice).toFixed(2));
-      setTotalPrice(priceTotal);
-    }
-  }, [outboundhotel, flightOptions, isOneWay, inboundhotel, optionalPrice]);
+  //     setPricehotel(price);
+  //     const priceTotal = parseFloat((price + optionalPrice).toFixed(2));
+  //     setTotalPrice(priceTotal);
+  //   }
+  // }, [outboundhotel, flightOptions, isOneWay, inboundhotel, optionalPrice]);
 
   useEffect(() => {
     if (flightOptions) {
@@ -138,10 +118,8 @@ const HotelCheckout = () => {
   const handleCheckout = async () => {
     const reservationData = {
       userID: parseInt(localStorage.getItem("userId")),
-      hotelNumberOutbound: hotelNumberOutbound,
-      hotelNumberInbound: hotelNumberInbound === "null" ? null : hotelNumberInbound,
-      isRoundTrip: isOneWay === "true" ? false : true,
-      totalPrice: totalPrice,
+      hotelID: hotelData.hotelID,
+      totalPrice: hotelData.initialPrice,
       reservationDate: new Date().toISOString(),
       passengers: passengers,
       emailContact: email,
@@ -198,7 +176,7 @@ const HotelCheckout = () => {
   return (
     <div>
       <Navbar />
-      <Header type="addExtrashotel" />
+     
       <div className="containerCheckout">
         <div className="container1">
           <p style={{ fontSize: "25px" }}>
@@ -604,7 +582,7 @@ const HotelCheckout = () => {
           style={{ paddingLeft: "30px", paddingTop: "20px" }}
         >
           <div style={{ backgroundColor: "#EFF1F2", borderRadius: "8px" }}>
-            <HotelCard type ='book' />
+            <HotelCard type ='book'  hotel={hotelData} />
             
           </div>
         </div>

@@ -33,17 +33,15 @@ button:hover {
   background-color: #0056b3;
 }
 
-.image-layout {
-  display: flex;
-  flex-direction: row;
+.carousel .slide img {
+  width: 100%;
+  height: 300px; /* Altura desejada */
+  object-fit: cover; /* Isso garante que a imagem cubra a área sem distorcer */
 }
 
-.image-large img {
-  width: 50%; /* Adjust width as necessary */
-  height: auto;
+.carousel .carousel-root {
+  height: 300px; /* Altura desejada */
+  width: 100%;
 }
 
-.image-group img {
-  width: 25%; /* Adjust width as necessary */
-  height: auto;
-}
+

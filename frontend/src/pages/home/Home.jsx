@@ -10,6 +10,8 @@ import { faEarth, faHotel, faTrain } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
 
+console.log(`${process.env.REACT_APP_API_URL}`);
+
 
 const Home = () => {
   const location = useLocation();

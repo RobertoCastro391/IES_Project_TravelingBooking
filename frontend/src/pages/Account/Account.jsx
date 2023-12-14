@@ -20,6 +20,7 @@ const Account = () => {
   });
 
   const [userTrips, setUserTrips] = useState([]);
+  const [userHotels, setUserHotels] = useState([]);
 
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -34,7 +35,7 @@ const Account = () => {
     const fetchUserInfo = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/user/users/${userId}`
+          `${process.env.REACT_APP_API_URL}/api/user/users/${userId}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -60,7 +61,7 @@ const Account = () => {
     const fetchUserTrips = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/flights/getReservationsByUser/${userId}`
+          `${process.env.REACT_APP_API_URL}/api/flights/getReservationsByUser/${userId}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -90,9 +91,42 @@ const Account = () => {
       }
     };
 
+
+    const fetchUserHotels = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/hotels/getReservationsByUser/${userId}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+
+        console.log("Fetched Data:");
+        console.log(data);
+
+        // Assuming data is an array of reservations
+        const userHotels = data.map((trip) => ({
+          reservationID: trip.id,
+          hotel: trip.hotel,
+          totalPrice: trip.totalPrice,
+          reservationDate: trip.reservationDate,
+          passengers: trip.passengers,
+        }));
+
+        setUserHotels(userHotels);
+
+        console.log("User Trips after processing:");
+        console.log(userHotels);
+      } catch (error) {
+        console.error("Failed to fetch user info:", error);
+      }
+    };
+
     if (userId) {
       fetchUserInfo();
       fetchUserTrips();
+      fetchUserHotels();
     }
   }, []);
 

@@ -18,6 +18,19 @@ const Cardhotels = ({ type = "details", key, hotel }) => {
 
   const [selectedhotel, setSelectedhotel] = useState(null);
 
+  const ratings = {
+    Cleanliness: +hotel.cleanlinessReview,
+    Location: +hotel.locationReview,
+    Service: +hotel.serviceReview,
+    Rooms: +hotel.roomsReview,
+    Value: +hotel.valueReview,
+    SleepQuality: +hotel.sleepQualityReview,
+  };
+
+  const totalRating = Object.values(ratings).reduce((acc, rating) => acc + rating, 0);
+  const averageRating = Math.min((totalRating / Object.keys(ratings).length), 5).toFixed(1);
+
+
   // const handleSelecthotel = (hotel) => {
   //   setSelectedhotel(hotel.id);
   // };
@@ -49,14 +62,14 @@ const Cardhotels = ({ type = "details", key, hotel }) => {
                   <div className="square">
                     <FontAwesomeIcon icon={faUser} className="icon" />
                     <p className="info" style={{ marginLeft: "5px" }}>
-                      2
+                      {hotel.people}
                     </p>
                   </div>
 
                   <div className="square" style={{ marginLeft: "10px" }}>
                     <FontAwesomeIcon icon={faLock} className="icon" />
                     <p className="info" style={{ marginLeft: "5px" }}>
-                      2
+                      {hotel.baggages}
                     </p>
                   </div>
                 </div>
@@ -66,12 +79,12 @@ const Cardhotels = ({ type = "details", key, hotel }) => {
                   <div className="square">
                     <FontAwesomeIcon icon={faStar} className="icon" />
                     <p className="info" style={{ marginLeft: "5px" }}>
-                      3.2
+                      {averageRating}
                     </p>
                   </div>
 
                   <div className="square" style={{ marginLeft: "10px" }}>
-                    <p className="info">BREAKFAST</p>
+                    <p className="info">{hotel.foodIncluded}</p>
                   </div>
                 </div>
               </div>
@@ -79,14 +92,21 @@ const Cardhotels = ({ type = "details", key, hotel }) => {
                 <div style={{ flexDirection: "row" }}>
                   <div className="square">
                     <FontAwesomeIcon icon={faSnowflake} className="icon" />
-                    <p className="info" style={{ marginLeft: "5px" }}>
-                      AC
-                    </p>
+                    {hotel.ac ? (
+                      <p className="info">WIFI</p>
+                    ) : (
+                      <p className="info" style={{ textDecoration: "line-through" }}>AC</p>
+                    )}
                   </div>
 
                   <div className="square" style={{ marginLeft: "10px" }}>
-                    <p className="info">WIFI</p>
+                    {hotel.wifi ? (
+                      <p className="info">WIFI</p>
+                    ) : (
+                      <p className="info" style={{ textDecoration: "line-through" }}>WIFI</p>
+                    )}
                   </div>
+
                 </div>
               </div>
               <div style={{ marginTop: "20px", display: "inline-flex" }}>
@@ -114,7 +134,7 @@ const Cardhotels = ({ type = "details", key, hotel }) => {
           {type === "details" && (
             <button
               className="buttonhotelSearch"
-              onClick={() => navigate("/hotelDetails")}
+              onClick={() => navigate("/hotelDetails", { state: { hotel } })}
             >
               View Details
             </button>
@@ -122,7 +142,7 @@ const Cardhotels = ({ type = "details", key, hotel }) => {
           {type === "checkout" && (
             <button
               className="buttonhotelSearch"
-              onClick={() => navigate("/hotelDetails")}
+              onClick={() => navigate("/hotelcheckout", { state: { hotel } })}
             >
               Checkout
             </button>

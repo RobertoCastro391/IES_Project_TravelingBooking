@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import "./cardTrains.css";
 import frame from "../images/Frame.png";
 import trainengine from "../images/trainfigma.png";
-import tracks from "../images/tracksfigma.png";
 
 const CardTrains = ({ outboundTrain }) => {
 

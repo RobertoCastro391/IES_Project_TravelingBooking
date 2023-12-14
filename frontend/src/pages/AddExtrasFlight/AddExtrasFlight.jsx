@@ -43,7 +43,7 @@ const AddExtrasFlight = () => {
     const fetchData = async (flightNumber, setFlightFunc) => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/flights/flightCheckout/${flightNumber}`
+          `${process.env.REACT_APP_API_URL}/api/flights/flightCheckout/${flightNumber}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
