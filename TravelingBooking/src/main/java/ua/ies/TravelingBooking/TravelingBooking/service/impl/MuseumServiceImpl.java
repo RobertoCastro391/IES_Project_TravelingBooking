@@ -21,13 +21,13 @@ public class MuseumServiceImpl implements MuseumService {
 
     @Override
     public Museum getMuseum(int museumID) {
-        Museum museum = museumsRepository.findById(museumID);
+        Museum museum = museumsRepository.findByMuseumID(museumID);
         return museum;
     }
 
     @Override
     public List<Museum> getAllCityMuseums(String museumLocation) {
-        return museumsRepository.findByLocation(museumLocation);
+        return museumsRepository.findByMuseumLocation(museumLocation);
     }
 
     @Override

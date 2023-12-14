@@ -13,8 +13,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "Museums")
 public class Museum {
+
     
-    //needed?
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MuseumID")
