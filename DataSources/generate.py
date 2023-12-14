@@ -1085,7 +1085,7 @@ def generate_random_museums(key):
     address = museums[key]['address']
     # lat = museums[key]['latitude']
     # long = museums[key]['longitude']
-    description = [key]['description']
+    description = museums[key]['description']
     opening_hours = f"{random.randint(9, 14)}:00 - {random.randint(17,20)}:00"
     adult_ticket = round(random.uniform(5.0, 20.0), 2)
     child_ticket = round(random.uniform(3.0, adult_ticket-1), 2)
@@ -1110,9 +1110,6 @@ def send_museum_data_to_kafka(topic, museum_data):
     producer.produce(topic, key=str(museum_data['museumName']), value=json.dumps(museum_data))
     producer.flush()
     
-
-# send to kafka
-
 def send_to_kafka(topic, flight_data):
     """Sends flight data to Kafka."""
     producer.produce(topic, key=str(flight_data['flightNumber']), value=json.dumps(flight_data))
@@ -1136,21 +1133,17 @@ send_station_data_to_kafka('station_topic')
 send_train_company_data_to_kafka('train_company_topic')  
 
 
-
-
 for _ in range(15):
     flights = generate_flights()
     for flight in flights:
         send_to_kafka('flighs_data', flight)
-    
     trains = generate_random_train()
     send_to_kafka_trains('train_data', trains)
-
-
     hotel_data = generate_random_hotels()
+    send_to_kafka_hotel('hotel_data', hotel_data)
 
 # send museums information
-# for key in museums.keys():
-#     museum_data = generate_random_museums(key)
-#     send_museum_data_to_kafka('museums_topic', museum_data)
-    send_to_kafka_hotel('hotel_data', hotel_data)
+for key in museums.keys():
+    print("Sending museums")
+    museum_data = generate_random_museums(key)
+    send_museum_data_to_kafka('museums_topic', museum_data)
