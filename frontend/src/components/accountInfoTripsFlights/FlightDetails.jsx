@@ -36,7 +36,7 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
           reservationInfo["roundTrip"] === true
         ) {
           const response2 = await fetch(
-            `${process.env.REACT_APP_API_URL}/api/flightCheckout/${reservationInfo["flightNumberInbound"]}`
+            `${process.env.REACT_APP_API_URL}/api/flights/flightCheckout/${reservationInfo["flightNumberInbound"]}`
           );
 
           if (!response2.ok) {
@@ -69,7 +69,7 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
         <div
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
-          {reservationInfo && (
+          {flightOutbound && (
             <span
               style={{
                 textAlign: "center",
@@ -77,8 +77,7 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                 fontWeight: "bold",
               }}
             >
-              {reservationInfo["reservationID"]}-{" "}
-              {reservationInfo["reservationID"]}
+              {flightOutbound["airportDestinationInfo"]["airportName"]}
             </span>
           )}
           <div className="flightTimes">

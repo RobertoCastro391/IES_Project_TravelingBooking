@@ -56,6 +56,8 @@ const TrainCheckout = () => {
         );
       }
     };
+    console.log("isOneWay", isOneWay);
+    console.log("trainNumberOutbound", trainNumberOutbound);
     if (trainNumberOutbound) {
       fetchData(trainNumberOutbound, setOutboundTrain);
     }

@@ -71,17 +71,17 @@ services:
     networks:
       - app-network
       
-  react-app:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-      args:
-        REACT_APP_API_URL: http://localhost:8080
-        # REACT_APP_API_URL: http://deti-ies-14.ua.pt:8080
-    ports:
-      - "5656:80"
-    networks:
-      - app-network
+  # react-app:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #     args:
+  #       REACT_APP_API_URL: http://localhost:8080
+  #       # REACT_APP_API_URL: http://deti-ies-14.ua.pt:8080
+  #   ports:
+  #     - "5656:80"
+  #   networks:
+  #     - app-network
 
 networks:
   app-network:

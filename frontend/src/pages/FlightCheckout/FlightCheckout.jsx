@@ -9,7 +9,7 @@ import visa from "../../components/images/visa.png";
 import mastercard from "../../components/images/master-card.png";
 import card from "../../components/images/card.png";
 import cancelation from "../../components/images/cancelation.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import CardFlightCheckout from "../../components/cardFlightCheckout/CardFlightCheckout";
 
 const FlightCheckout = () => {
@@ -29,14 +29,18 @@ const FlightCheckout = () => {
   const [priceFlight, setPriceFlight] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [optionalPrice, setOptionalPrice] = useState(0);
-  const isOneWay = localStorage.getItem("isOneWay");
-  const flightOptions = JSON.parse(localStorage.getItem("flightOptions"));
   const flightNumberOutbound = localStorage.getItem("flightOutbound");
   const flightNumberInbound = localStorage.getItem("flightInbound");
   const [outboundFlight, setOutboundFlight] = useState(null);
   const [inboundFlight, setInboundFlight] = useState(null);
   const [passengers, setPassengers] = useState([]);
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const isRoundTrip = location.state?.isRoundTrip;
+  const flightOptions = location.state?.flightOptions;
+
+
 
   useEffect(() => {
     const fetchData = async (flightNumber, setFlightFunc) => {
@@ -60,10 +64,10 @@ const FlightCheckout = () => {
       fetchData(flightNumberOutbound, setOutboundFlight);
     }
 
-    if (isOneWay === "false" && flightNumberInbound) {
+    if (isRoundTrip === true && flightNumberInbound) {
       fetchData(flightNumberInbound, setInboundFlight);
     }
-  }, [flightNumberOutbound, flightNumberInbound, isOneWay]);
+  }, [flightNumberOutbound, flightNumberInbound, isRoundTrip]);
 
   useEffect(() => {
     if (
@@ -80,7 +84,7 @@ const FlightCheckout = () => {
         ).toFixed(2)
       );
 
-      if (isOneWay === "false") {
+      if (isRoundTrip === true) {
         price += parseFloat(
           (
             flightOptions.adult * inboundFlight["price"] +
@@ -100,7 +104,7 @@ const FlightCheckout = () => {
       const priceTotal = parseFloat((price + optionalPrice).toFixed(2));
       setTotalPrice(priceTotal);
     }
-  }, [outboundFlight, flightOptions, isOneWay, inboundFlight, optionalPrice]);
+  }, [outboundFlight, flightOptions, isRoundTrip, inboundFlight, optionalPrice]);
 
   useEffect(() => {
     if (flightOptions) {
@@ -139,7 +143,7 @@ const FlightCheckout = () => {
       userID: parseInt(localStorage.getItem("userId")),
       flightNumberOutbound: flightNumberOutbound,
       flightNumberInbound: flightNumberInbound === "null" ? null : flightNumberInbound,
-      isRoundTrip: isOneWay === "true" ? false : true,
+      roundTrip: isRoundTrip,
       totalPrice: totalPrice,
       reservationDate: new Date().toISOString(),
       passengers: passengers,
@@ -197,7 +201,7 @@ const FlightCheckout = () => {
   return (
     <div>
       <Navbar />
-      <Header type="addExtrasFLight" />
+      <Header type="addExtrasFLight" isRoundTrip={isRoundTrip} flightOptions={flightOptions} />
       <div className="containerCheckout">
         <div className="container1">
           <p style={{ fontSize: "25px" }}>
@@ -613,7 +617,7 @@ const FlightCheckout = () => {
             >
               <p>Flight Details</p>
               <div>
-                {isOneWay === "true" ? (
+                {isRoundTrip === false ? (
                   <div>
                     {outboundFlight && outboundFlight["airline_Code"] ? (
                       <CardFlightCheckout flight={outboundFlight} />
@@ -636,7 +640,7 @@ const FlightCheckout = () => {
                   </div>
                 )}
               </div>
-              {isOneWay === "false" ? (
+              {isRoundTrip === true ? (
                 <div
                   style={{
                     display: "flex",

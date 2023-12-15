@@ -5,7 +5,7 @@ import TrainsSearch from "../searchTrainsHeader/TrainsSearch";
 import MuseumsSearch from "../searchMuseumsHeader/MuseumsSearch";
 import AddExtrasFlightHeader from "../addExtrasFlightHeader/AddExtrasFlightHeader";
 
-const Header = ({ type='home' }) => {
+const Header = ({ type='home', isRoundTrip=null, flightOptions=null }) => {
   return (
     <div className="header">
       <div className="headerContainer">
@@ -19,7 +19,7 @@ const Header = ({ type='home' }) => {
 
         {type === "museumscity" && <MuseumsSearch showSearchButton={false} />}
 
-        {type === "addExtrasFLight" && <AddExtrasFlightHeader/>}
+        {type === "addExtrasFLight" && <AddExtrasFlightHeader isRoundTrip={isRoundTrip} flightOptions={flightOptions}/>}
       
       </div>
     </div>

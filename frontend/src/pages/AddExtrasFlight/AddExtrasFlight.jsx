@@ -8,13 +8,16 @@ import important from "../../static/important.png";
 import backpack from "../../static/backPack.png";
 import handluggage from "../../static/handluggage.png";
 import checked from "../../static/checked.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
 
 const AddExtrasFlight = () => {
   const flightDate = localStorage.getItem("flightDate");
-  const isOneWay = localStorage.getItem("isOneWay");
+  const location = useLocation();
+  const isRoundTrip = location.state?.isRoundTrip;
+  const flightOptions = location.state?.flightOptions;
   const flightNumberOutbound = localStorage.getItem("flightOutbound");
-  const flightNumberInbound = localStorage.getItem("flightInbound");
+  const flightNumberInbound = localStorage.getItem("flightInbound");  
   const [outboundFlight, setOutboundFlight] = useState(null);
   const [inboundFlight, setInboundFlight] = useState(null);
   const navigate = useNavigate();
@@ -36,7 +39,7 @@ const AddExtrasFlight = () => {
   };
 
   const hanleContinue = () => {
-    navigate("/flightCheckout");
+    navigate("/flightCheckout", { state: { isRoundTrip, flightOptions }});
   };
 
   useEffect(() => {
@@ -61,19 +64,19 @@ const AddExtrasFlight = () => {
       fetchData(flightNumberOutbound, setOutboundFlight);
     }
 
-    if (isOneWay === "false" && flightNumberInbound) {
+    if (isRoundTrip === true && flightNumberInbound) {
       fetchData(flightNumberInbound, setInboundFlight);
     }
-  }, [flightNumberOutbound, flightNumberInbound, isOneWay]);
+  }, [flightNumberOutbound, flightNumberInbound, isRoundTrip]);
 
   return (
     <div>
       <Navbar />
-      <Header type="addExtrasFLight" />
+      <Header type="addExtrasFLight" isRoundTrip={isRoundTrip} flightOptions={flightOptions} />
       <div className="containerFlightADD">
         <div className="row">
           <div className="col">
-            {isOneWay === "false" ? (
+            {isRoundTrip === true ? (
               <div>
                 <p>Outbound,</p>
                 <div className="col-2">

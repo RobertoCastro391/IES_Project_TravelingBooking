@@ -38,8 +38,6 @@ const Register = () => {
         throw new Error("Passwords do not match");
       }
 
-
-
       const userData = {
         firstName,
         lastName,
@@ -73,8 +71,9 @@ const Register = () => {
         throw new Error("Registration failed");
       }
 
-      // Handle the response. Redirect or inform the user as needed.
-      console.log("User registered successfully");
+      alert("Registration successful");
+      window.location.href = "/login";
+
     } catch (error) {
       setError(error.message);
     }

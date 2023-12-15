@@ -88,11 +88,9 @@ const FlightsSearch = () => {
         [name]: operation === "i" ? options[name] + 1 : options[name] - 1,
       };
     });
-    localStorage.setItem("flightOptions", JSON.stringify(options));
   };
 
   const handleClassChange = (event) => {
-    localStorage.setItem("flightClass", event.target.value);
     setFlightClass(event.target.value);
     const selectedClass = event.target.value;
     setOptions((prevOptions) => ({
@@ -103,7 +101,6 @@ const FlightsSearch = () => {
 
   const handleOneWayChange = (event) => {
     setIsOneWay(event.target.checked);
-    localStorage.setItem("isOneWay", event.target.checked);
   };
 
   const fetchFlights = async () => {
@@ -149,7 +146,10 @@ const FlightsSearch = () => {
         const destinationCode = data.outboundFlights[0].airportDestinationInfo.airportName;
         localStorage.setItem("flightDestination", destinationCode);
       }
-      navigate("/flights", { state: { flightsData: data } });
+
+      console.log("options");
+      console.log(!isOneWay);
+      navigate("/flights", { state: { flightsData: data, isRoundTrip: !isOneWay, flightOptions:  options} });
     } catch (error) {
       console.error("Failed to fetch flights:", error);
     }
