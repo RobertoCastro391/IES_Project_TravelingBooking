@@ -6,6 +6,7 @@ import requests
 from faker import Faker
 from confluent_kafka import Producer
 import geopy.distance
+import numpy as np # used in msf
 
 # Initialize Faker for random data generation
 faker = Faker()
@@ -905,6 +906,15 @@ def calculate_duration(origin, destination):
     duration_hours = distance / average_speed_km_per_hour
     return timedelta(hours=duration_hours)
 
+def define_state():
+    states = ['OK', 'Canceled', 'Delay']
+    probs = [0.45, 0.35, 0.20]
+
+    selected_state = np.random.choice(states, p=probs)
+
+    print(selected_state)
+    return selected_state
+
 def generate_flights():
     all_flights = []
 
@@ -916,7 +926,7 @@ def generate_flights():
 
     # Replicar voos para cada companhia aérea durante 90 dias
     for airline_code in selected_airlines:
-        for day_offset in range(90):
+        for day_offset in range(10):
             # Gerar horários aleatórios de partida para cada voo
             departure_time_ida = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=day_offset)
             departure_time_ida += timedelta(hours=random.randint(0, 23), minutes=random.randint(0, 59))
@@ -937,6 +947,7 @@ def generate_flights():
                 "departureHour": departure_time_ida.strftime('%Y-%m-%d %H:%M'),
                 "arrivalHour": arrival_time_ida.strftime('%Y-%m-%d %H:%M'),
                 "duration": str(duration_ida),
+                "state": define_state(),
                 "price": round(random.uniform(50.0, 1000.0), 2),
                 "seats": random.randint(1, 300)
             }
@@ -950,6 +961,7 @@ def generate_flights():
                 "departureHour": departure_time_volta.strftime('%Y-%m-%d %H:%M'),
                 "arrivalHour": arrival_time_volta.strftime('%Y-%m-%d %H:%M'),
                 "duration": str(duration_volta),
+                "state": define_state(),
                 "price": round(random.uniform(50.0, 1000.0), 2),
                 "seats": random.randint(1, 300)
             }
@@ -958,6 +970,13 @@ def generate_flights():
             all_flights.append(voo_volta)
 
     return all_flights
+
+# def promotion_price(price):
+#     newprice = round(random.uniform(80.0, price), 2) # generate prommotion price, always lower than the initial price
+
+#     return {
+#         # same hotel with diferent price
+#     }
 
 
 def generate_random_hotels():
@@ -986,7 +1005,6 @@ def generate_random_hotels():
         "roomsReview": round(random.uniform(0, 5.0), 2),
         "sleepQualityReview": round(random.uniform(0, 5.0), 2)
     }
-
 
 def send_airport_data_to_kafka(topic):
     """Sends airport data to Kafka."""
@@ -1132,18 +1150,31 @@ send_airline_data_to_kafka('airlines_topic')
 send_station_data_to_kafka('station_topic')
 send_train_company_data_to_kafka('train_company_topic')  
 
+# generate along time
 
-for _ in range(15):
-    flights = generate_flights()
-    for flight in flights:
-        send_to_kafka('flighs_data', flight)
-    trains = generate_random_train()
-    send_to_kafka_trains('train_data', trains)
-    hotel_data = generate_random_hotels()
-    send_to_kafka_hotel('hotel_data', hotel_data)
+try:
+    while True: # while the program is running there are information being generated
+        print('AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH')
+        for _ in range(7):
+            flights = generate_flights() # 7x10 flights
+            for flight in flights:
+                send_to_kafka('flighs_data', flight)
+                print("Sending flight data")
 
-# send museums information
-for key in museums.keys():
-    print("Sending museums")
-    museum_data = generate_random_museums(key)
-    send_museum_data_to_kafka('museums_topic', museum_data)
+            trains = generate_random_train()
+            send_to_kafka_trains('train_data', trains)
+            print("Sending train data")
+
+            hotel_data = generate_random_hotels()
+            send_to_kafka_hotel('hotel_data', hotel_data)
+
+        # send museums information
+        for key in museums.keys():
+            print("Sending museum data")
+            museum_data = generate_random_museums(key)
+            send_museum_data_to_kafka('museums_topic', museum_data)
+
+        time.sleep(3) # sleep 3 seconds
+    
+except KeyboardInterrupt:
+    print("Keyboard Interrupt")

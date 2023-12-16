@@ -41,6 +41,9 @@ public class Flight {
     @Column(name = "Duration", nullable = false)
     private String duration;
 
+    @Column(name = "State", nullable = false)
+    private String state;
+
     @Column(name = "Price", nullable = false)
     private Double price;
 
