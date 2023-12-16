@@ -40,8 +40,6 @@ const FlightCheckout = () => {
   const isRoundTrip = location.state?.isRoundTrip;
   const flightOptions = location.state?.flightOptions;
 
-
-
   useEffect(() => {
     const fetchData = async (flightNumber, setFlightFunc) => {
       try {
@@ -104,7 +102,13 @@ const FlightCheckout = () => {
       const priceTotal = parseFloat((price + optionalPrice).toFixed(2));
       setTotalPrice(priceTotal);
     }
-  }, [outboundFlight, flightOptions, isRoundTrip, inboundFlight, optionalPrice]);
+  }, [
+    outboundFlight,
+    flightOptions,
+    isRoundTrip,
+    inboundFlight,
+    optionalPrice,
+  ]);
 
   useEffect(() => {
     if (flightOptions) {
@@ -136,13 +140,14 @@ const FlightCheckout = () => {
 
       setPassengers([...adultPassengers, ...childPassengers]);
     }
-  }, [flightOptions.adult,flightOptions.children]);
+  }, [flightOptions.adult, flightOptions.children]);
 
   const handleCheckout = async () => {
     const reservationData = {
       userID: parseInt(localStorage.getItem("userId")),
       flightNumberOutbound: flightNumberOutbound,
-      flightNumberInbound: flightNumberInbound === "null" ? null : flightNumberInbound,
+      flightNumberInbound:
+        flightNumberInbound === "null" ? null : flightNumberInbound,
       roundTrip: isRoundTrip,
       totalPrice: totalPrice,
       reservationDate: new Date().toISOString(),
@@ -157,27 +162,30 @@ const FlightCheckout = () => {
       addressCard2: addressLine2 ? addressLine2 : null,
       cityCard: city,
       zipCodeCard: postalCode,
-      countryCard: country
+      countryCard: country,
     };
 
-    console.log("Reservation data:", reservationData);
-  
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/flights/createReservation`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(reservationData)
-      });
-  
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/flights/createReservation`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reservationData),
+        }
+      );
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       const responseData = await response.json();
       console.log("Reservation successful:", responseData);
-      alert(`You have successfully booked your flight!\nYour confirmation conde is ${responseData.reservationId}\nThank you for choosing TravellingBooking by IES!`);
+      alert(
+        `You have successfully booked your flight!\nYour confirmation conde is ${responseData.reservationId}\nThank you for choosing TravellingBooking by IES!`
+      );
       navigate("/"); // Redirect to home or confirmation page
     } catch (error) {
       console.error("Error in making reservation:", error.Error);
@@ -195,13 +203,14 @@ const FlightCheckout = () => {
     setPassengers(newPassengers);
   };
 
-  console.log("passengers");
-  console.log(passengers);
-
   return (
     <div>
       <Navbar />
-      <Header type="addExtrasFLight" isRoundTrip={isRoundTrip} flightOptions={flightOptions} />
+      <Header
+        type="addExtrasFLight"
+        isRoundTrip={isRoundTrip}
+        flightOptions={flightOptions}
+      />
       <div className="containerCheckout">
         <div className="container1">
           <p style={{ fontSize: "25px" }}>
@@ -778,7 +787,7 @@ const FlightCheckout = () => {
                   Free cancellation
                 </p>
               </div>
-              {/* {outboundFlight["flightDate"] ? (
+              {outboundFlight && outboundFlight["flightDate"] ? (
                 <p
                   style={{
                     marginTop: "10px",
@@ -798,7 +807,7 @@ const FlightCheckout = () => {
                 </p>
               ) : (
                 <p>Loading...</p>
-              )} */}
+              )}
             </div>
           </div>
         </div>

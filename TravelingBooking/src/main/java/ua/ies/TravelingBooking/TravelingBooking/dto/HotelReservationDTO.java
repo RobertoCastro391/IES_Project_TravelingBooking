@@ -5,7 +5,7 @@ import java.util.List;
 
 public class HotelReservationDTO {
     private int userID;
-    private int hotelID;
+    private int hotelid;
     private double totalPrice;
     private Date reservationDate;
     private List<PassengerDTO> passengers;
@@ -30,12 +30,12 @@ public class HotelReservationDTO {
         this.userID = userID;
     }
 
-    public int getHotelID() {
-        return hotelID;
+    public int getHotelId() {
+        return hotelid;
     }
 
-    public void setHptelId(Integer hotelID) {
-        this.hotelID = hotelID;
+    public void setHotelId(Integer hotelid) {
+        this.hotelid = hotelid;
     }
 
     public double getTotalPrice() {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 import FlightDetails from "../../components/accountInfoTripsFlights/FlightDetails";
+import TrainDetails from "../../components/accountInfoTripsTrains/TrainDetails";
 import AccountInfo from "../../components/accountInfo/AccountInfo";
 import "./account.css";
 import tap from "../../static/tap.png";
@@ -106,8 +107,9 @@ const Account = () => {
         // Assuming data is an array of reservations
         const userTrains = data.map((trip) => ({
           reservationID: trip.id,
-          trainOutbound: trip.trainOutbound,
-          trainInbound: trip.trainInbound,
+          trainNumberOutbound: trip.trainNumberOutbound,
+          trainNumberInbound: trip.trainNumberInbound,
+          roundTrip: trip.roundTrip,
           totalPrice: trip.totalPrice,
           reservationDate: trip.reservationDate,
           passengers: trip.passengers,
@@ -228,7 +230,7 @@ const Account = () => {
               </div>
             )}
             {userTrains.map((reservationInfo, index) => (
-              <FlightDetails
+              <TrainDetails
                 key={index}
                 reservationInfo={reservationInfo}
                 imageUrl={paris}

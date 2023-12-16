@@ -9,7 +9,7 @@ import visa from "../../components/images/visa.png";
 import mastercard from "../../components/images/master-card.png";
 import card from "../../components/images/card.png";
 import cancelation from "../../components/images/cancelation.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import CardTrainCheckout from "../../components/cardTrainCheckout/CardTrainCheckout";
 
 const TrainCheckout = () => {
@@ -29,14 +29,15 @@ const TrainCheckout = () => {
   const [priceTrain, setPriceTrain] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [optionalPrice, setOptionalPrice] = useState(0);
-  const isOneWay = localStorage.getItem("isOneWayTrains");
-  const trainOptions = JSON.parse(localStorage.getItem("trainOptions"));
-  const trainNumberOutbound = localStorage.getItem("trainNumberOutbound");
-  const trainNumberInbound = localStorage.getItem("trainNumberInbound");
   const [outboundTrain, setOutboundTrain] = useState(null);
   const [inboundTrain, setInboundTrain] = useState(null);
   const [passengers, setPassengers] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const isRoundTrip = location.state?.isRoundTrip;
+  const trainOptions = location.state?.trainOptions;
+  const trainNumberOutbound = location.state?.trainNumberOutbound;
+  const trainNumberInbound = location.state?.trainNumberInbound;
 
   useEffect(() => {
     const fetchData = async (trainNumber, setTrainFunc) => {
@@ -48,6 +49,11 @@ const TrainCheckout = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
+        
+        
+        console.log("data")
+        console.log(data)
+        
         setTrainFunc(data);
       } catch (error) {
         console.error(
@@ -56,16 +62,15 @@ const TrainCheckout = () => {
         );
       }
     };
-    console.log("isOneWay", isOneWay);
-    console.log("trainNumberOutbound", trainNumberOutbound);
+
     if (trainNumberOutbound) {
       fetchData(trainNumberOutbound, setOutboundTrain);
     }
 
-    if (isOneWay === "false" && trainNumberInbound) {
+    if (isRoundTrip === true && trainNumberInbound) {
       fetchData(trainNumberInbound, setInboundTrain);
     }
-  }, [trainNumberOutbound, trainNumberInbound, isOneWay]);
+  }, [trainNumberOutbound, trainNumberInbound, isRoundTrip]);
 
   useEffect(() => {
     if (
@@ -82,27 +87,31 @@ const TrainCheckout = () => {
         ).toFixed(2)
       );
 
-      if (isOneWay === "false") {
-        price += parseFloat(
-          (
-            trainOptions.adult * inboundTrain["price1stclass"] +
-            (trainOptions.children * inboundTrain["price1stclass"]) / 2
-          ).toFixed(2)
-        );
-        setOptionalPrice(
-          parseFloat(
-            ((outboundTrain["price1stclass"] + inboundTrain["price1stclass"]) / 3).toFixed(2)
-          )
-        );
-      } else {
-        setOptionalPrice(parseFloat((outboundTrain["price1stclass"] / 3).toFixed(2)));
-      }
+      // if (isRoundTrip === true) {
+      //   price += parseFloat(
+      //     (
+      //       trainOptions.adult * inboundTrain["price1stclass"] +
+      //       (trainOptions.children * inboundTrain["price1stclass"]) / 2
+      //     ).toFixed(2)
+      //   );
+      //   setOptionalPrice(
+      //     parseFloat(
+      //       ((outboundTrain["price1stclass"] + inboundTrain["price1stclass"]) / 3).toFixed(2)
+      //     )
+      //   );
+      // } else {
+      //   setOptionalPrice(parseFloat((outboundTrain["price1stclass"] / 3).toFixed(2)));
+      // }
 
-      setPriceTrain(price); 
+      setOptionalPrice(
+        parseFloat((outboundTrain["price1stclass"] / 3).toFixed(2))
+      );
+
+      setPriceTrain(price);
       const priceTotal = parseFloat((price + optionalPrice).toFixed(2));
       setTotalPrice(priceTotal);
     }
-  }, [outboundTrain, trainOptions, isOneWay, inboundTrain, optionalPrice]);
+  }, [outboundTrain, trainOptions, isRoundTrip, inboundTrain, optionalPrice]);
 
   useEffect(() => {
     if (trainOptions) {
@@ -134,14 +143,15 @@ const TrainCheckout = () => {
 
       setPassengers([...adultPassengers, ...childPassengers]);
     }
-  }, [trainOptions.adult,trainOptions.children]);
+  }, [trainOptions.adult, trainOptions.children]);
 
   const handleCheckout = async () => {
     const reservationData = {
       userID: parseInt(localStorage.getItem("userId")),
       trainNumberOutbound: trainNumberOutbound,
-      trainNumberInbound: trainNumberInbound === "null" ? null : trainNumberInbound,
-      roundTrip: isOneWay === "true" ? false : true,
+      trainNumberInbound:
+        trainNumberInbound === "null" ? null : trainNumberInbound,
+      roundTrip: isRoundTrip,
       totalPrice: totalPrice,
       reservationDate: new Date().toISOString(),
       passengers: passengers,
@@ -155,27 +165,32 @@ const TrainCheckout = () => {
       addressCard2: addressLine2 ? addressLine2 : null,
       cityCard: city,
       zipCodeCard: postalCode,
-      countryCard: country
+      countryCard: country,
     };
 
     console.log("Reservation data:", reservationData);
-  
+
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trains/createReservation`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(reservationData)
-      });
-  
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/trains/createReservation`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reservationData),
+        }
+      );
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       const responseData = await response.json();
       console.log("Reservation successful:", responseData);
-      alert(`You have successfully booked your train!\nYour confirmation conde is ${responseData.reservationId}\nThank you for choosing TravellingBooking by IES!`);
+      alert(
+        `You have successfully booked your train!\nYour confirmation conde is ${responseData.reservationId}\nThank you for choosing TravellingBooking by IES!`
+      );
       navigate("/"); // Redirect to home or confirmation page
     } catch (error) {
       console.error("Error in making reservation:", error.Error);
@@ -615,16 +630,16 @@ const TrainCheckout = () => {
             >
               <p>Train Details</p>
               <div>
-                {isOneWay === "true" ? (
-                  <div>
+                {isRoundTrip === false ? (
+                  <div style={{ marginTop: "1%" }}>
                     {outboundTrain && outboundTrain["companyCode"] ? (
                       <CardTrainCheckout train={outboundTrain} />
                     ) : (
                       "Loading..."
-                    )} 
+                    )}
                   </div>
                 ) : (
-                  <div>
+                  <div style={{ marginTop: "1%" }}>
                     {outboundTrain && outboundTrain["companyCode"] ? (
                       <CardTrainCheckout train={outboundTrain} />
                     ) : (
@@ -638,7 +653,7 @@ const TrainCheckout = () => {
                   </div>
                 )}
               </div>
-              {isOneWay === "false" ? (
+              {isRoundTrip === true ? (
                 <div
                   style={{
                     display: "flex",
@@ -777,7 +792,7 @@ const TrainCheckout = () => {
                   Free cancellation
                 </p>
               </div>
-              {/* {outboundTrain["trainDate"] ? (
+              { outboundTrain && outboundTrain["travelDate"] ? (
                 <p
                   style={{
                     marginTop: "10px",
@@ -788,7 +803,7 @@ const TrainCheckout = () => {
                 >
                   Free cancellation before 11:59 PM on{" "}
                   {(() => {
-                    const trainDate = new Date(outboundTrain["trainDate"]);
+                    const trainDate = new Date(outboundTrain["travelDate"]);
                     trainDate.setDate(trainDate.getDate() - 1); // Subtract one day
                     return trainDate.toISOString().split("T")[0]; // Format to YYYY-MM-DD
                   })()}{" "}
@@ -797,7 +812,7 @@ const TrainCheckout = () => {
                 </p>
               ) : (
                 <p>Loading...</p>
-              )} */}
+              )}
             </div>
           </div>
         </div>

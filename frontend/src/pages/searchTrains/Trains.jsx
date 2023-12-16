@@ -17,6 +17,8 @@ const TrainBookingPage = () => {
 
   const location = useLocation();
   const trainData = location.state?.trainsData;
+  const isRoundTrip = location.state?.isRoundTrip;
+  const trainOptions = location.state?.trainOptions;
 
   const handleSelectStops = (value) => {
     setStopsFilter(value);
@@ -90,7 +92,7 @@ const TrainBookingPage = () => {
         <div className="container3">
           {trainData["outboundTrains"] && trainData["outboundTrains"].length > 0 ? (
             trainData["outboundTrains"].map((train) => (
-              <CardTrains outboundTrain={train}/>
+              <CardTrains outboundTrain={train} isRoundTrip={isRoundTrip} trainOptions={trainOptions}/>
             ))
           ) : (
             <p>No trains available</p>

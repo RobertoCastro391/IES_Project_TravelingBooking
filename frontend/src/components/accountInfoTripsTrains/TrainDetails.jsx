@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./FlightDetails.css";
-import layer1 from "../images/Layer_1.png";
+import "./TrainDetails.css";
+import layer1 from "../images/trainfigma.png";
 
-const FlightDetails = ({ reservationInfo, imageUrl }) => {
-  const [flightOutbound, setFlightOutbound] = useState();
-  const [flightInbound, setFlightInbound] = useState();
+const TrainDetails = ({ reservationInfo, imageUrl }) => {
+  const [trainOutbound, setTrainOutbound] = useState();
+  const [trainInbound, setTrainInbound] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const toggleModal = () => {
@@ -17,11 +17,10 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
   };
 
   useEffect(() => {
-    const fetchFlightInfo = async () => {
+    const fetchTrainInfo = async () => {
       try {
-        
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/flights/flightCheckout/${reservationInfo["flightNumberOutbound"]}`
+          `${process.env.REACT_APP_API_URL}/api/trains/trainCheckout/${reservationInfo["trainNumberOutbound"]}`
         );
 
         if (!response.ok) {
@@ -29,14 +28,14 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
         }
 
         const data = await response.json();
-        setFlightOutbound(data);
+        setTrainOutbound(data);
 
         if (
-          reservationInfo["flightNumberInbound"] !== null &&
+          reservationInfo["trainNumberInbound"] !== null &&
           reservationInfo["roundTrip"] === true
         ) {
           const response2 = await fetch(
-            `${process.env.REACT_APP_API_URL}/api/flights/flightCheckout/${reservationInfo["flightNumberInbound"]}`
+            `${process.env.REACT_APP_API_URL}/api/trains/trainCheckout/${reservationInfo["trainNumberInbound"]}`
           );
 
           if (!response2.ok) {
@@ -44,13 +43,13 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
           }
 
           const data2 = await response2.json();
-          setFlightInbound(data2);
+          setTrainInbound(data2);
         }
       } catch (error) {
         console.error("Failed to fetch flight info:", error);
       }
     };
-    fetchFlightInfo();
+    fetchTrainInfo();
   }, []);
 
   const formatDate = (dateString) => {
@@ -69,7 +68,7 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
         <div
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
-          {flightOutbound && (
+          {trainOutbound && (
             <span
               style={{
                 textAlign: "center",
@@ -77,33 +76,26 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                 fontWeight: "bold",
               }}
             >
-              {flightOutbound["airportDestinationInfo"]["airportName"]}
+              {trainOutbound["stationDestinationInfo"]["stationName"]}
             </span>
           )}
           <div className="flightTimes">
-            {flightOutbound && (
-              <img
-                src={`https://www.flightaware.com/images/airline_logos/90p/${flightOutbound["airline_Code"]["airlineICAO"]}.png`}
-                alt="Airline Logo"
-                className="airlineLogoFlightDetails"
-              />
-            )}
-            <div className="outbound" style={{marginLeft: "2%"}}>
+            <div className="outbound">
               <div className="outbound1">
                 <span className="label">Outbound - </span>
                 <span>
-                  {flightOutbound ? (
+                  {trainOutbound ? (
                     <label
                       style={{ flex: "auto", marginLeft: "2%", width: "100%" }}
                     >
-                      {formatDate(flightOutbound.flightDate.split("T")[0])}
+                      {formatDate(trainOutbound.travelDate.split("T")[0])}
                     </label>
                   ) : (
                     "Loading..."
                   )}
                 </span>
               </div>
-              {flightOutbound ? (
+              {trainOutbound ? (
                 <div
                   style={{
                     flex: 20,
@@ -122,11 +114,9 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                     }}
                   >
                     <p className="text">
-                      {flightOutbound["departureHour"].split(" ")[1]}
+                      {trainOutbound["departureHour"].split(" ")[1]}
                     </p>
-                    <p className="text">
-                      {flightOutbound["airportCodeOrigin"]}
-                    </p>
+                    <p className="text">{trainOutbound["stationCodeOrigin"]}</p>
                   </div>
                   <div className="div">
                     <div
@@ -136,19 +126,19 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                         marginTop: "0.5%",
                       }}
                     >
-                      <p className="text">{flightOutbound["flightNumber"]}</p>
+                      <p className="text">{trainOutbound["trainNumber"]}</p>
                       <p className="text">
-                        {flightOutbound["airline_Code"]["airlineName"]}
+                        {trainOutbound["companyCode"]["trainCompanyName"]}
                       </p>
                       <p className="text">
-                        {flightOutbound["duration"].split(":")[0] +
+                        {trainOutbound["duration"].split(":")[0] +
                           "H:" +
-                          flightOutbound["duration"].split(":")[1] +
+                          trainOutbound["duration"].split(":")[1] +
                           "M"}
                       </p>
                     </div>
                     <img
-                      className="svg-layer"
+                      className="svg-layerTrains"
                       style={{ top: "-9.5px" }}
                       alt="Svg layer"
                       src={layer1}
@@ -163,10 +153,10 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                     }}
                   >
                     <p className="text">
-                      {flightOutbound["arrivalHour"].split(" ")[1]}
+                      {trainOutbound["arrivalHour"].split(" ")[1]}
                     </p>
                     <p className="text">
-                      {flightOutbound["airportCodeDestination"]}
+                      {trainOutbound["stationCodeDestination"]}
                     </p>
                   </div>
                 </div>
@@ -175,20 +165,13 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
               )}
             </div>
           </div>
-          {reservationInfo["roundTrip"] === true && flightInbound && (
+          {reservationInfo["roundTrip"] === true && trainInbound && (
             <div className="flightTimes">
-              {flightInbound && (
-                <img
-                  src={`https://www.flightaware.com/images/airline_logos/90p/${flightInbound["airline_Code"]["airlineICAO"]}.png`}
-                  alt="Airline Logo"
-                  className="airlineLogoFlightDetails"
-                />
-              )}
-              <div className="outbound" style={{marginLeft: "2%"}}>
+              <div className="outbound">
                 <div className="outbound1">
                   <span className="label">Return - </span>
                   <span>
-                    {flightInbound ? (
+                    {trainInbound ? (
                       <label
                         style={{
                           flex: "auto",
@@ -196,14 +179,14 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                           width: "100%",
                         }}
                       >
-                        {formatDate(flightInbound.flightDate.split("T")[0])}
+                        {formatDate(trainInbound.travelDate.split("T")[0])}
                       </label>
                     ) : (
                       "Loading..."
                     )}
                   </span>
                 </div>
-                {flightInbound ? (
+                {trainInbound ? (
                   <div
                     style={{
                       flex: 20,
@@ -222,10 +205,10 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                       }}
                     >
                       <p className="text">
-                        {flightInbound["departureHour"].split(" ")[1]}
+                        {trainInbound["departureHour"].split(" ")[1]}
                       </p>
                       <p className="text">
-                        {flightInbound["airportCodeOrigin"]}
+                        {trainInbound["stationCodeOrigin"]}
                       </p>
                     </div>
                     <div className="div">
@@ -236,19 +219,19 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                           marginTop: "0.5%",
                         }}
                       >
-                        <p className="text">{flightInbound["flightNumber"]}</p>
+                        <p className="text">{trainInbound["trainNumber"]}</p>
                         <p className="text">
-                          {flightInbound["airline_Code"]["airlineName"]}
+                          {trainInbound["companyCode"]["trainCompanyName"]}
                         </p>
                         <p className="text">
-                          {flightInbound["duration"].split(":")[0] +
+                          {trainInbound["duration"].split(":")[0] +
                             "H:" +
-                            flightInbound["duration"].split(":")[1] +
+                            trainInbound["duration"].split(":")[1] +
                             "M"}
                         </p>
                       </div>
                       <img
-                        className="svg-layer"
+                        className="svg-layerTrains"
                         style={{ top: "-9.5px" }}
                         alt="Svg layer"
                         src={layer1}
@@ -263,10 +246,10 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                       }}
                     >
                       <p className="text">
-                        {flightInbound["arrivalHour"].split(" ")[1]}
+                        {trainInbound["arrivalHour"].split(" ")[1]}
                       </p>
                       <p className="text">
-                        {flightInbound["airportCodeDestination"]}
+                        {trainInbound["stationCodeDestination"]}
                       </p>
                     </div>
                   </div>
@@ -277,21 +260,19 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
             </div>
           )}
         </div>
+        <button className="detailsButton" onClick={toggleModal}>
+          See Details
+        </button>
       </div>
-      <div className="flightDetailsBody">
-        <img src={imageUrl} alt="paris" className="destinationImage" />
-      </div>
-      <button className="detailsButton" onClick={toggleModal}>
-        See Details
-      </button>
+
       {isModalVisible && (
         <div className="modal">
           <div className="modal-content">
-            {flightOutbound && reservationInfo && (
+            {trainOutbound && reservationInfo && (
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <p style={{ textAlign: "center" }}>
-                    {flightOutbound["airportDestinationInfo"]["airportName"]}
+                    {trainOutbound["stationDestinationInfo"]["stationName"]}
                   </p>
                 </div>
                 <div style={{ display: "flex", marginTop: "1%" }}>
@@ -377,4 +358,4 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
   );
 };
 
-export default FlightDetails;
+export default TrainDetails;

@@ -10,7 +10,7 @@ import "./cardTrains.css";
 import frame from "../images/Frame.png";
 import trainengine from "../images/trainfigma.png";
 
-const CardTrains = ({ outboundTrain }) => {
+const CardTrains = ({ outboundTrain, isRoundTrip=null, trainOptions=null }) => {
 
   console.log("CardTrains")
   console.log(outboundTrain)
@@ -29,9 +29,9 @@ const CardTrains = ({ outboundTrain }) => {
     const userId = localStorage.getItem("userId");
 
     if (userId) {
-      navigate("/traincheckout");
       localStorage.setItem("trainNumberOutbound", train['trainNumber']);
       localStorage.setItem("trainNumberInbound", null)
+      navigate("/traincheckout", { state: {isRoundTrip: isRoundTrip, trainOptions: trainOptions, trainNumberOutbound: train['trainNumber'], trainNumberInbound: null }});
       alert(`You have booked train ${train['trainNumber']}!`);
     } else {
       navigate("/login");
@@ -82,7 +82,7 @@ const CardTrains = ({ outboundTrain }) => {
                     }
                   </p>
                 </div>
-                <img className="svg-layer" src={trainengine} />
+                <img className="svg-layerTrains" src={trainengine} />
               </div>
               <div
                 style={{

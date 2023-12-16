@@ -19,6 +19,8 @@ const Hotel = () => {
 
   const location = useLocation();
   const hotelsData = location.state?.hotels;
+  const dates = location.state?.dates;
+  const hotelOptions = location.state?.options;
 
   console.log("hotelsData");
   console.log(hotelsData);
@@ -99,6 +101,8 @@ const Hotel = () => {
               <HotelCard
                 key={index}
                 hotel={hotel}
+                dates={dates}
+                hotelOptions={hotelOptions}
               />
             ))
           ) : (

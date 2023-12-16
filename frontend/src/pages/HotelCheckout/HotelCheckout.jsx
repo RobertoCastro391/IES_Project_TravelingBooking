@@ -31,17 +31,13 @@ const HotelCheckout = ({hotel}) => {
   const [pricehotel, setPricehotel] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [optionalPrice, setOptionalPrice] = useState(0);
-  const isOneWay = localStorage.getItem("isOneWay");
-  const flightOptions = JSON.parse(localStorage.getItem("flightOptions"));
-  const hotelNumberOutbound = localStorage.getItem("hotelOutbound");
-  const hotelNumberInbound = localStorage.getItem("hotelInbound");
-  const [outboundhotel, setOutboundhotel] = useState(null);
-  const [inboundhotel, setInboundhotel] = useState(null);
   const [passengers, setPassengers] = useState([]);
   const navigate = useNavigate();
 
   const location = useLocation();
   const hotelData = location.state?.hotel;
+  const dates = location.state?.dates;
+  const hotelOptions = location.state?.hotelOptions;
 
   console.log("hotelData");
   console.log(hotelData);
@@ -84,9 +80,9 @@ const HotelCheckout = ({hotel}) => {
   // }, [outboundhotel, flightOptions, isOneWay, inboundhotel, optionalPrice]);
 
   useEffect(() => {
-    if (flightOptions) {
+    if (hotelOptions) {
       const adultPassengers = Array.from(
-        { length: flightOptions.adult },
+        { length: hotelOptions.adult },
         () => ({
           type: "Adult",
           firstName: "",
@@ -99,7 +95,7 @@ const HotelCheckout = ({hotel}) => {
       );
 
       const childPassengers = Array.from(
-        { length: flightOptions.children },
+        { length: hotelOptions.children },
         () => ({
           type: "Children",
           firstName: "",
@@ -113,12 +109,16 @@ const HotelCheckout = ({hotel}) => {
 
       setPassengers([...adultPassengers, ...childPassengers]);
     }
-  }, [flightOptions.adult,flightOptions.children]);
+  }, [hotelOptions]);
 
   const handleCheckout = async () => {
+    
+    console.log("hotelData");
+    console.log(hotelData);
+    
     const reservationData = {
       userID: parseInt(localStorage.getItem("userId")),
-      hotelID: hotelData.hotelID,
+      hotelId: hotelData.hotelID,
       totalPrice: hotelData.initialPrice,
       reservationDate: new Date().toISOString(),
       passengers: passengers,
@@ -138,7 +138,7 @@ const HotelCheckout = ({hotel}) => {
     console.log("Reservation data:", reservationData);
   
     try {
-      const response = await fetch("http://localhost:8080/api/createReservation", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/hotels/createReservation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

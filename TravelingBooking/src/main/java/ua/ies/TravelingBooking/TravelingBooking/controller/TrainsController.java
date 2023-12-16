@@ -3,8 +3,6 @@ package ua.ies.TravelingBooking.TravelingBooking.controller;
 import lombok.AllArgsConstructor;
 import ua.ies.TravelingBooking.TravelingBooking.entity.TrainCompany;
 import ua.ies.TravelingBooking.TravelingBooking.dto.TrainsReservationDTO;
-import ua.ies.TravelingBooking.TravelingBooking.dto.TrainsReservationDTO;
-import ua.ies.TravelingBooking.TravelingBooking.entity.TrainsReservation;
 import ua.ies.TravelingBooking.TravelingBooking.entity.TrainsReservation;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Station;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Train;

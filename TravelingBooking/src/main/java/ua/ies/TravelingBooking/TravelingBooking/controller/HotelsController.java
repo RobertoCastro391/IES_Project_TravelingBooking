@@ -2,10 +2,8 @@ package ua.ies.TravelingBooking.TravelingBooking.controller;
 
 import lombok.AllArgsConstructor;
 import ua.ies.TravelingBooking.TravelingBooking.dto.HotelReservationDTO;
-import ua.ies.TravelingBooking.TravelingBooking.entity.FlightsReservation;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Hotel;
 import ua.ies.TravelingBooking.TravelingBooking.entity.HotelReservation;
-import ua.ies.TravelingBooking.TravelingBooking.repository.HotelsRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.HotelsReservationRepository;
 import ua.ies.TravelingBooking.TravelingBooking.service.HotelsService;
 import ua.ies.TravelingBooking.TravelingBooking.service.HotelsReservationService;
@@ -67,7 +65,7 @@ public class HotelsController {
     public ResponseEntity<?> createReservation(@RequestBody HotelReservationDTO reservationDTO) {
         
         System.out.println("AQUIIiiiiiinicla");
-        System.out.println(reservationDTO.getHotelID());
+        System.out.println(reservationDTO.getHotelId());
         System.out.println(reservationDTO.getPassengers().get(0).getFirstName());
         System.out.println(reservationDTO.getPassengers().get(0).getLastName());
         System.out.println(reservationDTO.getPassengers().get(0).getNationality());
