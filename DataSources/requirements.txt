@@ -2,3 +2,4 @@ Faker
 confluent-kafka
 geopy
 requests==2.25.1
+numpy
