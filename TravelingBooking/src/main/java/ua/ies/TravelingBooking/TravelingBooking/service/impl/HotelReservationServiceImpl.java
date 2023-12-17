@@ -5,6 +5,7 @@ import ua.ies.TravelingBooking.TravelingBooking.dto.HotelReservationDTO;
 import ua.ies.TravelingBooking.TravelingBooking.dto.PassengerDTO;
 import ua.ies.TravelingBooking.TravelingBooking.entity.HotelReservation;
 import ua.ies.TravelingBooking.TravelingBooking.entity.PassengerHotel;
+import ua.ies.TravelingBooking.TravelingBooking.entity.User;
 import ua.ies.TravelingBooking.TravelingBooking.repository.HotelsRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.HotelsReservationRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.UsersRepository;
@@ -26,25 +27,24 @@ public class HotelReservationServiceImpl implements HotelsReservationService {
 
     @Override
     @Transactional
-    public HotelReservation createReservation(HotelReservationDTO reservationDTO) {
+    public HotelReservation createReservation(HotelReservationDTO reservationDTO, User user) {
         
         System.out.println("AQUIIiiiiiinicla2");
         System.out.println(reservationDTO.getHotelId());
         System.out.println(reservationDTO.getPassengers().get(0).getFirstName());
         
-        HotelReservation reservation = convertToEntity(reservationDTO);
+        HotelReservation reservation = convertToEntity(reservationDTO, user);
         reservation = hotelReservationRepository.save(reservation);
         return reservation;
     }
 
 
-    private HotelReservation convertToEntity(HotelReservationDTO reservationDTO) {
+    private HotelReservation convertToEntity(HotelReservationDTO reservationDTO, User user) {
         HotelReservation reservation = new HotelReservation();
         
-        System.out.println("USER ID: " + reservationDTO.getUserID());
-        System.out.println("USER: " + usersRepository.findByUserID(reservationDTO.getUserID()));
+        System.out.println("USER: " + user);
         
-        reservation.setUser(usersRepository.findByUserID(reservationDTO.getUserID()));
+        reservation.setUser(user);
         reservation.generateReservationId();
         reservation.setTotalPrice(reservationDTO.getTotalPrice());
         reservation.setReservationDate(reservationDTO.getReservationDate());
@@ -95,7 +95,7 @@ public class HotelReservationServiceImpl implements HotelsReservationService {
     }
 
     @Override
-    public List<HotelReservation> findReservationsByUser(Integer userId) {
-        return hotelReservationRepository.findByUser(usersRepository.findByUserID(userId));
+    public List<HotelReservation> findReservationsByUser(User user) {
+        return hotelReservationRepository.findByUser(user);
     }
 }

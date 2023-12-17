@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import ua.ies.TravelingBooking.TravelingBooking.dto.TrainsReservationDTO;
 import ua.ies.TravelingBooking.TravelingBooking.dto.PassengerDTO;
 import ua.ies.TravelingBooking.TravelingBooking.entity.TrainsReservation;
+import ua.ies.TravelingBooking.TravelingBooking.entity.User;
 import ua.ies.TravelingBooking.TravelingBooking.entity.PassengerTrain;
 import ua.ies.TravelingBooking.TravelingBooking.repository.TrainsReservationRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.UsersRepository;
@@ -26,8 +27,8 @@ public class TrainsReservationServiceImpl implements TrainsReservationService {
 
     @Override
     @Transactional
-    public TrainsReservation createReservation(TrainsReservationDTO reservationDTO) {
-        TrainsReservation reservation = convertToEntity(reservationDTO);
+    public TrainsReservation createReservation(TrainsReservationDTO reservationDTO, User user) {
+        TrainsReservation reservation = convertToEntity(reservationDTO, user);
         reservation = trainsReservationRepository.save(reservation);
         return reservation;
     }
@@ -68,13 +69,12 @@ public class TrainsReservationServiceImpl implements TrainsReservationService {
         return trainsReservationRepository.findByReservationDateBetween(startDate, endDate);
     }
 
-    private TrainsReservation convertToEntity(TrainsReservationDTO reservationDTO) {
+    private TrainsReservation convertToEntity(TrainsReservationDTO reservationDTO, User user) {
         TrainsReservation reservation = new TrainsReservation();
         
-        System.out.println("USER ID: " + reservationDTO.getUserID());
-        System.out.println("USER: " + usersRepository.findByUserID(reservationDTO.getUserID()));
+        System.out.println("USER: " + user);
         
-        reservation.setUser(usersRepository.findByUserID(reservationDTO.getUserID()));
+        reservation.setUser(user);
         reservation.generateReservationId();
         reservation.setTrainNumberOutbound(reservationDTO.getTrainNumberOutbound());
         
@@ -130,7 +130,7 @@ public class TrainsReservationServiceImpl implements TrainsReservationService {
     }
 
     @Override
-    public List<TrainsReservation> findReservationsByUser(Integer userId) {
-        return trainsReservationRepository.findByUser(usersRepository.findByUserID(userId));
+    public List<TrainsReservation> findReservationsByUser(User user) {
+        return trainsReservationRepository.findByUser(user);
     }
 }

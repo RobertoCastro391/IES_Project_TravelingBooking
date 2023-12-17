@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 public class TrainsReservationDTO {
-    private int userID;
     private String trainNumberOutbound;
     private String trainNumberInbound;
     private boolean roundTrip;
@@ -22,15 +21,6 @@ public class TrainsReservationDTO {
     private String cityCard;
     private String zipCodeCard;
     private String countryCard;
-
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
 
     public String getTrainNumberOutbound() {
         return trainNumberOutbound;

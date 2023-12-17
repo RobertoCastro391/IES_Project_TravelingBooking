@@ -2,15 +2,18 @@ package ua.ies.TravelingBooking.TravelingBooking.controller;
 
 import lombok.AllArgsConstructor;
 import ua.ies.TravelingBooking.TravelingBooking.entity.User;
-import ua.ies.TravelingBooking.TravelingBooking.service.UserService;
+import ua.ies.TravelingBooking.TravelingBooking.repository.UsersRepository;
+import ua.ies.TravelingBooking.TravelingBooking.service.AuthService;
+import org.springframework.security.core.Authentication;
+import ua.ies.TravelingBooking.TravelingBooking.dto.AuthResponse;
 import ua.ies.TravelingBooking.TravelingBooking.dto.LoginDTO;
+import ua.ies.TravelingBooking.TravelingBooking.dto.RegisterDTO;
+import ua.ies.TravelingBooking.TravelingBooking.dto.UserInfoDTO;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:5656")
 @RestController
@@ -18,29 +21,35 @@ import java.util.Map;
 @RequestMapping("/api/user")
 public class UserController {
 
-    private UserService userService;
-    
+    private AuthService authService;
+    private UsersRepository usersRespository;
+
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        User registeredUser = userService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterDTO registerDTO) {
+        return ResponseEntity.ok(authService.register(registerDTO));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
-        User user = userService.authenticateUser(loginDTO.getEmail(), loginDTO.getPassword());
-        if (user != null) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("userId", user.getUserID());
-            return ResponseEntity.ok().body(response);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-        }
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginDTO loginDTO) {
+        return ResponseEntity.ok(authService.login(loginDTO));
     }
 
-    @GetMapping("/users/{userId}")
-    public ResponseEntity<User> getUser(@PathVariable("userId") String userId) {
-        User user = userService.findByUserID(Integer.parseInt(userId));
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    @GetMapping("/userinfo")
+    public ResponseEntity<UserInfoDTO> getUserInfo() {
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); 
+        System.out.println("username: " + username);
+
+        User user = usersRespository.findByUsername(username).orElseThrow();
+       
+        UserInfoDTO userInfo = new UserInfoDTO(); 
+        userInfo.setName(user.getFirstName());
+        userInfo.setSurname(user.getLastName());
+        userInfo.setEmail(user.getUsername());
+        userInfo.setAddress(user.getStreetAddress());
+        userInfo.setPostalCode(user.getPostalCode());
+        userInfo.setCity(user.getCity());
+        return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 }
