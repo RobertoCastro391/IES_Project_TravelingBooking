@@ -64,7 +64,7 @@ const Register = () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/register`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(userData),
       });
@@ -72,6 +72,11 @@ const Register = () => {
       if (!response.ok) {
         throw new Error("Registration failed");
       }
+
+      console.log("Registration successful")
+      
+      const token = await response.json();
+      localStorage.setItem('token', token.token);
 
       alert("Registration successful");
       navigate("/login");

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import ua.ies.TravelingBooking.TravelingBooking.dto.HotelReservationDTO;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Hotel;
 import ua.ies.TravelingBooking.TravelingBooking.entity.HotelReservation;
-import ua.ies.TravelingBooking.TravelingBooking.entity.TrainsReservation;
 import ua.ies.TravelingBooking.TravelingBooking.entity.User;
 import ua.ies.TravelingBooking.TravelingBooking.repository.HotelsReservationRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.UsersRepository;

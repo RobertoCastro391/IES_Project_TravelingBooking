@@ -45,9 +45,17 @@ const AddExtrasFlight = () => {
   useEffect(() => {
     const fetchData = async (flightNumber, setFlightFunc) => {
       try {
+        const token = localStorage.getItem("token");
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/flights/flightCheckout/${flightNumber}`
-        );
+          `${process.env.REACT_APP_API_URL}/api/flights/flightCheckout/${flightNumber}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

@@ -33,46 +33,56 @@ const Account = () => {
 
   useEffect(() => {
     const userId = localStorage.getItem("userId"); // Or however you're storing the user's ID
-
+    const token = localStorage.getItem("token");
+    
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/user/users/${userId}`
-        );
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/userinfo`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // Include the JWT token in the request headers
+          },
+        });
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok');
         }
         const data = await response.json();
-
-        console.log("data");
+    
+        console.log('data');
         console.log(data);
-
+    
         setUserInfo({
-          name: data.firstName,
-          surname: data.lastName,
+          name: data.name,
+          surname: data.surname,
           email: data.email,
-          address: data.streetAddress,
+          address: data.address,
           postalCode: data.postalCode,
           city: data.city,
         });
       } catch (error) {
-        console.error("Failed to fetch user info:", error);
+        console.error('Failed to fetch user info:', error);
       }
     };
 
-    const fetchUserFights = async () => {
+    const fetchUserFlights = async () => {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/flights/getReservationsByUser/${userId}`
-        );
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/flights/getReservationsByUser`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok');
         }
         const data = await response.json();
-
-        console.log("Fetched Data Flights:");
+    
+        console.log('Fetched Data Flights:');
         console.log(data);
-
+    
         // Assuming data is an array of reservations
         const userFlights = data.map((trip) => ({
           reservationID: trip.id,
@@ -83,19 +93,22 @@ const Account = () => {
           reservationDate: trip.reservationDate,
           passengers: trip.passengers,
         }));
-
+    
         setUserFlights(userFlights);
-
       } catch (error) {
-        console.error("Failed to fetch user info:", error);
+        console.error('Failed to fetch user info:', error);
       }
     };
 
     const fetchUserTrains = async () => {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/trains/getReservationsByUser/${userId}`
-        );
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trains/getReservationsByUser`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -155,7 +168,7 @@ const Account = () => {
 
     if (userId) {
       fetchUserInfo();
-      fetchUserFights();
+      fetchUserFlights();
       fetchUserTrains();
       // fetchUserHotels();
     }

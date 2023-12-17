@@ -6,7 +6,6 @@ import ua.ies.TravelingBooking.TravelingBooking.dto.TrainsReservationDTO;
 import ua.ies.TravelingBooking.TravelingBooking.entity.TrainsReservation;
 import ua.ies.TravelingBooking.TravelingBooking.entity.User;
 import ua.ies.TravelingBooking.TravelingBooking.repository.UsersRepository;
-import ua.ies.TravelingBooking.TravelingBooking.entity.FlightsReservation;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Station;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Train;
 import ua.ies.TravelingBooking.TravelingBooking.entity.TrainSearchRequest;

@@ -137,11 +137,15 @@ const HotelCheckout = ({hotel}) => {
 
     console.log("Reservation data:", reservationData);
   
+    
     try {
+      const token = localStorage.getItem("token");
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/hotels/createReservation`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+          
         },
         body: JSON.stringify(reservationData)
       });
@@ -176,7 +180,6 @@ const HotelCheckout = ({hotel}) => {
   return (
     <div>
       <Navbar />
-     
       <div className="containerCheckout">
         <div className="container1">
           <p style={{ fontSize: "25px" }}>

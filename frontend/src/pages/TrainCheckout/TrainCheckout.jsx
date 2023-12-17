@@ -42,8 +42,16 @@ const TrainCheckout = () => {
   useEffect(() => {
     const fetchData = async (trainNumber, setTrainFunc) => {
       try {
+        const token = localStorage.getItem("token");
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/trains/trainCheckout/${trainNumber}`
+          `${process.env.REACT_APP_API_URL}/api/trains/trainCheckout/${trainNumber}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -171,12 +179,14 @@ const TrainCheckout = () => {
     console.log("Reservation data:", reservationData);
 
     try {
+      const token = localStorage.getItem("token");
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/api/trains/createReservation`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(reservationData),
         }

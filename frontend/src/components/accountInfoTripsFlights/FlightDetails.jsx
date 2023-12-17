@@ -19,10 +19,16 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
   useEffect(() => {
     const fetchFlightInfo = async () => {
       try {
-        
+        const token = localStorage.getItem("token");
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/flights/flightCheckout/${reservationInfo["flightNumberOutbound"]}`
-        );
+          `${process.env.REACT_APP_API_URL}/api/flights/flightCheckout/${reservationInfo["flightNumberOutbound"]}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -36,7 +42,14 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
           reservationInfo["roundTrip"] === true
         ) {
           const response2 = await fetch(
-            `${process.env.REACT_APP_API_URL}/api/flights/flightCheckout/${reservationInfo["flightNumberInbound"]}`
+            `${process.env.REACT_APP_API_URL}/api/flights/flightCheckout/${reservationInfo["flightNumberInbound"]}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            }
           );
 
           if (!response2.ok) {

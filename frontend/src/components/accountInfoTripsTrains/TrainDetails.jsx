@@ -19,8 +19,16 @@ const TrainDetails = ({ reservationInfo, imageUrl }) => {
   useEffect(() => {
     const fetchTrainInfo = async () => {
       try {
+        const token = localStorage.getItem("token");
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/trains/trainCheckout/${reservationInfo["trainNumberOutbound"]}`
+          `${process.env.REACT_APP_API_URL}/api/trains/trainCheckout/${reservationInfo["trainNumberOutbound"]}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
         if (!response.ok) {
@@ -35,7 +43,14 @@ const TrainDetails = ({ reservationInfo, imageUrl }) => {
           reservationInfo["roundTrip"] === true
         ) {
           const response2 = await fetch(
-            `${process.env.REACT_APP_API_URL}/api/trains/trainCheckout/${reservationInfo["trainNumberInbound"]}`
+            `${process.env.REACT_APP_API_URL}/api/trains/trainCheckout/${reservationInfo["trainNumberInbound"]}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            }
           );
 
           if (!response2.ok) {
