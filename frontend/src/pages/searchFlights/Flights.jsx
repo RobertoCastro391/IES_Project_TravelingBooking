@@ -17,6 +17,8 @@ const FlightBookingPage = () => {
 
   const location = useLocation();
   const flightsData = location.state?.flightsData;
+  const isRoundTrip = location.state?.isRoundTrip;
+  const flightOptions = location.state?.flightOptions;
 
   const handleSelectStops = (value) => {
     setStopsFilter(value);
@@ -98,6 +100,8 @@ const FlightBookingPage = () => {
                 <CardFlights
                   outboundFlight={outboundFlight}
                   inboundFlight={returnFlight}
+                  isRoundTrip={isRoundTrip}
+                  flightOptions={flightOptions}
                   key={index}
                 />
               );

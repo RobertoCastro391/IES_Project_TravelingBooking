@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 import FlightDetails from "../../components/accountInfoTripsFlights/FlightDetails";
+import TrainDetails from "../../components/accountInfoTripsTrains/TrainDetails";
 import AccountInfo from "../../components/accountInfo/AccountInfo";
 import "./account.css";
 import tap from "../../static/tap.png";
@@ -19,9 +20,10 @@ const Account = () => {
     city: "",
   });
 
-  const [userTrips, setUserTrips] = useState([]);
+  const [userFlights, setUserFlights] = useState([]);
   const [userHotels, setUserHotels] = useState([]);
-
+  const [userTrains, setUserTrains] = useState([]);
+  
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
@@ -31,48 +33,58 @@ const Account = () => {
 
   useEffect(() => {
     const userId = localStorage.getItem("userId"); // Or however you're storing the user's ID
-
+    const token = localStorage.getItem("token");
+    
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/user/users/${userId}`
-        );
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/userinfo`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // Include the JWT token in the request headers
+          },
+        });
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok');
         }
         const data = await response.json();
-
-        console.log("data");
+    
+        console.log('data');
         console.log(data);
-
+    
         setUserInfo({
-          name: data.firstName,
-          surname: data.lastName,
+          name: data.name,
+          surname: data.surname,
           email: data.email,
-          address: data.streetAddress,
+          address: data.address,
           postalCode: data.postalCode,
           city: data.city,
         });
       } catch (error) {
-        console.error("Failed to fetch user info:", error);
+        console.error('Failed to fetch user info:', error);
       }
     };
 
-    const fetchUserTrips = async () => {
+    const fetchUserFlights = async () => {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/flights/getReservationsByUser/${userId}`
-        );
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/flights/getReservationsByUser`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok');
         }
         const data = await response.json();
-
-        console.log("Fetched Data:");
+    
+        console.log('Fetched Data Flights:');
         console.log(data);
-
+    
         // Assuming data is an array of reservations
-        const userTrips = data.map((trip) => ({
+        const userFlights = data.map((trip) => ({
           reservationID: trip.id,
           flightNumberOutbound: trip.flightNumberOutbound,
           flightNumberInbound: trip.flightNumberInbound,
@@ -81,52 +93,84 @@ const Account = () => {
           reservationDate: trip.reservationDate,
           passengers: trip.passengers,
         }));
-
-        setUserTrips(userTrips);
-
-        console.log("User Trips after processing:");
-        console.log(userTrips);
+    
+        setUserFlights(userFlights);
       } catch (error) {
-        console.error("Failed to fetch user info:", error);
+        console.error('Failed to fetch user info:', error);
       }
     };
 
-
-    const fetchUserHotels = async () => {
+    const fetchUserTrains = async () => {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/hotels/getReservationsByUser/${userId}`
-        );
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trains/getReservationsByUser`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
 
-        console.log("Fetched Data:");
+        console.log("Fetched Data Trains:");
         console.log(data);
 
         // Assuming data is an array of reservations
-        const userHotels = data.map((trip) => ({
+        const userTrains = data.map((trip) => ({
           reservationID: trip.id,
-          hotel: trip.hotel,
+          trainNumberOutbound: trip.trainNumberOutbound,
+          trainNumberInbound: trip.trainNumberInbound,
+          roundTrip: trip.roundTrip,
           totalPrice: trip.totalPrice,
           reservationDate: trip.reservationDate,
           passengers: trip.passengers,
         }));
 
-        setUserHotels(userHotels);
-
-        console.log("User Trips after processing:");
-        console.log(userHotels);
+        setUserTrains(userTrains);
       } catch (error) {
         console.error("Failed to fetch user info:", error);
       }
     };
 
+
+    // const fetchUserHotels = async () => {
+    //   try {
+    //     const response = await fetch(
+    //       `${process.env.REACT_APP_API_URL}/api/hotels/getReservationsByUser/${userId}`
+    //     );
+    //     if (!response.ok) {
+    //       throw new Error("Network response was not ok");
+    //     }
+    //     const data = await response.json();
+
+    //     console.log("Fetched Data Hotels:");
+    //     console.log(data);
+
+    //     // Assuming data is an array of reservations
+    //     const userHotels = data.map((trip) => ({
+    //       reservationID: trip.id,
+    //       hotel: trip.hotel,
+    //       totalPrice: trip.totalPrice,
+    //       reservationDate: trip.reservationDate,
+    //       passengers: trip.passengers,
+    //     }));
+
+    //     setUserHotels(userHotels);
+
+    //     console.log("User Trips after processing:");
+    //     console.log(userHotels);
+    //   } catch (error) {
+    //     console.error("Failed to fetch user info:", error);
+    //   }
+    // };
+
     if (userId) {
       fetchUserInfo();
-      fetchUserTrips();
-      fetchUserHotels();
+      fetchUserFlights();
+      fetchUserTrains();
+      // fetchUserHotels();
     }
   }, []);
 
@@ -173,14 +217,14 @@ const Account = () => {
 
         {activeTab === "Flights" && (
           <div>
-            {userTrips.length === 0 && (
+            {userFlights.length === 0 && (
               <div className="noTrips">
                 <div className="noTripsText">
                   You have no trips yet, book your next trip now!
                 </div>
               </div>
             )}
-            {userTrips.map((reservationInfo, index) => (
+            {userFlights.map((reservationInfo, index) => (
               <FlightDetails
                 key={index}
                 reservationInfo={reservationInfo}
@@ -190,11 +234,41 @@ const Account = () => {
           </div>
         )}
         {activeTab === "Trains" && (
-          <div className="details">Page Under Devolpment</div>
+          <div>
+            {userTrains.length === 0 && (
+              <div className="noTrips">
+                <div className="noTripsText">
+                  You have no trips yet, book your next trip now!
+                </div>
+              </div>
+            )}
+            {userTrains.map((reservationInfo, index) => (
+              <TrainDetails
+                key={index}
+                reservationInfo={reservationInfo}
+                imageUrl={paris}
+              />
+            ))}
+          </div>
         )}
-        {activeTab === "Hotels" && (
-          <div className="details">Page Under Devolpment</div>
-        )}
+        {/* {activeTab === "Hotels" && (
+          <div>
+            {userTrains.length === 0 && (
+              <div className="noTrips">
+                <div className="noTripsText">
+                  You have no trips yet, book your next trip now!
+                </div>
+              </div>
+            )}
+            {userTrains.map((reservationInfo, index) => (
+              <FlightDetails
+                key={index}
+                reservationInfo={reservationInfo}
+                imageUrl={paris}
+              />
+            ))}
+          </div>
+        )} */}
         {activeTab === "Packages" && (
           <div className="details">Page Under Devolpment</div>
         )}

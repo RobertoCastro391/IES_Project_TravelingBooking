@@ -3,9 +3,9 @@ package ua.ies.TravelingBooking.TravelingBooking.controller;
 import lombok.AllArgsConstructor;
 import ua.ies.TravelingBooking.TravelingBooking.entity.TrainCompany;
 import ua.ies.TravelingBooking.TravelingBooking.dto.TrainsReservationDTO;
-import ua.ies.TravelingBooking.TravelingBooking.dto.TrainsReservationDTO;
 import ua.ies.TravelingBooking.TravelingBooking.entity.TrainsReservation;
-import ua.ies.TravelingBooking.TravelingBooking.entity.TrainsReservation;
+import ua.ies.TravelingBooking.TravelingBooking.entity.User;
+import ua.ies.TravelingBooking.TravelingBooking.repository.UsersRepository;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Station;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Train;
 import ua.ies.TravelingBooking.TravelingBooking.entity.TrainSearchRequest;
@@ -17,6 +17,8 @@ import ua.ies.TravelingBooking.TravelingBooking.service.TrainService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class TrainsController {
     private StationService stationService;
     private TrainService trainService;
     private TrainsReservationService reservationService;
+    private UsersRepository usersRespository;
 
 
     @GetMapping("/stations")
@@ -84,7 +87,12 @@ public class TrainsController {
 
     @PostMapping("/createReservation")
     public ResponseEntity<?> createReservation(@RequestBody TrainsReservationDTO reservationDTO) {
-        var reservation = reservationService.createReservation(reservationDTO);
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); 
+        User user = usersRespository.findByUsername(username).orElseThrow();
+        
+        var reservation = reservationService.createReservation(reservationDTO, user);
         if (reservation == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating reservation");
         }
@@ -110,9 +118,19 @@ public class TrainsController {
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
-    @GetMapping("/getReservationsByUser/{userId}")
-    public ResponseEntity<List<TrainsReservation>> getReservationsByUser(@PathVariable("userId") String userId) {
-        List<TrainsReservation> reservations = reservationService.findReservationsByUser(Integer.parseInt(userId));
+    // @GetMapping("/getReservationsByUser/{userId}")
+    // public ResponseEntity<List<TrainsReservation>> getReservationsByUser(@PathVariable("userId") String userId) {
+    //     List<TrainsReservation> reservations = reservationService.findReservationsByUser(Integer.parseInt(userId));
+    //     return new ResponseEntity<>(reservations, HttpStatus.OK);
+    // }
+
+    @GetMapping("/getReservationsByUser")
+    public ResponseEntity<List<TrainsReservation>> getReservationsByUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); 
+        User user = usersRespository.findByUsername(username).orElseThrow();
+
+        List<TrainsReservation> reservations = reservationService.findReservationsByUser(user);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
 }

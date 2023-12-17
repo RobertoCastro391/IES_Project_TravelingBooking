@@ -40,6 +40,8 @@ const Hotel = () => {
 
   const location = useLocation();
   const hotelData = location.state?.hotel;
+  const dates = location.state?.dates;
+  const hotelOptions = location.state?.hotelOptions;
 
   console.log("hotelData");
   console.log(hotelData);
@@ -78,30 +80,6 @@ const Hotel = () => {
     selectRandomImages();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:8080/api/flights");
-  //       console.log(response);
-
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-
-  //       const data = await response.json();
-  //       console.log("data");
-  //       console.log(data);
-  //       setFlights(data); // Update the airports state with the fetched data
-  //     } catch (error) {
-  //       console.error(
-  //         "There has been a problem with your fetch operation:",
-  //         error
-  //       );
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-
   return (
     <div>
       <Navbar />
@@ -129,7 +107,10 @@ const Hotel = () => {
 
         <div style={{width:"70%"}}>
           <HotelCard type ='checkout' 
-                hotel={hotelData} />
+                hotel={hotelData}
+                dates={dates}
+                hotelOptions={hotelOptions}
+                 />
         </div>
 
       </div>

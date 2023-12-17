@@ -4,8 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class HotelReservationDTO {
-    private int userID;
-    private int hotelID;
+    private int hotelid;
     private double totalPrice;
     private Date reservationDate;
     private List<PassengerDTO> passengers;
@@ -21,21 +20,12 @@ public class HotelReservationDTO {
     private String zipCodeCard;
     private String countryCard;
 
-
-    public int getUserID() {
-        return userID;
+    public int getHotelId() {
+        return hotelid;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
-    public int getHotelID() {
-        return hotelID;
-    }
-
-    public void setHptelId(Integer hotelID) {
-        this.hotelID = hotelID;
+    public void setHotelId(Integer hotelid) {
+        this.hotelid = hotelid;
     }
 
     public double getTotalPrice() {

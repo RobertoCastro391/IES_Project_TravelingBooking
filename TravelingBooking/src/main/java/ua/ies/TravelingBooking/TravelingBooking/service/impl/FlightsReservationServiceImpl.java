@@ -5,6 +5,7 @@ import ua.ies.TravelingBooking.TravelingBooking.dto.FlightsReservationDTO;
 import ua.ies.TravelingBooking.TravelingBooking.dto.PassengerDTO;
 import ua.ies.TravelingBooking.TravelingBooking.entity.FlightsReservation;
 import ua.ies.TravelingBooking.TravelingBooking.entity.PassengerFlight;
+import ua.ies.TravelingBooking.TravelingBooking.entity.User;
 import ua.ies.TravelingBooking.TravelingBooking.repository.FlightsReservationRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.UsersRepository;
 import ua.ies.TravelingBooking.TravelingBooking.service.FlightsReservationService;
@@ -26,8 +27,8 @@ public class FlightsReservationServiceImpl implements FlightsReservationService 
 
     @Override
     @Transactional
-    public FlightsReservation createReservation(FlightsReservationDTO reservationDTO) {
-        FlightsReservation reservation = convertToEntity(reservationDTO);
+    public FlightsReservation createReservation(FlightsReservationDTO reservationDTO, User user) {
+        FlightsReservation reservation = convertToEntity(reservationDTO, user);
         reservation = flightsReservationRepository.save(reservation);
         return reservation;
     }
@@ -68,13 +69,12 @@ public class FlightsReservationServiceImpl implements FlightsReservationService 
         return flightsReservationRepository.findByReservationDateBetween(startDate, endDate);
     }
 
-    private FlightsReservation convertToEntity(FlightsReservationDTO reservationDTO) {
+    private FlightsReservation convertToEntity(FlightsReservationDTO reservationDTO, User user) {
         FlightsReservation reservation = new FlightsReservation();
         
-        System.out.println("USER ID: " + reservationDTO.getUserID());
-        System.out.println("USER: " + usersRepository.findByUserID(reservationDTO.getUserID()).getEmail());
+        System.out.println("USER ID: " + user);
         
-        reservation.setUser(usersRepository.findByUserID(reservationDTO.getUserID()));
+        reservation.setUser(user);
         reservation.generateReservationId();
         reservation.setFlightNumberOutbound(reservationDTO.getFlightNumberOutbound());
         
@@ -124,13 +124,13 @@ public class FlightsReservationServiceImpl implements FlightsReservationService 
         passenger.setNationality(passengerDTO.getNationality());
         passenger.setBirthDate(passengerDTO.getBirthDate());
         passenger.setPassportNumber(passengerDTO.getPassportNumber());
-        passenger.setFlightsReservation(reservation); // Set the reservation ID
+        passenger.setFlightsReservation(reservation);
 
         return passenger;
     }
 
     @Override
-    public List<FlightsReservation> findReservationsByUser(Integer userId) {
-        return flightsReservationRepository.findByUser(usersRepository.findByUserID(userId));
+    public List<FlightsReservation> findReservationsByUser(User user) {
+        return flightsReservationRepository.findByUser(user);
     }
 }

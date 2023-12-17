@@ -2,16 +2,18 @@ package ua.ies.TravelingBooking.TravelingBooking.controller;
 
 import lombok.AllArgsConstructor;
 import ua.ies.TravelingBooking.TravelingBooking.dto.HotelReservationDTO;
-import ua.ies.TravelingBooking.TravelingBooking.entity.FlightsReservation;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Hotel;
 import ua.ies.TravelingBooking.TravelingBooking.entity.HotelReservation;
-import ua.ies.TravelingBooking.TravelingBooking.repository.HotelsRepository;
+import ua.ies.TravelingBooking.TravelingBooking.entity.User;
 import ua.ies.TravelingBooking.TravelingBooking.repository.HotelsReservationRepository;
+import ua.ies.TravelingBooking.TravelingBooking.repository.UsersRepository;
 import ua.ies.TravelingBooking.TravelingBooking.service.HotelsService;
 import ua.ies.TravelingBooking.TravelingBooking.service.HotelsReservationService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -27,6 +29,7 @@ public class HotelsController {
     private HotelsService hotelsService;
     private HotelsReservationService reservationService;
     private HotelsReservationRepository hotelsRepository;
+    private UsersRepository usersRespository;
 
     @GetMapping("/getAllHotels")
     public ResponseEntity<List<Hotel>> getAllHotels() {
@@ -40,12 +43,21 @@ public class HotelsController {
         return new ResponseEntity<>(hotel, HttpStatus.OK);
     }
 
-    @GetMapping("/getReservationsByUser/{userId}")
-    public ResponseEntity<List<HotelReservation>> getReservationsByUser(@PathVariable("userId") String userId) {
-        List<HotelReservation> reservations = reservationService.findReservationsByUser(Integer.parseInt(userId));
+    // @GetMapping("/getReservationsByUser/{userId}")
+    // public ResponseEntity<List<HotelReservation>> getReservationsByUser(@PathVariable("userId") String userId) {
+    //     List<HotelReservation> reservations = reservationService.findReservationsByUser(Integer.parseInt(userId));
+    //     return new ResponseEntity<>(reservations, HttpStatus.OK);
+    // }
+
+    @GetMapping("/getReservationsByUser")
+    public ResponseEntity<List<HotelReservation>> getReservationsByUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); 
+        User user = usersRespository.findByUsername(username).orElseThrow();
+
+        List<HotelReservation> reservations = reservationService.findReservationsByUser(user);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
-
 
     @GetMapping("/getAllReservations")
     public ResponseEntity<List<HotelReservation>> getAllReservations() {
@@ -67,13 +79,17 @@ public class HotelsController {
     public ResponseEntity<?> createReservation(@RequestBody HotelReservationDTO reservationDTO) {
         
         System.out.println("AQUIIiiiiiinicla");
-        System.out.println(reservationDTO.getHotelID());
+        System.out.println(reservationDTO.getHotelId());
         System.out.println(reservationDTO.getPassengers().get(0).getFirstName());
         System.out.println(reservationDTO.getPassengers().get(0).getLastName());
         System.out.println(reservationDTO.getPassengers().get(0).getNationality());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); 
+        User user = usersRespository.findByUsername(username).orElseThrow();
         
         
-        var reservation = reservationService.createReservation(reservationDTO);
+        var reservation = reservationService.createReservation(reservationDTO, user);
         if (reservation == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating reservation");
         }

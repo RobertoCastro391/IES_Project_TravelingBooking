@@ -5,7 +5,7 @@ import "./cardFlights.css";
 import frame from "../images/Frame.png";
 import layer1 from "../images/Layer_1.png";
 
-const CardFlights = ({ outboundFlight, inboundFlight = null }) => {
+const CardFlights = ({ outboundFlight, inboundFlight = null, isRoundTrip, flightOptions}) => {
   const navigate = useNavigate();
 
   const [selectedFlight, setSelectedFlight] = useState(null);
@@ -20,7 +20,7 @@ const CardFlights = ({ outboundFlight, inboundFlight = null }) => {
     const userId = localStorage.getItem("userId");
   
     if (userId) {
-      navigate("/AddExtrasFlight");
+      navigate("/AddExtrasFlight", { state: {isRoundTrip: isRoundTrip,flightOptions: flightOptions}});
       localStorage.setItem("flightOutbound", flightOutbound["flightNumber"]);
       if (flightInbound !== null) {
         localStorage.setItem("flightInbound", flightInbound["flightNumber"]);
@@ -82,7 +82,7 @@ const CardFlights = ({ outboundFlight, inboundFlight = null }) => {
                       "M"}
                   </p>
                 </div>
-                <img className="svg-layer" alt="Svg layer" src={layer1} />
+                <img className="svg-layer-flights" alt="Svg layer" src={layer1} />
               </div>
               <div
                 style={{
@@ -227,9 +227,9 @@ const CardFlights = ({ outboundFlight, inboundFlight = null }) => {
       <div className="Flightinfo">
         <div>
           {inboundFlight === null ? (
-            <span>{outboundFlight["price"]}€</span>
+            <span>{parseFloat(outboundFlight["price"].toFixed(2))}€</span>
           ) : (
-            <span>{outboundFlight["price"] + inboundFlight["price"]}€</span>
+            <span>{parseFloat(((outboundFlight["price"] + inboundFlight["price"]).toFixed(2)))}€</span>
           )}
         </div>
         <button

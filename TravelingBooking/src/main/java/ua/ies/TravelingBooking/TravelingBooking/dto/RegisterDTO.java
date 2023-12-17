@@ -9,7 +9,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginDTO {
+public class RegisterDTO {
+    private String firstName;
+    private String lastName;
     private String email;
-    private String password;
+    private String userPassword;
+    private String streetAddress;
+    private String postalCode;
+    private String city;
+    private String country;
 }

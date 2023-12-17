@@ -1,27 +1,20 @@
 package ua.ies.TravelingBooking.TravelingBooking.service.impl;
 
 import lombok.AllArgsConstructor;
-import ua.ies.TravelingBooking.TravelingBooking.dto.TrainsReservationDTO;
 import ua.ies.TravelingBooking.TravelingBooking.dto.HotelReservationDTO;
 import ua.ies.TravelingBooking.TravelingBooking.dto.PassengerDTO;
-import ua.ies.TravelingBooking.TravelingBooking.entity.TrainsReservation;
 import ua.ies.TravelingBooking.TravelingBooking.entity.HotelReservation;
-import ua.ies.TravelingBooking.TravelingBooking.entity.PassengerFlight;
 import ua.ies.TravelingBooking.TravelingBooking.entity.PassengerHotel;
-import ua.ies.TravelingBooking.TravelingBooking.entity.PassengerTrain;
+import ua.ies.TravelingBooking.TravelingBooking.entity.User;
 import ua.ies.TravelingBooking.TravelingBooking.repository.HotelsRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.HotelsReservationRepository;
-import ua.ies.TravelingBooking.TravelingBooking.repository.TrainsReservationRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.UsersRepository;
 import ua.ies.TravelingBooking.TravelingBooking.service.HotelsReservationService;
-import ua.ies.TravelingBooking.TravelingBooking.service.TrainsReservationService;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,30 +22,29 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class HotelReservationServiceImpl implements HotelsReservationService {
     private HotelsReservationRepository hotelReservationRepository;
-    private HotelsRepository hotelsRepository;
     protected UsersRepository usersRepository;
+    private HotelsRepository hotelsRepository;
 
     @Override
     @Transactional
-    public HotelReservation createReservation(HotelReservationDTO reservationDTO) {
+    public HotelReservation createReservation(HotelReservationDTO reservationDTO, User user) {
         
         System.out.println("AQUIIiiiiiinicla2");
-        System.out.println(reservationDTO.getHotelID());
+        System.out.println(reservationDTO.getHotelId());
         System.out.println(reservationDTO.getPassengers().get(0).getFirstName());
         
-        HotelReservation reservation = convertToEntity(reservationDTO);
+        HotelReservation reservation = convertToEntity(reservationDTO, user);
         reservation = hotelReservationRepository.save(reservation);
         return reservation;
     }
 
 
-    private HotelReservation convertToEntity(HotelReservationDTO reservationDTO) {
+    private HotelReservation convertToEntity(HotelReservationDTO reservationDTO, User user) {
         HotelReservation reservation = new HotelReservation();
         
-        System.out.println("USER ID: " + reservationDTO.getUserID());
-        System.out.println("USER: " + usersRepository.findByUserID(reservationDTO.getUserID()));
+        System.out.println("USER: " + user);
         
-        reservation.setUser(usersRepository.findByUserID(reservationDTO.getUserID()));
+        reservation.setUser(user);
         reservation.generateReservationId();
         reservation.setTotalPrice(reservationDTO.getTotalPrice());
         reservation.setReservationDate(reservationDTO.getReservationDate());
@@ -63,8 +55,11 @@ public class HotelReservationServiceImpl implements HotelsReservationService {
         reservation.setExpirationDateCard(reservationDTO.getExpirationDateCard());
         reservation.setCvvCard(reservationDTO.getCvvCard());
         reservation.setAddressCard1(reservationDTO.getAddressCard1());
-        reservation.setHotelID(reservationDTO.getHotelID());
-        reservation.setHotel(hotelsRepository.findByHotelID(reservationDTO.getHotelID()));
+        
+        System.out.println("HOTEL ID: " + reservationDTO.getHotelId());
+        System.out.println("HOTEL: " + hotelsRepository.findById(reservationDTO.getHotelId()));
+        
+        reservation.setHotel(hotelsRepository.findById(reservationDTO.getHotelId()).get());
 
         if (reservationDTO.getAddressCard2() != null) {
             reservation.setAddressCard2(reservationDTO.getAddressCard2());
@@ -100,7 +95,7 @@ public class HotelReservationServiceImpl implements HotelsReservationService {
     }
 
     @Override
-    public List<HotelReservation> findReservationsByUser(Integer userId) {
-        return hotelReservationRepository.findByUser(usersRepository.findByUserID(userId));
+    public List<HotelReservation> findReservationsByUser(User user) {
+        return hotelReservationRepository.findByUser(user);
     }
 }

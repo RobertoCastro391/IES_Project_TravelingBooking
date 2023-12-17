@@ -34,6 +34,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("userId");
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
     navigate("/");
   };

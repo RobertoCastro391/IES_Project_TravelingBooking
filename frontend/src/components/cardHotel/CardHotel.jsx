@@ -13,8 +13,15 @@ import { useNavigate } from "react-router-dom";
 import "./cardHotel.css";
 import frame from "../images/Frame.png";
 
-const Cardhotels = ({ type = "details", key, hotel }) => {
+const Cardhotels = ({ type = "details", key, hotel, dates=null, hotelOptions=null }) => {
   const navigate = useNavigate();
+
+  console.log("hotel");
+  console.log(hotel);
+  console.log("dates");
+  console.log(dates);
+  console.log("hotelOptions");
+  console.log(hotelOptions);
 
   const [selectedhotel, setSelectedhotel] = useState(null);
 
@@ -47,11 +54,6 @@ const Cardhotels = ({ type = "details", key, hotel }) => {
       <div className="hotel-details">
         {hotel && (
           <div className="hotelDetails1">
-            {/* <img
-            src={https://www.flightaware.com/images/airline_logos/90p/${hotel["airline_Code"]["airlineICAO"]}.png}
-            className="airlineLogo"
-            alt="Airline logo"
-          /> */}
             <div style={{ marginBottom: "10px" }}>
               <div>
                 <h1 className="hotelTitle">{hotel.hotelName}</h1>
@@ -134,7 +136,7 @@ const Cardhotels = ({ type = "details", key, hotel }) => {
           {type === "details" && (
             <button
               className="buttonhotelSearch"
-              onClick={() => navigate("/hotelDetails", { state: { hotel } })}
+              onClick={() => navigate("/hotelDetails", { state: { hotel, dates, hotelOptions }})}
             >
               View Details
             </button>
@@ -142,7 +144,7 @@ const Cardhotels = ({ type = "details", key, hotel }) => {
           {type === "checkout" && (
             <button
               className="buttonhotelSearch"
-              onClick={() => navigate("/hotelcheckout", { state: { hotel } })}
+              onClick={() => navigate("/hotelcheckout", { state: { hotel, dates, hotelOptions }})}
             >
               Checkout
             </button>

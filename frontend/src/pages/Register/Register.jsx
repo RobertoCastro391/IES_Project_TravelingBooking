@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Register.css";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -23,6 +24,7 @@ const Register = () => {
   const [cardPIN, setCardPIN] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     try {
@@ -37,8 +39,6 @@ const Register = () => {
         alert("Passwords do not match");
         throw new Error("Passwords do not match");
       }
-
-
 
       const userData = {
         firstName,
@@ -64,7 +64,7 @@ const Register = () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/register`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(userData),
       });
@@ -73,8 +73,14 @@ const Register = () => {
         throw new Error("Registration failed");
       }
 
-      // Handle the response. Redirect or inform the user as needed.
-      console.log("User registered successfully");
+      console.log("Registration successful")
+      
+      const token = await response.json();
+      localStorage.setItem('token', token.token);
+
+      alert("Registration successful");
+      navigate("/login");
+
     } catch (error) {
       setError(error.message);
     }

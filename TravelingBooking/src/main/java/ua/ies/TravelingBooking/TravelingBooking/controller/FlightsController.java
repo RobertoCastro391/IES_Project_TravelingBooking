@@ -6,6 +6,8 @@ import ua.ies.TravelingBooking.TravelingBooking.entity.Airport;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Flight;
 import ua.ies.TravelingBooking.TravelingBooking.entity.FlightSearchRequest;
 import ua.ies.TravelingBooking.TravelingBooking.entity.FlightsReservation;
+import ua.ies.TravelingBooking.TravelingBooking.entity.User;
+import ua.ies.TravelingBooking.TravelingBooking.repository.UsersRepository;
 import ua.ies.TravelingBooking.TravelingBooking.service.AirlineService;
 import ua.ies.TravelingBooking.TravelingBooking.service.AirportService;
 import ua.ies.TravelingBooking.TravelingBooking.service.FlightService;
@@ -15,6 +17,8 @@ import ua.ies.TravelingBooking.TravelingBooking.dto.FlightsReservationDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -32,6 +36,7 @@ public class FlightsController {
     private AirportService airportService;
     private FlightService flightService;
     private FlightsReservationService reservationService;
+    private UsersRepository usersRespository;
 
 
     @GetMapping("/airports")
@@ -82,7 +87,12 @@ public class FlightsController {
 
     @PostMapping("/createReservation")
     public ResponseEntity<?> createReservation(@RequestBody FlightsReservationDTO reservationDTO) {
-        var reservation = reservationService.createReservation(reservationDTO);
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); 
+        User user = usersRespository.findByUsername(username).orElseThrow();
+        
+        var reservation = reservationService.createReservation(reservationDTO, user);
         if (reservation == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating reservation");
         }
@@ -105,10 +115,19 @@ public class FlightsController {
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
-    @GetMapping("/getReservationsByUser/{userId}")
-    public ResponseEntity<List<FlightsReservation>> getReservationsByUser(@PathVariable("userId") String userId) {
-        List<FlightsReservation> reservations = reservationService.findReservationsByUser(Integer.parseInt(userId));
+    // @GetMapping("/getReservationsByUser/{userId}")
+    // public ResponseEntity<List<FlightsReservation>> getReservationsByUser(@PathVariable("userId") String userId) {
+    //     List<FlightsReservation> reservations = reservationService.findReservationsByUser(Integer.parseInt(userId));
+    //     return new ResponseEntity<>(reservations, HttpStatus.OK);
+    // }
+
+    @GetMapping("/getReservationsByUser")
+    public ResponseEntity<List<FlightsReservation>> getReservationsByUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); 
+        User user = usersRespository.findByUsername(username).orElseThrow();
+
+        List<FlightsReservation> reservations = reservationService.findReservationsByUser(user);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
-    
 }

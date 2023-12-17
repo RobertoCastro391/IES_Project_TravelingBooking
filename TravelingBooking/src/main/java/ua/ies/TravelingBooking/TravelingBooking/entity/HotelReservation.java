@@ -49,29 +49,26 @@ public class HotelReservation {
     @Column(name = "cvvCard", nullable = false)
     private String cvvCard;
 
-    @Column(name = "addressCard1", nullable = false)
+    @Column(name = "AddressCard1", nullable = false)
     private String addressCard1;
 
-    @Column(name = "addressCard2", nullable = true)
+    @Column(name = "AddressCard2")
     private String addressCard2;
 
-    @Column(name = "cityCard", nullable = false)
+    @Column(name = "CityCard", nullable = false)
     private String cityCard;
 
-    @Column(name = "zipCodeCard", nullable = false)
+    @Column(name = "ZipCodeCard", nullable = false)
     private String zipCodeCard;
 
-    @Column(name = "countryCard", nullable = false)
+    @Column(name = "CountryCard", nullable = false)
     private String countryCard;
-
-    @Column(name = "hotelID", nullable = false)
-    private Integer hotelID;
 
     @OneToMany(mappedBy = "hotelReservation", cascade = CascadeType.ALL)
     private Set<PassengerHotel> passengers = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "hotel_info", referencedColumnName = "HotelID", insertable = false, updatable = false)
+    @JoinColumn(name = "HotelID", referencedColumnName = "HotelID")
     private Hotel hotel;
 
     @PrePersist

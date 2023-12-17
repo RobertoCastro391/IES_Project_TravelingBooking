@@ -5,9 +5,10 @@ import java.util.List;
 
 import ua.ies.TravelingBooking.TravelingBooking.dto.TrainsReservationDTO;
 import ua.ies.TravelingBooking.TravelingBooking.entity.TrainsReservation;
+import ua.ies.TravelingBooking.TravelingBooking.entity.User;
 
 public interface TrainsReservationService {
-    TrainsReservation createReservation(TrainsReservationDTO reservationDTO);
+    TrainsReservation createReservation(TrainsReservationDTO reservationDTO, User user);
     TrainsReservation getReservation(String reservationId);
     void deleteReservation(String reservationId);
     List<TrainsReservation> getAllReservations();
@@ -15,5 +16,5 @@ public interface TrainsReservationService {
     List<TrainsReservation> findReservationsByInboundTrain(String trainNumber);
     List<TrainsReservation> findReservationsByDate(Date reservationDate);
     List<TrainsReservation> findReservationsBetweenDates(Date startDate, Date endDate);
-    List<TrainsReservation> findReservationsByUser(Integer userId);
+    List<TrainsReservation> findReservationsByUser(User user);
 }

@@ -43,7 +43,7 @@ const CardTrainCheckout = ({ train }) => {
                     "M"}
               </p>
             </div>
-            <img className="svg-layer" alt="Svg layer" src={trainengine} />
+            <img className="svg-layerTrains" alt="Svg layer" src={trainengine} />
           </div>
           <div
             style={{

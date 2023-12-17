@@ -12,21 +12,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRef, useEffect } from "react";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
-import { Checkbox, FormControlLabel } from "@mui/material";
-import dayjs from "dayjs";
 
 import "./hotelsSearch.css";
 
 const HotelsSearch = () => {
   const [from, setFrom] = useState("");
-  const [destination, setDestination] = useState("");
   const [openDate, setOpenDate] = useState(false);
 
   const [date, setDate] = useState([

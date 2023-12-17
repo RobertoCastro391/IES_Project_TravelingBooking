@@ -50,8 +50,6 @@ const TrainsSearch = () => {
   const [stations, setStations] = useState([]);
   const [filteredStations, setFilteredStations] = useState([]);
 
-  localStorage.setItem("isOneWayTrains", isOneWay);
-
   const handleOneWayChange = (event) => {
     setIsOneWay(event.target.checked);
   };
@@ -97,7 +95,6 @@ const TrainsSearch = () => {
         [name]: operation === "i" ? options[name] + 1 : options[name] - 1,
       };
     });
-    localStorage.setItem("trainOptions", JSON.stringify(options));
   };
 
   function formatDate(date) {
@@ -153,14 +150,7 @@ const TrainsSearch = () => {
       }
 
       const data = await response.json();
-      
-      // if (data && data.outboundTrains && data.outboundTrains.length > 0) {
-      //   const destinationCode =
-      //     data.outboundTrains[0].stationDestinationInfo.stationName;
-      //   localStorage.setItem("trainDestination", destinationCode);
-      // }
-
-      navigate("/trains", { state: { trainsData: data } });
+      navigate("/trains", { state: { trainsData: data, isRoundTrip: isRoundTrip, trainOptions: options }});
     } catch (error) {
       console.error("Failed to fetch trains:", error);
     }

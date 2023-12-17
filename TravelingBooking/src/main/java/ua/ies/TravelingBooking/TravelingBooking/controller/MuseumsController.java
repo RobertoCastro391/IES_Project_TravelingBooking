@@ -2,13 +2,11 @@ package ua.ies.TravelingBooking.TravelingBooking.controller;
 
 import lombok.AllArgsConstructor;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Museum;
-import ua.ies.TravelingBooking.TravelingBooking.repository.MuseumsRepository;
 import ua.ies.TravelingBooking.TravelingBooking.service.MuseumService;
 
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -8,17 +8,14 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./addExtrasFlightHeader.css";
 
-const addExtrasFlightHeader = () => {
+const AddExtrasFlightHeader = ({isRoundTrip=null, flightOptions=null}) => {
   
-  const isOneWay = localStorage.getItem("isOneWay");
-  const flightOptions = JSON.parse(localStorage.getItem("flightOptions"));
-  const flightClass = localStorage.getItem("flightClass");
   const flightDestination  = localStorage.getItem("flightDestination");
   
   return (
     <div className="headerAddOptionsFlight">
       <div>{flightDestination}</div>
-        {flightOptions && flightOptions.adult !== undefined && flightOptions.children !== undefined && isOneWay !== null && flightClass !== null ? (
+        {flightOptions && flightOptions.adult !== undefined && flightOptions.children !== undefined && isRoundTrip !== null ? (
           <div className="subtitle" style={{justifyContent: 'center', fontSize: '14px', marginTop: '1%'}}>
             <div style={{ marginRight: '10px' }}>
               <FontAwesomeIcon icon={faPerson} style={{ marginRight: '3px' }}/>
@@ -28,11 +25,11 @@ const addExtrasFlightHeader = () => {
             </div>
             <div style={{ marginRight: '10px',}}>|</div>
             <div>
-              { isOneWay === "true" ? "One Way" : "Round Trip"}
+              { isRoundTrip === false ? "One Way" : "Round Trip"}
             </div>
             <div style={{ marginLeft: '10px',marginRight: '10px'}}>|</div>
             <div>
-              {flightClass}
+              {flightOptions.class}
             </div>
           </div>  
         ) : (
@@ -44,4 +41,4 @@ const addExtrasFlightHeader = () => {
 
 
 
-export default addExtrasFlightHeader;
+export default AddExtrasFlightHeader;
