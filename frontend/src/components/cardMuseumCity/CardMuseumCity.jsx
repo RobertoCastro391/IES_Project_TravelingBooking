@@ -1,14 +1,22 @@
 // CardMuseumCity.js
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const CardMuseumCity = ({ imageUrl, name, onClick }) => {
+const CardMuseumCity = ({ imageUrl, museum }) => {
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    navigate("/museumscitydetails", {state: { museum:  museum } });
+  };
+  
+  
   return (
     <div className="museumCityCard">
       <div className="museumCityInfo">
         <img className="musuemCityCardImg" src={imageUrl} alt="" />
-        <p>{name}</p>
-        <button className="museumCityDetailsBtn" onClick={onClick}>
+        <p>{museum.museumName}</p>
+        <button className="museumCityDetailsBtn" onClick={handleSearch}>
           View Details
         </button>
       </div>

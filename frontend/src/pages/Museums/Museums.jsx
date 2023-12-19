@@ -5,13 +5,11 @@ import Navbar from "../../components/navbar/Navbar";
 import PropertyList from "../../components/propertyList/PropertyList";
 import "./museums.css";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from 'react-router-dom';
-
+import { useLocation, useNavigate } from "react-router-dom";
 
 // const Museums = () => {
 //     const location = useLocation();
 //     const [type, setType] = useState("museums");
-
 
 //     useEffect(() => {
 //         if (location.state && location.state.headerType) {
@@ -24,7 +22,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 //     const handleSearch = () => {
 //         navigate("/museumscity");
 //     };
-
 
 //     return (
 //         <div>
@@ -136,7 +133,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 //                     </div>
 //                 </div>
 
-
 //             </div>
 //             <Footer />
 //         </div>
@@ -145,77 +141,63 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 // export default Museums;
 
-
-
 // import React, { useEffect, useState } from 'react';
 // import { useLocation, useNavigate } from 'react-router-dom';
-import CardMuseum from '../../components/cardMuseums/CardMuseums';  // Importe o novo componente
+import CardMuseum from "../../components/cardMuseums/CardMuseums"; // Importe o novo componente
 
 const Museums = () => {
-    const [museumsData, setMuseumsData] = useState([]);
-    const [type, setType] = useState("museums");
-    const [city, setCity] = useState("");
-    const navigate = useNavigate();
-    const location = useLocation();
+  const [museumsData, setMuseumsData] = useState([]);
+  const [type, setType] = useState("museums");
+  const [city, setCity] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    useEffect(() => {
-        // Fetch data from the API
-        fetch(`${process.env.REACT_APP_API_URL}/api/museums`)
-            .then(response => response.json())
-            .then(data => setMuseumsData(data))
-            .catch(error => console.error("Error fetching data:", error));
+  useEffect(() => {
+    // Fetch data from the API
+    fetch(`${process.env.REACT_APP_API_URL}/api/museums/museums`)
+      .then((response) => response.json())
+      .then((data) => setMuseumsData(data))
+      .catch((error) => console.error("Error fetching data:", error));
 
-        if (location.state && location.state.headerType) {
-            setType(location.state.headerType);
-        }
-    }, [location]);
-
-    const cardsPerRow = 3;
-
-    // Create an array of arrays, each containing three cards
-    const rows = [];
-    for (let i = 0; i < 12; i += cardsPerRow) {
-        rows.push(museumsData.slice(i, i + cardsPerRow));
+    if (location.state && location.state.headerType) {
+      setType(location.state.headerType);
     }
+  }, [location]);
 
-    const handleSearch = city => {
-        // navigate("/museumscity");
-        // Add logic for handling the search
-        fetch(`${process.env.REACT_APP_API_URL}/api/museumscity/${city}`)
-            .then(response => response.json())
-            .then(data => {
-                
-            })
-            .catch(error => console.error("Error fetching data:", error));
-    };
+  const cardsPerRow = 3;
 
-    console.log("OKKKKKK00")
-    console.log(museumsData)
-    return (
-        <div>
-            <Navbar />
-            <Header type={type} />
+  // Create an array of arrays, each containing three cards
+  const rows = [];
+  for (let i = 0; i < 12; i += cardsPerRow) {
+    rows.push(museumsData.slice(i, i + cardsPerRow));
+  }
 
-            <div className="museumsContainer">
-                <h1 className="museumsTitle">Discover unique places</h1>
+  console.log("OKKKKKK00");
+  console.log(museumsData);
+  return (
+    <div>
+      <Navbar />
+      <Header type={type} />
 
-                {rows.map((row, rowIndex) => (
-                    <div className="museumsFeatured">
-                        {row.map((museum, cardIndex) => (
-                            <CardMuseum
-                                key={cardIndex}
-                                imageUrl={museum.imageUrl}
-                                title={museum.title}
-                                onClick={() => handleSearch(museum.city)}
-                            />
-                        ))}
-                    </div>
-                ))}
-            </div>
+      <div className="museumsContainer">
+        <h1 className="museumsTitle">Discover unique places</h1>
 
-            <Footer />
-        </div>
-    );
+        {rows.map((row, rowIndex) => (
+          <div className="museumsFeatured">
+            {row.map((museum, cardIndex) => (
+              <CardMuseum
+                key={cardIndex}
+                imageUrl={museum.imageUrl}
+                museum={museum}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <Footer />
+    </div>
+  );
 };
 
 export default Museums;

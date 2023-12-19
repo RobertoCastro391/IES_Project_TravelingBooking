@@ -15,9 +15,7 @@ const Header = ({ type='home', isRoundTrip=null, flightOptions=null }) => {
 
         {type === "trains" && <TrainsSearch />}
 
-        {type === "museums" && <MuseumsSearch showSearchButton={true} />}
-
-        {type === "museumscity" && <MuseumsSearch showSearchButton={false} />}
+        {type === "museums" && <MuseumsSearch />}
 
         {type === "addExtrasFLight" && <AddExtrasFlightHeader isRoundTrip={isRoundTrip} flightOptions={flightOptions}/>}
       

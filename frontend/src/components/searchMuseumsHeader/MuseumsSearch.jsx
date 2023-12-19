@@ -1,27 +1,17 @@
 import {
-  faBed,
-  faCalendarDays,
-  faPerson,
   faMuseum,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRef, useEffect } from "react";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import { DateRange } from "react-date-range";
-import { format } from "date-fns";
-import { Checkbox, FormControlLabel } from "@mui/material";
-import dayjs from "dayjs";
 
 import "./museumsSearch.css";
 
 const MuseumsSearch = ({ showSearchButton }) => {
   const [city, setCity] = useState("");
+  const [museumsCity, setMuseumsCity] = useState("");
 
   const navigate = useNavigate();
 
@@ -31,15 +21,13 @@ const MuseumsSearch = ({ showSearchButton }) => {
       console.log("City Name")
       console.log(city)
 
-
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/museums`, {
-        method: 'POST',
+      const url = `${process.env.REACT_APP_API_URL}/api/museums/museumscity/${city}`;
+      
+      const response = await fetch(url, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          museumLocation: city
-        }),
+        }
       });
 
       if (!response.ok) {
@@ -48,12 +36,11 @@ const MuseumsSearch = ({ showSearchButton }) => {
 
       const data = await response.json();
 
-      if (data  > 0) {
-        const museumLocation = data.museumLocation;
-        localStorage.setItem("museumsCity", museumLocation);
-      }
+      console.log("Data")
+      setMuseumsCity(data);
+      console.log(data);
 
-      navigate("/museumscity/${city}");
+      navigate("/museumscity", {state: { museums:  data , city: city } });
     } catch (error) {
       console.error("Failed to fetch flights:", error);
     }
@@ -83,13 +70,11 @@ const MuseumsSearch = ({ showSearchButton }) => {
             />
           </div>
         </div>
-        {showSearchButton && (
           <div className="searchDiv">
             <button className="buttonMuseumsSearch" onClick={handleSearch}>
               Search
             </button>
           </div>
-        )}
       </div>
     </div>
   );
