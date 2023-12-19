@@ -55,6 +55,8 @@ public class HotelReservationServiceImpl implements HotelsReservationService {
         reservation.setExpirationDateCard(reservationDTO.getExpirationDateCard());
         reservation.setCvvCard(reservationDTO.getCvvCard());
         reservation.setAddressCard1(reservationDTO.getAddressCard1());
+        reservation.setCheckIn(reservationDTO.getCheckIn());
+        reservation.setCheckOut(reservationDTO.getCheckOut());
         
         System.out.println("HOTEL ID: " + reservationDTO.getHotelId());
         System.out.println("HOTEL: " + hotelsRepository.findById(reservationDTO.getHotelId()));

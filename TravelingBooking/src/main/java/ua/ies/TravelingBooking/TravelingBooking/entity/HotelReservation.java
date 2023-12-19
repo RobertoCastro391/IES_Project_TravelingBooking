@@ -64,6 +64,12 @@ public class HotelReservation {
     @Column(name = "CountryCard", nullable = false)
     private String countryCard;
 
+    @Column(name = "CheckIn")
+    private Date checkIn;
+
+    @Column(name = "CheckOut")
+    private Date checkOut;
+
     @OneToMany(mappedBy = "hotelReservation", cascade = CascadeType.ALL)
     private Set<PassengerHotel> passengers = new HashSet<>();
 

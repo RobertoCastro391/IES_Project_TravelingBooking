@@ -19,6 +19,24 @@ public class HotelReservationDTO {
     private String cityCard;
     private String zipCodeCard;
     private String countryCard;
+    private Date checkIn;
+    private Date checkOut;
+
+    public Date getCheckIn() {
+        return checkIn;
+    }
+
+    public void setCheckIn(Date checkIn) {
+        this.checkIn = checkIn;
+    }
+
+    public Date getCheckOut() {
+        return checkOut;
+    }
+
+    public void setCheckOut(Date checkOut) {
+        this.checkOut = checkOut;
+    }
 
     public int getHotelId() {
         return hotelid;

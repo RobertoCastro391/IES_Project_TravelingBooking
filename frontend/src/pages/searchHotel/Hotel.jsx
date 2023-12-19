@@ -25,6 +25,9 @@ const Hotel = () => {
   console.log("hotelsData");
   console.log(hotelsData);
 
+  console.log("dates");
+  console.log(dates);
+
   const handleSelectStops = (value) => {
     setStopsFilter(value);
   };

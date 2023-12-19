@@ -42,6 +42,9 @@ const HotelCheckout = ({hotel}) => {
   console.log("hotelData");
   console.log(hotelData);
 
+  console.log("dates");
+  console.log(dates);
+
   // useEffect(() => {
   //   if (
   //     outboundhotel &&
@@ -115,6 +118,8 @@ const HotelCheckout = ({hotel}) => {
     
     console.log("hotelData");
     console.log(hotelData);
+    console.log("dates");
+    console.log(dates);
     
     const reservationData = {
       userID: parseInt(localStorage.getItem("userId")),
@@ -132,7 +137,7 @@ const HotelCheckout = ({hotel}) => {
       addressCard2: addressLine2 ? addressLine2 : null,
       cityCard: city,
       zipCodeCard: postalCode,
-      countryCard: country
+      countryCard: country,
     };
 
     console.log("Reservation data:", reservationData);

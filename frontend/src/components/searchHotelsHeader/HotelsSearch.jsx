@@ -98,7 +98,9 @@ const HotelsSearch = () => {
         console.log("Hotels:");
         console.log(hotels);
 
-        navigate("/hotels", { state: { hotels, date, options } });
+        const dates = date;
+
+        navigate("/hotels", { state: { hotels, dates, options } });
     } catch (error) {
         console.error("Error fetching hotels:", error);
     }

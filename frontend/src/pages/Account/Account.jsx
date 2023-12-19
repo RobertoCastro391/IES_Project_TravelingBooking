@@ -3,6 +3,7 @@ import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 import FlightDetails from "../../components/accountInfoTripsFlights/FlightDetails";
 import TrainDetails from "../../components/accountInfoTripsTrains/TrainDetails";
+import HotelDetails from "../../components/accountInfoTripsHotel/HotelDetails";
 import AccountInfo from "../../components/accountInfo/AccountInfo";
 import "./account.css";
 import tap from "../../static/tap.png";
@@ -135,42 +136,46 @@ const Account = () => {
     };
 
 
-    // const fetchUserHotels = async () => {
-    //   try {
-    //     const response = await fetch(
-    //       `${process.env.REACT_APP_API_URL}/api/hotels/getReservationsByUser/${userId}`
-    //     );
-    //     if (!response.ok) {
-    //       throw new Error("Network response was not ok");
-    //     }
-    //     const data = await response.json();
+    const fetchUserHotels = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/hotels/getReservationsByUser`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
 
-    //     console.log("Fetched Data Hotels:");
-    //     console.log(data);
+        console.log("Fetched Data Hotels:");
+        console.log(data);
 
-    //     // Assuming data is an array of reservations
-    //     const userHotels = data.map((trip) => ({
-    //       reservationID: trip.id,
-    //       hotel: trip.hotel,
-    //       totalPrice: trip.totalPrice,
-    //       reservationDate: trip.reservationDate,
-    //       passengers: trip.passengers,
-    //     }));
+        // Assuming data is an array of reservations
+        const userHotels = data.map((trip) => ({
+          reservationID: trip.id,
+          hotel: trip.hotel,
+          totalPrice: trip.totalPrice,
+          reservationDate: trip.reservationDate,
+          passengers: trip.passengers,
+        }));
 
-    //     setUserHotels(userHotels);
+        setUserHotels(userHotels);
 
-    //     console.log("User Trips after processing:");
-    //     console.log(userHotels);
-    //   } catch (error) {
-    //     console.error("Failed to fetch user info:", error);
-    //   }
-    // };
+        console.log("User Trips after processing:");
+        console.log(userHotels);
+      } catch (error) {
+        console.error("Failed to fetch user info:", error);
+      }
+    };
 
     if (userId) {
       fetchUserInfo();
       fetchUserFlights();
       fetchUserTrains();
-      // fetchUserHotels();
+      fetchUserHotels();
     }
   }, []);
 
@@ -210,9 +215,6 @@ const Account = () => {
           <button className="button" onClick={() => handleClick("Hotels")}>
             Hotels
           </button>
-          <button className="button" onClick={() => handleClick("Packages")}>
-            Packages
-          </button>
         </div>
 
         {activeTab === "Flights" && (
@@ -251,27 +253,24 @@ const Account = () => {
             ))}
           </div>
         )}
-        {/* {activeTab === "Hotels" && (
+        {activeTab === "Hotels" && (
           <div>
-            {userTrains.length === 0 && (
+            {userHotels.length === 0 && (
               <div className="noTrips">
                 <div className="noTripsText">
                   You have no trips yet, book your next trip now!
                 </div>
               </div>
             )}
-            {userTrains.map((reservationInfo, index) => (
-              <FlightDetails
+            {userHotels.map((reservationInfo, index) => (
+              <HotelDetails
                 key={index}
                 reservationInfo={reservationInfo}
-                imageUrl={paris}
               />
             ))}
           </div>
-        )} */}
-        {activeTab === "Packages" && (
-          <div className="details">Page Under Devolpment</div>
         )}
+       
       </div>
 
       <Footer />
