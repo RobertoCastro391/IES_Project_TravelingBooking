@@ -60,6 +60,8 @@ const AddExtrasFlight = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
+        console.log("Flight response:", data);
+
         setFlightFunc(data);
       } catch (error) {
         console.error(

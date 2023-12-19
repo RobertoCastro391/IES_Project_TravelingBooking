@@ -2,6 +2,7 @@ import json
 import random
 from datetime import datetime, timedelta
 import time
+import copy
 import requests
 from faker import Faker
 from confluent_kafka import Producer
@@ -907,13 +908,36 @@ def calculate_duration(origin, destination):
     return timedelta(hours=duration_hours)
 
 def define_state():
-    states = ['OK', 'Canceled', 'Delay']
-    probs = [0.45, 0.35, 0.20]
+
+    states = ['Canceled', 'Delay']
+    probs = [0.2, 0.8]
 
     selected_state = np.random.choice(states, p=probs)
+    delay_time = timedelta(hours=random.randint(1, 5)) if selected_state == 'Delay' else None
 
-    print(selected_state)
-    return selected_state
+    return selected_state, delay_time
+
+def update_random_flight(flights):
+    # Select a random flight
+    print("Updating a random flight...")
+    random_flight = copy.deepcopy(random.choice(flights))
+
+    # Update the flight state
+    state, delay_time = define_state()
+    random_flight['state'] = state
+    if state == 'Delay':
+        # Update the departure and arrival times
+        departure_time = datetime.strptime(random_flight['departureHour'], '%Y-%m-%d %H:%M')
+        arrival_time = datetime.strptime(random_flight['arrivalHour'], '%Y-%m-%d %H:%M')
+        random_flight['departureHour'] = (departure_time + delay_time).strftime('%Y-%m-%d %H:%M')
+        random_flight['arrivalHour'] = (arrival_time + delay_time).strftime('%Y-%m-%d %H:%M')
+    else:
+        random_flight['departureHour'] = None
+        random_flight['arrivalHour'] = None
+
+    print(f"Flight {random_flight['flightNumber']} updated to state {random_flight['state']}")
+    
+    return random_flight
 
 def generate_flights():
     all_flights = []
@@ -926,7 +950,7 @@ def generate_flights():
 
     # Replicar voos para cada companhia aérea durante 90 dias
     for airline_code in selected_airlines:
-        for day_offset in range(10):
+        for day_offset in range(90):
             # Gerar horários aleatórios de partida para cada voo
             departure_time_ida = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=day_offset)
             departure_time_ida += timedelta(hours=random.randint(0, 23), minutes=random.randint(0, 59))
@@ -947,7 +971,7 @@ def generate_flights():
                 "departureHour": departure_time_ida.strftime('%Y-%m-%d %H:%M'),
                 "arrivalHour": arrival_time_ida.strftime('%Y-%m-%d %H:%M'),
                 "duration": str(duration_ida),
-                "state": define_state(),
+                "state": "OK",
                 "price": round(random.uniform(50.0, 1000.0), 2),
                 "seats": random.randint(1, 300)
             }
@@ -961,7 +985,7 @@ def generate_flights():
                 "departureHour": departure_time_volta.strftime('%Y-%m-%d %H:%M'),
                 "arrivalHour": arrival_time_volta.strftime('%Y-%m-%d %H:%M'),
                 "duration": str(duration_volta),
-                "state": define_state(),
+                "state": "OK",
                 "price": round(random.uniform(50.0, 1000.0), 2),
                 "seats": random.randint(1, 300)
             }
@@ -1143,38 +1167,64 @@ def send_to_kafka_hotel(topic, hotel_data):
     print("Sending hotel data")
     producer.produce(topic, key=str(hotel_data['hotelName']), value=json.dumps(hotel_data))
     producer.flush()
+
+def send_flight_change_to_kafka(topic, flight):
+    change_info = {
+        'flightNumber': flight['flightNumber'],
+        'newState': flight['state'],
+        'newDepartureHour': flight.get('departureHour', None),
+        'newArrivalHour': flight.get('arrivalHour', None)
+    }
+    
+    print("Sending flight change")
+
+    producer.produce(topic, key=flight['flightNumber'], value=json.dumps(change_info))
+    producer.flush()
     
 
-send_airport_data_to_kafka('airports_topic')  
-send_airline_data_to_kafka('airlines_topic')
-send_station_data_to_kafka('station_topic')
-send_train_company_data_to_kafka('train_company_topic')  
-
-# generate along time
-
 try:
-    while True: # while the program is running there are information being generated
-        print('AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH')
-        for _ in range(7):
-            flights = generate_flights() # 7x10 flights
-            for flight in flights:
-                send_to_kafka('flighs_data', flight)
-                print("Sending flight data")
+    i = 0;
+    flights = []
+    hotels2 = []
+    while True:
+        i = i + 1
+        print(i)
+        print("Generating flights...")
 
-            trains = generate_random_train()
-            send_to_kafka_trains('train_data', trains)
-            print("Sending train data")
+        if i == 1:
+            send_airport_data_to_kafka('airports_topic')  
+            send_airline_data_to_kafka('airlines_topic')
+            send_station_data_to_kafka('station_topic')
+            send_train_company_data_to_kafka('train_company_topic')
 
-            hotel_data = generate_random_hotels()
-            send_to_kafka_hotel('hotel_data', hotel_data)
+        if i == 1:
+            for _ in range(15):
+                new_flights = generate_flights()
+                flights.extend(new_flights)
+                for flight in flights:
+                    send_to_kafka('flighs_data', flight)
+                    print("Sending flight data")
+                    
+                trains = generate_random_train()
+                send_to_kafka_trains('train_data', trains)
+                print("Sending train data")
+                hotel_data = generate_random_hotels()
+                send_to_kafka_hotel('hotel_data', hotel_data)
+            for key in museums.keys():
+                print("Sending museum data")
+                museum_data = generate_random_museums(key)
+                send_museum_data_to_kafka('museums_topic', museum_data)
 
-        # send museums information
-        for key in museums.keys():
-            print("Sending museum data")
-            museum_data = generate_random_museums(key)
-            send_museum_data_to_kafka('museums_topic', museum_data)
+        if i > 1:
+        
+            print(i)
+            time.sleep(30)
+            print("Updating a random flight... 1")
+            updated_flight = update_random_flight(flights)
+            send_flight_change_to_kafka('flight_change', updated_flight)
+        
+        i = i + 1
 
-        time.sleep(3) # sleep 3 seconds
     
 except KeyboardInterrupt:
     print("Keyboard Interrupt")

@@ -36,6 +36,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/trains/trainCompanies").permitAll()
                     .requestMatchers("/api/trains/searchTrain").permitAll()
                     .requestMatchers("/api/user/register").permitAll()
+                    .requestMatchers("/api/user/login").permitAll()
                     .anyRequest().authenticated()
             )
             .sessionManagement(sessionManagement ->
