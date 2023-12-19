@@ -21,12 +21,48 @@ import dayjs from "dayjs";
 import "./museumsSearch.css";
 
 const MuseumsSearch = ({ showSearchButton }) => {
-  const [from, setFrom] = useState("");
+  const [city, setCity] = useState("");
 
   const navigate = useNavigate();
 
+  const fecthMuseums = async () => {
+    try {
+
+      console.log("City Name")
+      console.log(city)
+
+
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/museums`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          museumLocation: city
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data  > 0) {
+        const museumLocation = data.museumLocation;
+        localStorage.setItem("museumsCity", museumLocation);
+      }
+
+      navigate("/museumscity/${city}");
+    } catch (error) {
+      console.error("Failed to fetch flights:", error);
+    }
+  };
+
+
   const handleSearch = () => {
-    navigate("/museumscity");
+    fecthMuseums();
+    // navigate("/museumscity");
   };
 
   return (
@@ -43,7 +79,7 @@ const MuseumsSearch = ({ showSearchButton }) => {
               type="text"
               placeholder="Where are you going?: "
               className="headerSearchInput"
-              onChange={(e) => setFrom(e.target.value)}
+              onChange={(e) => setCity(e.target.value)}
             />
           </div>
         </div>
