@@ -1183,7 +1183,7 @@ def send_flight_change_to_kafka(topic, flight):
     
 
 try:
-    i = 0;
+    i = 0
     flights = []
     hotels2 = []
     while True:
