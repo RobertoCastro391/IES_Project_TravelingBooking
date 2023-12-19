@@ -74,9 +74,6 @@ const Register = () => {
       }
 
       console.log("Registration successful")
-      
-      const token = await response.json();
-      localStorage.setItem('token', token.token);
 
       alert("Registration successful");
       navigate("/login");

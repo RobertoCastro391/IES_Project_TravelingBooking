@@ -21,7 +21,6 @@ const Login = () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/login`, {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ email, password }),
@@ -35,7 +34,8 @@ const Login = () => {
       const data = await response.json();
 
       console.log("Login response:", data);
-      localStorage.setItem("userId", data.userId);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userId", "1");
 
       alert("Login Successful");
 

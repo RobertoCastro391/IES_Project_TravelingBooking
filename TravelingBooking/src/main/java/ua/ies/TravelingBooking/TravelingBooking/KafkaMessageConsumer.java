@@ -4,6 +4,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Airport;
+import ua.ies.TravelingBooking.TravelingBooking.dto.FlightChangeDTO;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Airline;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Flight;
 import ua.ies.TravelingBooking.TravelingBooking.entity.Hotel;
@@ -21,6 +22,7 @@ import ua.ies.TravelingBooking.TravelingBooking.repository.HotelsRepository;
 import ua.ies.TravelingBooking.TravelingBooking.repository.MuseumsRepository;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 @Component
 public class KafkaMessageConsumer {
@@ -174,4 +176,33 @@ public class KafkaMessageConsumer {
             System.out.println("Error processing museum message: " + message);
         }
     }
-}
+
+    
+    @KafkaListener(topics = "flight_change", groupId = "my-consumer-group")
+    public void listenFlightChange(String message) throws ParseException {
+        try {
+            System.out.println(message);
+            FlightChangeDTO flightChange = objectMapper.readValue(message, FlightChangeDTO.class);
+
+            Flight flight = flightsRepository.findById(flightChange.getFlightNumber()).orElse(null);
+
+            if (flight != null) {
+                if (flightChange.getNewState().equals("Canceled")) {
+                    flight.setState("Canceled");
+                    flightsRepository.save(flight);
+                } else if (flightChange.getNewState().equals("Delay")) {
+                    flight.setState("Delay");
+                    flight.setDepartureHour(flightChange.getNewDepartureHour());
+                    flight.setArrivalHour(flightChange.getNewArrivalHour());
+                    flightsRepository.save(flight);
+                } 
+            } else {
+                System.out.println("Flight not found: " + flightChange.getFlightNumber());
+            }
+            System.out.println("Received and processed flight change: " + flightChange);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error processing flight change message: " + message);
+        }
+    }
+}   
