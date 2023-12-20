@@ -16,9 +16,22 @@ const Navbar = () => {
     navigate("/", { state: { headerType: headerType } });
   };
 
+  const handleHotels = (headerType = "home") => {
+    navigate("/hotel", { state: { headerType: headerType } });
+  };
+
+  const handleFlights = (headerType = "home") => {
+    navigate("/flight", { state: { headerType: headerType } });
+  };
+
+  const handleTrains = (headerType = "home") => {
+    navigate("/train", { state: { headerType: headerType } });
+  };
+
   const handleMuseums = (headerType = "home") => {
     navigate("/museums", { state: { headerType: headerType } });
   };
+
 
   const handleAccount = (userID = localStorage.getItem("userId")) => {
     navigate("/account", { state: { userID: userID } });
@@ -51,10 +64,9 @@ const Navbar = () => {
         <div className="navItems">
           {isLoggedIn ? (
             <div>
-              <a onClick={() => handleHome("flights")}>Help</a>
-              <a onClick={() => handleHome("flights")}>Flights</a>
-              <a onClick={() => handleHome("hotels")}>Hotels</a>
-              <a onClick={() => handleHome("trains")}>Trains</a>
+              <a onClick={() => handleFlights("flights")}>Flights</a>
+              <a onClick={() => handleHotels("hotels")}>Hotels</a>
+              <a onClick={() => handleTrains("trains")}>Trains</a>
               <a onClick={() => handleMuseums("museums")}>Museums</a>
               <a onClick={() => handleHome("hotels")}>News and Delays</a>
               <a onClick={() => handleAccount("account")}>Profile</a>
@@ -65,7 +77,6 @@ const Navbar = () => {
           ) : (
             <>
               <div style={{ marginRight: "50px" }}>
-                <a onClick={() => handleHome("flights")}>Help</a>
                 <a onClick={() => handleHome("flights")}>Flights</a>
                 <a onClick={() => handleHome("hotels")}>Hotels</a>
                 <a onClick={() => handleHome("trains")}>Trains</a>
