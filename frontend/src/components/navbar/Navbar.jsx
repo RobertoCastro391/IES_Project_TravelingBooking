@@ -77,9 +77,9 @@ const Navbar = () => {
           ) : (
             <>
               <div style={{ marginRight: "50px" }}>
-                <a onClick={() => handleHome("flights")}>Flights</a>
-                <a onClick={() => handleHome("hotels")}>Hotels</a>
-                <a onClick={() => handleHome("trains")}>Trains</a>
+                <a onClick={() => handleFlights("flights")}>Flights</a>
+                <a onClick={() => handleHotels("hotels")}>Hotels</a>
+                <a onClick={() => handleTrains("trains")}>Trains</a>
                 <a onClick={() => handleMuseums("museums")}>Museums</a>
                 <a onClick={() => handleHome("hotels")}>News and Delays</a>
               </div>
