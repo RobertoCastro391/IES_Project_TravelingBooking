@@ -1,58 +1,166 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Featured from "../../components/featured/Featured";
-import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
-import PropertyList from "../../components/propertyList/PropertyList";
 import "./home.css";
-import { faEarth, faHotel, faTrain } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom';
+import CardFlights from "../../components/cardFlights/CardFlights";
+import HotelCard from "../../components/cardHotel/CardHotel"
+import CardTrains from "../../components/cardTrains/CardTrains";
 
 console.log(`${process.env.REACT_APP_API_URL}`);
 
 
 const Home = () => {
-  const location = useLocation();
-  const [airports, setAirports] = useState([]);
-  const [airline, setAirline] = useState([]);
-  const [flights, setFlights] = useState([]);
   const [type, setType] = useState("home");
+  const [flightsData, setFlightsData] = useState([]);
+  const [hotelsData, setHotelsData] = useState([]);
+  const [trainData, setTrainData] = useState([]);
 
   useEffect(() => {
-    if (location.state && location.state.headerType) {
-      setType(location.state.headerType);
-    }
-  }, [location]);
+    const fetchUserFlights = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/flights/flights`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+
+        console.log('Fetched Data Flights:');
+        console.log(data);
+
+        // Select random flights
+        setFlightsData(selectRandomFlights(data, 4));
+
+      } catch (error) {
+        console.error('Failed to fetch user info:', error);
+      }
+    };
+
+    const fetchUserHotels = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/hotels/getAllHotels`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+
+        console.log("Fetched Data Hotels:");
+        console.log(data);
+
+        // Select 10 random hotels
+        setHotelsData(selectRandomHotels(data, 4));
+
+      } catch (error) {
+        console.error("Failed to fetch user info:", error);
+      }
+    };
+
+    const fetchUserTrains = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trains/trains`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+
+        console.log("Fetched Data Trains:");
+        console.log(data);
+
+        // Select random trains
+        setTrainData(selectRandomTrains(data, 4));
+
+      } catch (error) {
+        console.error("Failed to fetch user info:", error);
+      }
+    };
+    fetchUserTrains();
+    fetchUserHotels();
+    fetchUserFlights();
+  }, []);
+
+  const selectRandomFlights = (flights, number) => {
+    return flights.sort(() => 0.5 - Math.random()).slice(0, number);
+  };
+  const selectRandomHotels = (hotels, number) => {
+    return hotels.sort(() => 0.5 - Math.random()).slice(0, number);
+  };
+
+  const selectRandomTrains = (trains, number) => {
+    return trains.sort(() => 0.5 - Math.random()).slice(0, number);
+  };
 
   return (
     <div>
       <Navbar />
       <Header type={type} />
-
       <div className="homeContainer">
-        <div className="boxContainer">
-          <div className="box">
-            <FontAwesomeIcon icon={faTrain} />
-            <p>Trains</p>
+        <h1 className="flightsTitle">Discover unique places</h1>
+          <div className="containerFlight">
+            {flightsData.length > 0 ? (
+              flightsData.map((outboundFlight, index) => {
+                return (
+                  <CardFlights
+                    outboundFlight={outboundFlight}
+                    inboundFlight={null}
+                    isRoundTrip={null}
+                    flightOptions={null}
+                    key={index}
+                  />
+                );
+              })
+            ) : (
+              <p>No flights available</p>
+            )}
           </div>
-          <div className="box">
-            <FontAwesomeIcon icon={faHotel} />
-            <p>Hotels</p>
+        <h1 className="hotelsTitle" style={{marginTop:"70px"}}>Discover unique Hotels</h1>
+          <div className="containerHotel">
+            {hotelsData.length > 0 ? (
+              hotelsData.map((hotel, index) => (
+                <HotelCard
+                  key={index}
+                  hotel={hotel}
+                />
+              ))
+            ) : (
+              <p>No hotels found</p>
+            )}
           </div>
-          <div className="box">
-            <FontAwesomeIcon icon={faEarth} />
-            <p>Explore Everywhere</p>
+        <h1 className="trainsTitle" style={{marginTop:"70px"}}>Discover new Trains Adventures</h1>
+          <div className="containerTrain">
+            {trainData.length > 0 ? (
+              trainData.map((train, index) => (
+                <CardTrains
+                  key={index}
+                  outboundTrain={train} 
+                  isRoundTrip={null} 
+                  trainOptions={null}
+                />
+              ))
+            ) : (
+              <p>No trains available</p>
+            )}
           </div>
-        </div>
+
         
-        <Featured />
-        <h1 className="homeTitle">Discover various stays</h1>
-        <PropertyList />
-        <h1 className="homeTitle">Our costumers loved</h1>
-        <FeaturedProperties />
+        
       </div>
+
       <Footer />
     </div>
   );
