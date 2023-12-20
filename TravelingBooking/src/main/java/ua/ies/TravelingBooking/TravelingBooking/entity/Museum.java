@@ -44,6 +44,12 @@ public class Museum {
     // @Column(name = "Email", nullable = false)
     // private String email;
 
+    @Column(name = "MuseumLatitude")
+    private String museumLatitude;
+
+    @Column(name = "MuseumLongitude")
+    private String museumLongitude;
+
     @Column(name = "TicketpriceAdult", nullable = false)
     private String ticketPriceAdult;
 

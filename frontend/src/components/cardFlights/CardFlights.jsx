@@ -5,7 +5,7 @@ import "./cardFlights.css";
 import frame from "../images/Frame.png";
 import layer1 from "../images/Layer_1.png";
 
-const CardFlights = ({ outboundFlight, inboundFlight = null, isRoundTrip, flightOptions}) => {
+const CardFlights = ({ outboundFlight, inboundFlight = null, isRoundTrip, flightOptions, select = true }) => {
   const navigate = useNavigate();
 
   const [selectedFlight, setSelectedFlight] = useState(null);
@@ -82,7 +82,11 @@ const CardFlights = ({ outboundFlight, inboundFlight = null, isRoundTrip, flight
                       "M"}
                   </p>
                 </div>
-                <img className="svg-layer-flights" alt="Svg layer" src={layer1} />
+                <img
+                  className="svg-layer-flights"
+                  alt="Svg layer"
+                  src={layer1}
+                />
               </div>
               <div
                 style={{
@@ -143,7 +147,11 @@ const CardFlights = ({ outboundFlight, inboundFlight = null, isRoundTrip, flight
                         "M"}
                     </p>
                   </div>
-                  <img className="svg-layer" alt="Svg layer" src={layer1} />
+                  <img
+                    className="svg-layer-flights"
+                    alt="Svg layer"
+                    src={layer1}
+                  />
                 </div>
                 <div
                   style={{
@@ -202,7 +210,11 @@ const CardFlights = ({ outboundFlight, inboundFlight = null, isRoundTrip, flight
                         "M"}
                     </p>
                   </div>
-                  <img className="svg-layer" alt="Svg layer" src={layer1} />
+                  <img
+                    className="svg-layer-flights"
+                    alt="Svg layer"
+                    src={layer1}
+                  />
                 </div>
                 <div
                   style={{
@@ -229,16 +241,24 @@ const CardFlights = ({ outboundFlight, inboundFlight = null, isRoundTrip, flight
           {inboundFlight === null ? (
             <span>{parseFloat(outboundFlight["price"].toFixed(2))}€</span>
           ) : (
-            <span>{parseFloat(((outboundFlight["price"] + inboundFlight["price"]).toFixed(2)))}€</span>
+            <span>
+              {parseFloat(
+                (outboundFlight["price"] + inboundFlight["price"]).toFixed(2)
+              )}
+              €
+            </span>
           )}
         </div>
-        <button
-          className="buttonFlightSearch"
-          onClick={(e) => handleBookFlight(e, outboundFlight, inboundFlight)}
-        >
-          <div className="text-wrapper">Select</div>
-          <img className="svg" alt="Svg" src={frame} />
-        </button>
+
+        {select == true && (
+          <button
+            className="buttonFlightSearch"
+            onClick={(e) => handleBookFlight(e, outboundFlight, inboundFlight)}
+          >
+            <div className="text-wrapper">Select</div>
+            <img className="svg" alt="Svg" src={frame} />
+          </button>
+        )}
       </div>
     </div>
   );

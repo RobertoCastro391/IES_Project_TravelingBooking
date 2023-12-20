@@ -110,8 +110,8 @@ const Home = () => {
       <Navbar />
       <Header type={type} />
       <div className="homeContainer">
-        <h1 className="flightsTitle">Discover unique places</h1>
-          <div className="containerFlight">
+        <h1 className="flightsTitleHome">Discover unique places</h1>
+          <div className="containerFlightHome">
             {flightsData.length > 0 ? (
               flightsData.map((outboundFlight, index) => {
                 return (
@@ -121,6 +121,7 @@ const Home = () => {
                     isRoundTrip={null}
                     flightOptions={null}
                     key={index}
+                    select={false}
                   />
                 );
               })
@@ -150,6 +151,7 @@ const Home = () => {
                   outboundTrain={train} 
                   isRoundTrip={null} 
                   trainOptions={null}
+                  select={false}
                 />
               ))
             ) : (

@@ -21,9 +21,9 @@ public class MuseumsController {
 
     @GetMapping("/museums")
     public ResponseEntity<List<String>> getTop12MuseumLocations(){
+        System.out.println("getTop12MuseumLocations");
         List<String> top10Locations = museumsService.findTop12MuseumLocations();
         return new ResponseEntity<>(top10Locations, HttpStatus.OK);
-
     }
 
 

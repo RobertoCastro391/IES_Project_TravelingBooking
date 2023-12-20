@@ -75,6 +75,7 @@ const FlightCheckout = () => {
   }, [flightNumberOutbound, flightNumberInbound, isRoundTrip]);
 
   useEffect(() => {
+    let price;
     if (
       outboundFlight &&
       outboundFlight["price"] &&
@@ -82,12 +83,16 @@ const FlightCheckout = () => {
       flightOptions.adult !== undefined &&
       flightOptions.children !== undefined
     ) {
-      let price = parseFloat(
+      price = parseFloat(
         (
           flightOptions.adult * outboundFlight["price"] +
           (flightOptions.children * outboundFlight["price"]) / 2
         ).toFixed(2)
       );
+
+      console.log("price", price);
+      console.log("flightOptions", flightOptions);
+      console.log("isRoundTrip", isRoundTrip);
 
       if (isRoundTrip === true) {
         price += parseFloat(

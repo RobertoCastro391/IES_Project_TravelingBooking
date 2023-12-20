@@ -47,7 +47,7 @@ const CardFlightCheckout = ({ flight }) => {
                   "M"}
               </p>
             </div>
-            <img className="svg-layer" alt="Svg layer" src={layer1} />
+            <img className="svg-layer-flights" alt="Svg layer" src={layer1} />
           </div>
           <div
             style={{
