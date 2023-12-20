@@ -40,8 +40,8 @@ const FlightBookingPage = () => {
     <div>
       <Navbar />
       <Header type="flights" />
-      <div className="containerSearch" style={{ alignItems: "start" }}>
-        <div className="container2">
+      <div className="containerSearchFlight" style={{ alignItems: "start" }}>
+        <div className="container2Flights">
           <div className="filters">
             <label>Filter by Stops:</label>
             <select
@@ -87,7 +87,7 @@ const FlightBookingPage = () => {
             </select>
           </div>
         </div>
-        <div className="container3">
+        <div className="container3Flights">
           {flightsData && flightsData["outboundFlights"].length > 0 ? (
             flightsData["outboundFlights"].map((outboundFlight, index) => {
               const returnFlight =

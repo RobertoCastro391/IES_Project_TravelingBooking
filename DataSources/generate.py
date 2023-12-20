@@ -394,499 +394,501 @@ cities = {
 }
 
 
+### MUSEUMS DATA
+
 museums = {
     "PAR_LO": {
-        "name": "Museu do Louvre",
+        "name": "Louvre Museum",
         "city": "Paris",
-        "address": "Rue de Rivoli, 75001 Paris, França",
+        "address": "Rue de Rivoli, 75001 Paris, France",
         "coordinates": {"latitude": 48.8606, "longitude": 2.3376},
-        "description": "Um dos maiores e mais famosos museus do mundo, localizado no centro de Paris."
+        "description": "One of the largest and most famous museums in the world, located in the center of Paris."
     },
     "PAR_OR": {
-        "name": "Museu de Orsay",
+        "name": "Musée d'Orsay",
         "city": "Paris",
-        "address": "1 Rue de la Légion d'Honneur, 75007 Paris, França",
+        "address": "1 Rue de la Légion d'Honneur, 75007 Paris, France",
         "coordinates": {"latitude": 48.8599, "longitude": 2.3266},
-        "description": "Dedicado à arte do século XIX, situado em uma antiga estação ferroviária."
+        "description": "Dedicated to 19th-century art, situated in a former railway station."
     },
     
 
     "MAD_PR": {
-        "name": "Museu do Prado",
+        "name": "Prado Museum",
         "city": "Madrid",
-        "address": "Calle de Ruiz de Alarcón, 23, 28014 Madrid, Espanha",
+        "address": "Calle de Ruiz de Alarcón, 23, 28014 Madrid, Spain",
         "coordinates": {"latitude": 40.4139, "longitude": -3.6922},
-        "description": "Um dos museus de arte mais importantes do mundo, focado em arte europeia."
+        "description": "One of the most important art museums in the world, focused on European art."
     },
     "MAD_RS": {
-        "name": "Museu Nacional Centro de Arte Reina Sofía",
+        "name": "Reina Sofía National Art Center Museum",
         "city": "Madrid",
-        "address": "Calle de Santa Isabel, 52, 28012 Madrid, Espanha",
+        "address": "Calle de Santa Isabel, 52, 28012 Madrid, Spain",
         "coordinates": {"latitude": 40.4086, "longitude": -3.6936},
-        "description": "Conhecido por abrigar a famosa obra 'Guernica' de Picasso, além de arte contemporânea."
+        "description": "Known for housing Picasso's famous work 'Guernica,' in addition to contemporary art."
     },
     "MAD_TH": {
-        "name": "Museu Thyssen-Bornemisza",
+        "name": "Thyssen-Bornemisza Museum",
         "city": "Madrid",
-        "address": "Paseo del Prado, 8, 28014 Madrid, Espanha",
+        "address": "Paseo del Prado, 8, 28014 Madrid, Spain",
         "coordinates": {"latitude": 40.4169, "longitude": -3.6944},
-        "description": "Uma coleção única que abrange sete séculos de arte europeia, do século XIII ao século XX."
+        "description": "A unique collection spanning seven centuries of European art, from the 13th to the 20th century."
     },
     
 
 
     "ROM_VA": {
-        "name": "Museus do Vaticano",
-        "city": "Roma",
-        "address": "Viale Vaticano, 00165 Roma, Itália",
+        "name": "Vatican Museums",
+        "city": "Rome",
+        "address": "Viale Vaticano, 00165 Rome, Italy",
         "coordinates": {"latitude": 41.9022, "longitude": 12.4534},
-        "description": "Uma das maiores coleções de arte e antiguidades do mundo, incluindo a Capela Sistina."
+        "description": "One of the largest collections of art and antiquities in the world, including the Sistine Chapel."
     },
     "ROM_BO": {
-        "name": "Galeria Borghese",
-        "city": "Roma",
-        "address": "Viale delle Belle Arti, 5, 00197 Roma, Itália",
+        "name": "Borghese Gallery",
+        "city": "Rome",
+        "address": "Viale delle Belle Arti, 5, 00197 Rome, Italy",
         "coordinates": {"latitude": 41.9145, "longitude": 12.4924},
-        "description": "Uma magnífica galeria de arte com esculturas, pinturas e antiguidades em um ambiente barroco."
+        "description": "A magnificent art gallery with sculptures, paintings, and antiquities in a Baroque setting."
     },
     
 
     "LON_BR": {
-        "name": "Museu Britânico",
-        "city": "Londres",
-        "address": "Great Russell Street, London WC1B 3DG, Reino Unido",
+        "name": "British Museum",
+        "city": "London",
+        "address": "Great Russell Street, London WC1B 3DG, United Kingdom",
         "coordinates": {"latitude": 51.5194, "longitude": -0.1270},
-        "description": "Um dos maiores e mais abrangentes museus do mundo, abrigando uma vasta coleção de artefatos globais."
+        "description": "One of the largest and most comprehensive museums in the world, housing a vast collection of global artifacts."
     },
     "LON_NG": {
         "name": "National Gallery",
-        "city": "Londres",
-        "address": "Trafalgar Square, London WC2N 5DN, Reino Unido",
+        "city": "London",
+        "address": "Trafalgar Square, London WC2N 5DN, United Kingdom",
         "coordinates": {"latitude": 51.5089, "longitude": -0.1283},
-        "description": "Uma das principais galerias de arte do mundo, com uma coleção impressionante de pinturas europeias."
+        "description": "One of the world's foremost art galleries, with an impressive collection of European paintings."
     },
    
 
     "AMS_RM": {
         "name": "Rijksmuseum",
-        "city": "Amsterdã",
-        "address": "Museumstraat 1, 1071 XX Amsterdam, Países Baixos",
+        "city": "Amsterdam",
+        "address": "Museumstraat 1, 1071 XX Amsterdam, Netherlands",
         "coordinates": {"latitude": 52.3600, "longitude": 4.8852},
-        "description": "O museu nacional dos Países Baixos, com uma vasta coleção de arte e história."
+        "description": "The national museum of the Netherlands, with a vast collection of art and history."
     },
     "AMS_VG": {
-        "name": "Museu Van Gogh",
-        "city": "Amsterdã",
-        "address": "Museumplein 6, 1071 DJ Amsterdam, Países Baixos",
+        "name": "Van Gogh Museum",
+        "city": "Amsterdam",
+        "address": "Museumplein 6, 1071 DJ Amsterdam, Netherlands",
         "coordinates": {"latitude": 52.3584, "longitude": 4.8818},
-        "description": "Dedicado à vida e obra do famoso pintor Vincent van Gogh, com uma extensa coleção de suas pinturas."
+        "description": "Dedicated to the life and work of the famous painter Vincent van Gogh, with an extensive collection of his paintings."
     },
     "AMS_AF": {
-        "name": "Casa de Anne Frank",
-        "city": "Amsterdã",
-        "address": "Prinsengracht 263-267, 1016 GV Amsterdam, Países Baixos",
+        "name": "Anne Frank House",
+        "city": "Amsterdam",
+        "address": "Prinsengracht 263-267, 1016 GV Amsterdam, Netherlands",
         "coordinates": {"latitude": 52.3752, "longitude": 4.8837},
-        "description": "A casa onde Anne Frank e sua família se esconderam durante a Segunda Guerra Mundial, agora um museu dedicado à sua memória."
+        "description": "The house where Anne Frank and her family hid during World War II, now a museum dedicated to her memory."
     },
     
 
     "BER_PE": {
-        "name": "Museu Pergamon",
-        "city": "Berlim",
-        "address": "Bodestraße 1-3, 10178 Berlin, Alemanha",
+        "name": "Pergamon Museum",
+        "city": "Berlin",
+        "address": "Bodestraße 1-3, 10178 Berlin, Germany",
         "coordinates": {"latitude": 52.5212, "longitude": 13.3967},
-        "description": "Famoso por suas antiguidades clássicas, incluindo o Altar de Pérgamo e a Porta do Mercado de Mileto."
+        "description": "Famous for its classical antiquities, including the Pergamon Altar and the Market Gate of Miletus."
     },
     "BER_NE": {
-        "name": "Museu Novo (Neues Museum)",
-        "city": "Berlim",
-        "address": "Bodestraße 1-3, 10178 Berlin, Alemanha",
+        "name": "Neues Museum",
+        "city": "Berlin",
+        "address": "Bodestraße 1-3, 10178 Berlin, Germany",
         "coordinates": {"latitude": 52.5206, "longitude": 13.3975},
-        "description": "Aberto ao público em 2009 após uma restauração extensa, abriga a Coleção do Antigo Egito, entre outras."
+        "description": "Opened to the public in 2009 after extensive restoration, it houses the Collection of Ancient Egypt, among others."
     },
     "BER_AN": {
         "name": "Alte Nationalgalerie",
-        "city": "Berlim",
-        "address": "Bodestraße 1-3, 10178 Berlin, Alemanha",
+        "city": "Berlin",
+        "address": "Bodestraße 1-3, 10178 Berlin, Germany",
         "coordinates": {"latitude": 52.5209, "longitude": 13.3981},
-        "description": "Especializado em arte do século XIX, incluindo pinturas e esculturas de artistas alemães."
+        "description": "Specialized in 19th-century art, including paintings and sculptures by German artists."
     },
     
 
 
     "STO_VA": {
         "name": "Vasa Museum",
-        "city": "Estocolmo",
-        "address": "Galarvarvsvägen 14, 115 21 Stockholm, Suécia",
+        "city": "Stockholm",
+        "address": "Galarvarvsvägen 14, 115 21 Stockholm, Sweden",
         "coordinates": {"latitude": 59.3284, "longitude": 18.0916},
-        "description": "Abriga o navio Vasa, um navio de guerra do século XVII que afundou em sua viagem inaugural."
+        "description": "Houses the Vasa ship, a 17th-century warship that sank on its maiden voyage."
     },
     "STO_NO": {
-        "name": "Nordiska Museet",
-        "city": "Estocolmo",
-        "address": "Djurgårdsvägen 6-16, 115 93 Stockholm, Suécia",
+        "name": "Nordic Museum",
+        "city": "Stockholm",
+        "address": "Djurgårdsvägen 6-16, 115 93 Stockholm, Sweden",
         "coordinates": {"latitude": 59.3277, "longitude": 18.1006},
-        "description": "Dedicado à cultura nórdica, exibindo trajes, móveis, e objetos do cotidiano."
+        "description": "Dedicated to Nordic culture, exhibiting costumes, furniture, and everyday objects."
     },
     "STO_SK": {
         "name": "Skansen",
-        "city": "Estocolmo",
-        "address": "Djurgårdsslätten 49-51, 115 21 Stockholm, Suécia",
+        "city": "Stockholm",
+        "address": "Djurgårdsslätten 49-51, 115 21 Stockholm, Sweden",
         "coordinates": {"latitude": 59.3257, "longitude": 18.0990},
-        "description": "Um museu ao ar livre e zoológico, apresentando a vida rural sueca e animais escandinavos."
+        "description": "An open-air museum and zoo, showcasing Swedish rural life and Scandinavian animals."
     },
     
 
 
     "HEL_NM": {
-        "name": "Museu Nacional da Finlândia",
-        "city": "Helsinque",
-        "address": "Mannerheimintie 34, 00100 Helsinki, Finlândia",
+        "name": "National Museum of Finland",
+        "city": "Helsinki",
+        "address": "Mannerheimintie 34, 00100 Helsinki, Finland",
         "coordinates": {"latitude": 60.1756, "longitude": 24.9316},
-        "description": "Dedicado à história finlandesa, com exposições que abrangem desde a pré-história até os tempos modernos."
+        "description": "Dedicated to Finnish history, with exhibitions covering from prehistory to modern times."
     },
     "HEL_AM": {
-        "name": "Museu de Arte Ateneum",
-        "city": "Helsinque",
-        "address": "Kaivokatu 2, 00100 Helsinki, Finlândia",
+        "name": "Ateneum Art Museum",
+        "city": "Helsinki",
+        "address": "Kaivokatu 2, 00100 Helsinki, Finland",
         "coordinates": {"latitude": 60.1698, "longitude": 24.9449},
-        "description": "Um dos principais museus de arte da Finlândia, exibindo uma extensa coleção de arte finlandesa."
+        "description": "One of the leading art museums in Finland, exhibiting an extensive collection of Finnish art."
     },
    
 
     "CPH_NM": {
-        "name": "Museu Nacional da Dinamarca",
-        "city": "Copenhague",
-        "address": "Ny Vestergade 10, 1471 København, Dinamarca",
+        "name": "National Museum of Denmark",
+        "city": "Copenhagen",
+        "address": "Ny Vestergade 10, 1471 København, Denmark",
         "coordinates": {"latitude": 55.6761, "longitude": 12.5762},
-        "description": "Dedicado à história dinamarquesa, abrange desde a Idade da Pedra até os dias atuais."
+        "description": "Dedicated to Danish history, covering from the Stone Age to the present day."
     },
     "CPH_DS": {
-        "name": "A Biblioteca Real Dinamarquesa - A Diamante Negra",
-        "city": "Copenhague",
-        "address": "Søren Kierkegaards Plads 1, 1221 København, Dinamarca",
+        "name": "The Royal Danish Library - The Black Diamond",
+        "city": "Copenhagen",
+        "address": "Søren Kierkegaards Plads 1, 1221 København, Denmark",
         "coordinates": {"latitude": 55.6786, "longitude": 12.5849},
-        "description": "Uma biblioteca e centro cultural moderno, conhecido por sua arquitetura única."
+        "description": "A modern library and cultural center, known for its unique architecture."
     },
     "CPH_NG": {
         "name": "Ny Carlsberg Glyptotek",
-        "city": "Copenhague",
-        "address": "Dantes Plads 7, 1556 København, Dinamarca",
+        "city": "Copenhagen",
+        "address": "Dantes Plads 7, 1556 København, Denmark",
         "coordinates": {"latitude": 55.6726, "longitude": 12.5654},
-        "description": "Um museu de arte com uma coleção diversificada, incluindo esculturas antigas, arte clássica e impressionista."
+        "description": "An art museum with a diverse collection, including ancient sculptures, classical and impressionist art."
     },
     
 
 
     "WAW_PN": {
-        "name": "Museu Nacional da Polônia",
-        "city": "Varsóvia",
-        "address": "Al. Jerozolimskie 3, 00-495 Warszawa, Polônia",
+        "name": "National Museum in Poland",
+        "city": "Warsaw",
+        "address": "Al. Jerozolimskie 3, 00-495 Warsaw, Poland",
         "coordinates": {"latitude": 52.2318, "longitude": 21.0053},
-        "description": "O maior museu de arte na Polônia, com coleções abrangendo pinturas, esculturas e artes decorativas."
+        "description": "The largest art museum in Poland, with collections spanning paintings, sculptures, and decorative arts."
     },
     "WAW_WU": {
-        "name": "Museu do Levante de Varsóvia",
-        "city": "Varsóvia",
-        "address": "Grzybowska 79, 00-844 Warszawa, Polônia",
+        "name": "Warsaw Uprising Museum",
+        "city": "Warsaw",
+        "address": "Grzybowska 79, 00-844 Warsaw, Poland",
         "coordinates": {"latitude": 52.2323, "longitude": 20.9787},
-        "description": "Dedicado à Revolta de Varsóvia de 1944 durante a Segunda Guerra Mundial, com exposições interativas."
+        "description": "Dedicated to the Warsaw Uprising of 1944 during World War II, with interactive exhibits."
     },
     "WAW_CS": {
-        "name": "Centro de Ciência Copérnico",
-        "city": "Varsóvia",
-        "address": "Wybrzeże Kościuszkowskie 20, 00-390 Warszawa, Polônia",
+        "name": "Copernicus Science Centre",
+        "city": "Warsaw",
+        "address": "Wybrzeże Kościuszkowskie 20, 00-390 Warsaw, Poland",
         "coordinates": {"latitude": 52.2392, "longitude": 21.0285},
-        "description": "Um museu de ciências interativo, oferecendo experiências educativas e exposições sobre ciência e tecnologia."
+        "description": "An interactive science museum, offering educational experiences and exhibitions on science and technology."
     },
    
     "LIS_NT": {
-        "name": "Museu Nacional do Azulejo",
-        "city": "Lisboa",
-        "address": "R. da Madre de Deus 4, 1900-312 Lisboa, Portugal",
+        "name": "National Tile Museum",
+        "city": "Lisbon",
+        "address": "R. da Madre de Deus 4, 1900-312 Lisbon, Portugal",
         "coordinates": {"latitude": 38.7247, "longitude": -9.1156},
-        "description": "Dedicado à história e arte dos azulejos em Portugal, exibindo uma coleção impressionante."
+        "description": "Dedicated to the history and art of tiles in Portugal, exhibiting an impressive collection."
     },
     "LIS_NA": {
-        "name": "Museu Nacional de Arte Antiga",
-        "city": "Lisboa",
-        "address": "R. das Janelas Verdes, 1249-017 Lisboa, Portugal",
+        "name": "National Museum of Ancient Art",
+        "city": "Lisbon",
+        "address": "R. das Janelas Verdes, 1249-017 Lisbon, Portugal",
         "coordinates": {"latitude": 38.7049, "longitude": -9.1596},
-        "description": "Apresenta uma vasta coleção de pinturas, esculturas, e artes decorativas de várias épocas."
+        "description": "Presents a vast collection of paintings, sculptures, and decorative arts from various periods."
     },
     "LIS_BT": {
-        "name": "Torre de Belém",
-        "city": "Lisboa",
-        "address": "Av. Brasília, 1400-038 Lisboa, Portugal",
+        "name": "Belém Tower",
+        "city": "Lisbon",
+        "address": "Av. Brasília, 1400-038 Lisbon, Portugal",
         "coordinates": {"latitude": 38.6916, "longitude": -9.2160},
-        "description": "Uma torre defensiva histórica que agora funciona como museu, oferecendo vistas panorâmicas do rio Tejo."
+        "description": "A historic defensive tower that now functions as a museum, offering panoramic views of the Tagus River."
     },
     
 
 
     "PRG_NM": {
-        "name": "Museu Nacional de Praga",
-        "city": "Praga",
-        "address": "Wenceslas Square 68, 115 79 Praha, República Tcheca",
+        "name": "Prague National Museum",
+        "city": "Prague",
+        "address": "Wenceslas Square 68, 115 79 Prague, Czech Republic",
         "coordinates": {"latitude": 50.0803, "longitude": 14.4244},
-        "description": "O maior museu em Praga, abriga coleções de história natural, ciência e cultura checa."
+        "description": "The largest museum in Prague, housing collections of natural history, science, and Czech culture."
     },
     "PRG_PC": {
-        "name": "Castelo de Praga",
-        "city": "Praga",
-        "address": "119 08 Praha 1, República Tcheca",
+        "name": "Prague Castle",
+        "city": "Prague",
+        "address": "119 08 Prague 1, Czech Republic",
         "coordinates": {"latitude": 50.0919, "longitude": 14.3995},
-        "description": "Um complexo histórico que inclui o Palácio Real, a Catedral de São Vito e outros edifícios notáveis."
+        "description": "A historic complex that includes the Royal Palace, St. Vitus Cathedral, and other notable buildings."
     },
     "PRG_NG": {
-        "name": "Galeria Nacional em Praga",
-        "city": "Praga",
-        "address": "Staroměstské náměstí 12, 110 15 Praha, República Tcheca",
+        "name": "National Gallery in Prague",
+        "city": "Prague",
+        "address": "Staroměstské náměstí 12, 110 15 Prague, Czech Republic",
         "coordinates": {"latitude": 50.0878, "longitude": 14.4193},
-        "description": "Com várias filiais, exibe uma rica coleção de arte checa e internacional, incluindo pinturas e esculturas."
+        "description": "With several branches, it exhibits a rich collection of Czech and international art, including paintings and sculptures."
     },
     "PRG_MD": {
-        "name": "Museu de Artes Decorativas em Praga",
-        "city": "Praga",
-        "address": "17. listopadu 2, 110 00 Praha, República Tcheca",
+        "name": "Museum of Decorative Arts in Prague",
+        "city": "Prague",
+        "address": "17. listopadu 2, 110 00 Prague, Czech Republic",
         "coordinates": {"latitude": 50.0911, "longitude": 14.4035},
-        "description": "Focado em artes decorativas, incluindo móveis, cerâmica, vidro e têxteis."
+        "description": "Focused on decorative arts, including furniture, ceramics, glass, and textiles."
     },
     "PRG_LP": {
-        "name": "Museu do Palácio Lobkowicz",
-        "city": "Praga",
-        "address": "Jiřská 3, 119 00 Praha, República Tcheca",
+        "name": "Lobkowicz Palace Museum",
+        "city": "Prague",
+        "address": "Jiřská 3, 119 00 Prague, Czech Republic",
         "coordinates": {"latitude": 50.0913, "longitude": 14.4041},
-        "description": "Localizado no Castelo de Praga, exibe a coleção privada da família Lobkowicz, incluindo arte, música e história."
+        "description": "Located in Prague Castle, it exhibits the private collection of the Lobkowicz family, including art, music, and history."
     },
     "PRG_JM": {
-        "name": "Museu Judeu em Praga",
-        "city": "Praga",
-        "address": "U Staré školy 141/1, 110 00 Praha, República Tcheca",
+        "name": "Jewish Museum in Prague",
+        "city": "Prague",
+        "address": "U Staré školy 141/1, 110 00 Prague, Czech Republic",
         "coordinates": {"latitude": 50.0903, "longitude": 14.4171},
-        "description": "Com várias sinagogas e o Cemitério Judeu, documenta a história da comunidade judaica em Praga."
+        "description": "With several synagogues and the Jewish Cemetery, it documents the history of the Jewish community in Prague."
     },
     "PRG_KM": {
-        "name": "Museu Kampa",
-        "city": "Praga",
-        "address": "U Sovových mlýnů 2, 118 00 Praha, República Tcheca",
+        "name": "Kampa Museum",
+        "city": "Prague",
+        "address": "U Sovových mlýnů 2, 118 00 Prague, Czech Republic",
         "coordinates": {"latitude": 50.0868, "longitude": 14.4085},
-        "description": "Dedicado à arte moderna da Europa Central, com uma coleção de pinturas, esculturas e instalações."
+        "description": "Dedicated to modern art from Central Europe, with a collection of paintings, sculptures, and installations."
     },
     "PRG_NT": {
-        "name": "Museu Técnico Nacional de Praga",
-        "city": "Praga",
-        "address": "Kostelní 42, 170 78 Praha, República Tcheca",
+        "name": "National Technical Museum in Prague",
+        "city": "Prague",
+        "address": "Kostelní 42, 170 78 Prague, Czech Republic",
         "coordinates": {"latitude": 50.0995, "longitude": 14.4229},
-        "description": "Aborda a história da ciência e da tecnologia, com exposições interativas e uma coleção variada."
+        "description": "Addresses the history of science and technology, with interactive exhibits and a diverse collection."
     },
     "PRG_MA": {
-        "name": "Museu dos Alquimistas e Magos",
-        "city": "Praga",
-        "address": "Jánský vršek 8, 118 00 Praha, República Tcheca",
+        "name": "Museum of Alchemists and Magicians",
+        "city": "Prague",
+        "address": "Jánský vršek 8, 118 00 Prague, Czech Republic",
         "coordinates": {"latitude": 50.0877, "longitude": 14.4079},
-        "description": "Um museu temático que explora o mundo da alquimia e magia, com instrumentos e exposições relacionadas."
+        "description": "A thematic museum exploring the world of alchemy and magic, with instruments and related exhibits."
     },
     "PRG_DO": {
-        "name": "DOX - Centro de Arte Contemporânea",
-        "city": "Praga",
-        "address": "Poupětova 595/1, 170 00 Praha, República Tcheca",
+        "name": "DOX - Center for Contemporary Art",
+        "city": "Prague",
+        "address": "Poupětova 595/1, 170 00 Prague, Czech Republic",
         "coordinates": {"latitude": 50.1097, "longitude": 14.4443},
-        "description": "Um espaço dedicado à arte contemporânea, com exposições, eventos e instalações inovadoras."
+        "description": "A space dedicated to contemporary art, with exhibitions, events, and innovative installations."
     },
 
     "DUB_NM": {
-        "name": "Museu Nacional da Irlanda - Arqueologia",
+        "name": "National Museum of Ireland - Archaeology",
         "city": "Dublin",
-        "address": "Kildare St, Dublin 2, Irlanda",
+        "address": "Kildare St, Dublin 2, Ireland",
         "coordinates": {"latitude": 53.3403, "longitude": -6.2552},
-        "description": "Exibe artefatos arqueológicos que contam a história da Irlanda desde a pré-história até a Idade Média."
+        "description": "Exhibits archaeological artifacts that tell the history of Ireland from prehistory to the Middle Ages."
     },
     "DUB_NG": {
-        "name": "Galeria Nacional da Irlanda",
+        "name": "National Gallery of Ireland",
         "city": "Dublin",
-        "address": "Merrion Square West, Dublin, D02 K303, Irlanda",
+        "address": "Merrion Square West, Dublin, D02 K303, Ireland",
         "coordinates": {"latitude": 53.3409, "longitude": -6.2523},
-        "description": "Apresenta uma vasta coleção de arte irlandesa e europeia, incluindo pinturas, esculturas e artes decorativas."
+        "description": "Presents a vast collection of Irish and European art, including paintings, sculptures, and decorative arts."
     },
    
 
 
     "OSL_MM": {
-        "name": "Museu Munch",
+        "name": "Munch Museum",
         "city": "Oslo",
-        "address": "Tøyengata 53, 0578 Oslo, Noruega",
+        "address": "Tøyengata 53, 0578 Oslo, Norway",
         "coordinates": {"latitude": 59.9133, "longitude": 10.7775},
-        "description": "Dedicado ao famoso pintor Edvard Munch, exibindo muitas de suas obras icônicas."
+        "description": "Dedicated to the famous painter Edvard Munch, exhibiting many of his iconic works."
     },
     "OSL_VS": {
-        "name": "Museu dos Barcos Vikings",
+        "name": "Viking Ship Museum",
         "city": "Oslo",
-        "address": "Huk Aveny 35, 0287 Oslo, Noruega",
+        "address": "Huk Aveny 35, 0287 Oslo, Norway",
         "coordinates": {"latitude": 59.9078, "longitude": 10.6866},
-        "description": "Abrigando barcos vikings incrivelmente preservados e artefatos relacionados à cultura nórdica."
+        "description": "Housing incredibly preserved Viking ships and artifacts related to Norse culture."
     },
    
 
     "BUD_MF": {
-        "name": "Museu de Belas Artes",
-        "city": "Budapeste",
-        "address": "Dózsa György út 41, 1146 Budapeste, Hungria",
+        "name": "Museum of Fine Arts",
+        "city": "Budapest",
+        "address": "Dózsa György út 41, 1146 Budapest, Hungary",
         "coordinates": {"latitude": 47.5259, "longitude": 19.0810},
-        "description": "Uma coleção abrangente de arte europeia, com ênfase em pinturas e esculturas."
+        "description": "A comprehensive collection of European art, with an emphasis on paintings and sculptures."
     },
     "BUD_HN": {
-        "name": "Museu Nacional Húngaro",
-        "city": "Budapeste",
-        "address": "Múzeum krt. 14-16, 1088 Budapeste, Hungria",
+        "name": "Hungarian National Museum",
+        "city": "Budapest",
+        "address": "Múzeum krt. 14-16, 1088 Budapest, Hungary",
         "coordinates": {"latitude": 47.4871, "longitude": 19.0658},
-        "description": "Conta a história da Hungria desde os tempos antigos até os dias atuais, exibindo artefatos históricos."
+        "description": "Tells the history of Hungary from ancient times to the present, exhibiting historical artifacts."
     },
     "BUD_HR": {
-        "name": "Museu Hospital in the Rock Nuclear Bunker",
-        "city": "Budapeste",
-        "address": "Lovas út 4/c, 1012 Budapeste, Hungria",
+        "name": "Hospital in the Rock Nuclear Bunker Museum",
+        "city": "Budapest",
+        "address": "Lovas út 4/c, 1012 Budapest, Hungary",
         "coordinates": {"latitude": 47.5022, "longitude": 19.0354},
-        "description": "Um museu localizado em um abrigo nuclear da Segunda Guerra Mundial, mostrando a história médica e militar."
+        "description": "A museum located in a World War II nuclear bunker, showcasing medical and military history."
     },
 
 
-     "VIE_AH": {
-        "name": "Museu de História da Arte",
-        "city": "Viena",
-        "address": "Maria-Theresien-Platz, 1010 Viena, Áustria",
+    "VIE_AH": {
+        "name": "Art History Museum",
+        "city": "Vienna",
+        "address": "Maria-Theresien-Platz, 1010 Vienna, Austria",
         "coordinates": {"latitude": 48.2035, "longitude": 16.3615},
-        "description": "Casa uma vasta coleção de arte, incluindo obras de mestres como Rembrandt e Vermeer."
+        "description": "Home to a vast collection of art, including works by masters such as Rembrandt and Vermeer."
     },
     "VIE_BP": {
-        "name": "Palácio Belvedere e Museu",
-        "city": "Viena",
-        "address": "Prinz Eugen-Straße 27, 1030 Viena, Áustria",
+        "name": "Belvedere Palace and Museum",
+        "city": "Vienna",
+        "address": "Prinz Eugen-Straße 27, 1030 Vienna, Austria",
         "coordinates": {"latitude": 48.1911, "longitude": 16.3806},
-        "description": "Um palácio barroco com uma coleção de arte impressionante, incluindo obras de Gustav Klimt."
+        "description": "A baroque palace with an impressive art collection, including works by Gustav Klimt."
     },
     "VIE_AL": {
         "name": "Albertina",
-        "city": "Viena",
-        "address": "Albertinaplatz 1, 1010 Viena, Áustria",
+        "city": "Vienna",
+        "address": "Albertinaplatz 1, 1010 Vienna, Austria",
         "coordinates": {"latitude": 48.2044, "longitude": 16.3688},
-        "description": "Uma galeria de arte e museu que exibe uma vasta coleção de desenhos, gravuras e fotografias."
+        "description": "An art gallery and museum that displays a vast collection of drawings, prints, and photographs."
     },
 
 
     "BRU_RM": {
-        "name": "Museu Real de Belas Artes da Bélgica",
-        "city": "Bruxelas",
-        "address": "Rue de la Régence 3, 1000 Bruxelas, Bélgica",
+        "name": "Royal Museum of Fine Arts of Belgium",
+        "city": "Brussels",
+        "address": "Rue de la Régence 3, 1000 Brussels, Belgium",
         "coordinates": {"latitude": 50.8433, "longitude": 4.3595},
-        "description": "Uma extensa coleção de arte belga, incluindo pinturas, esculturas e artes decorativas."
+        "description": "An extensive collection of Belgian art, including paintings, sculptures, and decorative arts."
     },
     "BRU_MM": {
-        "name": "Museu Magritte",
-        "city": "Bruxelas",
-        "address": "Koningsplein 1, 1000 Bruxelas, Bélgica",
+        "name": "Magritte Museum",
+        "city": "Brussels",
+        "address": "Koningsplein 1, 1000 Brussels, Belgium",
         "coordinates": {"latitude": 50.8444, "longitude": 4.3565},
-        "description": "Dedicado ao famoso artista surrealista René Magritte, exibindo suas obras mais icônicas."
+        "description": "Dedicated to the famous surrealist artist René Magritte, showcasing his most iconic works."
     },
     "BRU_HM": {
-        "name": "Museu Horta",
-        "city": "Bruxelas",
-        "address": "Rue Américaine 25, 1060 Bruxelas, Bélgica",
+        "name": "Horta Museum",
+        "city": "Brussels",
+        "address": "Rue Américaine 25, 1060 Brussels, Belgium",
         "coordinates": {"latitude": 50.8229, "longitude": 4.3454},
-        "description": "Uma casa-museu dedicada ao arquiteto Art Nouveau Victor Horta, exibindo suas criações inovadoras."
+        "description": "A house-museum dedicated to the Art Nouveau architect Victor Horta, displaying his innovative creations."
     },
 
 
     "LUX_CM": {
-        "name": "Museu de História da Cidade de Luxemburgo",
-        "city": "Luxemburgo",
-        "address": "14 Rue du St Esprit, 1475 Luxemburgo",
+        "name": "Luxembourg City History Museum",
+        "city": "Luxembourg",
+        "address": "14 Rue du St Esprit, 1475 Luxembourg",
         "coordinates": {"latitude": 49.6101, "longitude": 6.1319},
-        "description": "Conta a história da cidade de Luxemburgo através de exposições interativas e artefatos históricos."
+        "description": "Chronicles the history of Luxembourg City through interactive exhibits and historical artifacts."
     },
     "LUX_MM": {
-        "name": "Mudam - Museu de Arte Moderna",
-        "city": "Luxemburgo",
-        "address": "3 Park Dräi Eechelen, 1499 Luxemburgo",
+        "name": "Mudam - Museum of Modern Art",
+        "city": "Luxembourg",
+        "address": "3 Park Dräi Eechelen, 1499 Luxembourg",
         "coordinates": {"latitude": 49.6109, "longitude": 6.1339},
-        "description": "Um museu de arte moderna que apresenta exposições temporárias de artistas contemporâneos."
+        "description": "A museum of modern art featuring temporary exhibitions by contemporary artists."
     },
     "LUX_CB": {
         "name": "Casemates du Bock",
-        "city": "Luxemburgo",
-        "address": "10 Montée de Clausen, 1343 Luxemburgo",
+        "city": "Luxembourg",
+        "address": "10 Montée de Clausen, 1343 Luxembourg",
         "coordinates": {"latitude": 49.6084, "longitude": 6.1307},
-        "description": "Uma rede de túneis subterrâneos históricos que foram usados como fortificações, oferecendo uma visão única da história militar de Luxemburgo."
+        "description": "A network of historic underground tunnels used as fortifications, providing a unique insight into Luxembourg's military history."
     },
 
 
-     "ATH_AM": {
-        "name": "Museu da Acrópole",
-        "city": "Atenas",
-        "address": "Dionysiou Areopagitou 15, 117 42 Atenas, Grécia",
+    "ATH_AM": {
+        "name": "Acropolis Museum",
+        "city": "Athens",
+        "address": "Dionysiou Areopagitou 15, 117 42 Athens, Greece",
         "coordinates": {"latitude": 37.9686, "longitude": 23.7263},
-        "description": "Um museu moderno que abriga esculturas e artefatos da Acrópole de Atenas."
+        "description": "A modern museum housing sculptures and artifacts from the Acropolis of Athens."
     },
     "ATH_NA": {
-        "name": "Museu Nacional de Arqueologia de Atenas",
-        "city": "Atenas",
-        "address": "44 Patission Street, 10682 Atenas, Grécia",
+        "name": "National Archaeological Museum of Athens",
+        "city": "Athens",
+        "address": "44 Patission Street, 10682 Athens, Greece",
         "coordinates": {"latitude": 37.9838, "longitude": 23.7275},
-        "description": "Uma extensa coleção de artefatos arqueológicos gregos, desde a Pré-história até a Antiguidade Clássica."
+        "description": "An extensive collection of Greek archaeological artifacts, ranging from Prehistory to Classical Antiquity."
     },
     "ATH_BM": {
-        "name": "Museu Benaki",
-        "city": "Atenas",
-        "address": "Koumpari 1, 10674 Atenas, Grécia",
+        "name": "Benaki Museum",
+        "city": "Athens",
+        "address": "Koumpari 1, 10674 Athens, Greece",
         "coordinates": {"latitude": 37.9769, "longitude": 23.7360},
-        "description": "Um museu de arte grega que exibe uma ampla gama de objetos, desde arte folclórica até arte contemporânea."
+        "description": "A museum of Greek art displaying a wide range of objects, from folk art to contemporary art."
     },
 
     "SOF_NM": {
-        "name": "Museu Nacional de História Militar",
+        "name": "National Museum of Military History",
         "city": "Sofia",
-        "address": "92 Cherkovna Street, 1504 Sofia, Bulgária",
+        "address": "92 Cherkovna Street, 1504 Sofia, Bulgaria",
         "coordinates": {"latitude": 42.6978, "longitude": 23.3174},
-        "description": "Conta a história militar da Bulgária, exibindo uniformes, armas e equipamentos militares."
+        "description": "Chronicles the military history of Bulgaria, displaying uniforms, weapons, and military equipment."
     },
     "SOF_NG": {
-        "name": "Galeria Nacional de Arte Estrangeira",
+        "name": "National Gallery of Foreign Art",
         "city": "Sofia",
-        "address": "1 St Alexander Nevsky Square, 1000 Sofia, Bulgária",
+        "address": "1 St Alexander Nevsky Square, 1000 Sofia, Bulgaria",
         "coordinates": {"latitude": 42.6979, "longitude": 23.3219},
-        "description": "Uma galeria de arte que apresenta coleções de arte estrangeira, incluindo pinturas, esculturas e artes decorativas."
+        "description": "An art gallery featuring collections of foreign art, including paintings, sculptures, and decorative arts."
     },
     "SOF_NH": {
-        "name": "Museu Nacional de História Natural",
+        "name": "National Museum of Natural History",
         "city": "Sofia",
-        "address": "1 Tsar Osvoboditel Blvd., 1000 Sofia, Bulgária",
+        "address": "1 Tsar Osvoboditel Blvd., 1000 Sofia, Bulgaria",
         "coordinates": {"latitude": 42.6941, "longitude": 23.3323},
-        "description": "Focado na história natural, com exposições que cobrem a fauna, flora e geologia da Bulgária."
+        "description": "Focused on natural history, with exhibitions covering the fauna, flora, and geology of Bulgaria."
     },
 
     "ZAG_MM": {
-        "name": "Museu Mimara",
+        "name": "Mimara Museum",
         "city": "Zagreb",
-        "address": "Rooseveltov trg 5, 10000 Zagreb, Croácia",
+        "address": "Roosevelt Square 5, 10000 Zagreb, Croatia",
         "coordinates": {"latitude": 45.8078, "longitude": 15.9682},
-        "description": "Uma coleção eclética de arte, incluindo pinturas, esculturas, cerâmica e objetos de arte aplicada."
+        "description": "An eclectic collection of art, including paintings, sculptures, ceramics, and objects of applied art."
     },
     "ZAG_MZ": {
-        "name": "Museu de Arte Contemporânea de Zagreb",
+        "name": "Museum of Contemporary Art Zagreb",
         "city": "Zagreb",
-        "address": "Avenija Dubrovnik 17, 10000 Zagreb, Croácia",
+        "address": "Avenija Dubrovnik 17, 10000 Zagreb, Croatia",
         "coordinates": {"latitude": 45.7814, "longitude": 15.9742},
-        "description": "Dedicado à arte contemporânea, exibindo obras de artistas croatas e internacionais."
+        "description": "Dedicated to contemporary art, exhibiting works by Croatian and international artists."
     },
     "ZAG_AZ": {
-        "name": "Museu Arqueológico de Zagreb",
+        "name": "Archaeological Museum Zagreb",
         "city": "Zagreb",
-        "address": "Trg Nikole Šubića Zrinskog 19, 10000 Zagreb, Croácia",
+        "address": "Trg Nikole Šubića Zrinskog 19, 10000 Zagreb, Croatia",
         "coordinates": {"latitude": 45.8080, "longitude": 15.9772},
-        "description": "Uma rica coleção de artefatos arqueológicos que contam a história da região desde a pré-história até a Idade Média."
+        "description": "A rich collection of archaeological artifacts that narrate the history of the region from prehistory to the Middle Ages."
     }
-
 }
+
 
 
 # colocar coordenadas num tuplo se necessário
@@ -919,7 +921,6 @@ def define_state():
 
 def update_random_flight(flights):
     # Select a random flight
-    print("Updating a random flight...")
     random_flight = copy.deepcopy(random.choice(flights))
 
     # Update the flight state
@@ -1125,8 +1126,8 @@ def generate_random_museums(key):
     name = museums[key]['name']
     city = museums[key]['city']
     address = museums[key]['address']
-    # lat = museums[key]['latitude']
-    # long = museums[key]['longitude']
+    lat = museums[key]['coordinates']['latitude']
+    long = museums[key]['coordinates']['longitude']
     description = museums[key]['description']
     opening_hours = f"{random.randint(9, 14)}:00 - {random.randint(17,20)}:00"
     adult_ticket = round(random.uniform(5.0, 20.0), 2)
@@ -1137,8 +1138,8 @@ def generate_random_museums(key):
         "museumName": name,
         "streetAddress": address,
         "museumLocation": city,
-        # "latitude": lat,
-        # "longitude": long,
+        "museumLatitude": lat,
+        "museumLongitude": long,
         "museumDescription": description,
         "openingHours": opening_hours,
         "ticketPriceAdult": adult_ticket,
@@ -1216,10 +1217,9 @@ try:
                 send_museum_data_to_kafka('museums_topic', museum_data)
 
         if i > 1:
-        
-            print(i)
+
             time.sleep(30)
-            print("Updating a random flight... 1")
+            print("Updating a random flight...")
             updated_flight = update_random_flight(flights)
             send_flight_change_to_kafka('flight_change', updated_flight)
         

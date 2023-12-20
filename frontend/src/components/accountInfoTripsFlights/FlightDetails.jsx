@@ -161,7 +161,7 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                       </p>
                     </div>
                     <img
-                      className="svg-layer"
+                      className="svg-layer-flights"
                       style={{ top: "-9.5px" }}
                       alt="Svg layer"
                       src={layer1}
@@ -261,7 +261,7 @@ const FlightDetails = ({ reservationInfo, imageUrl }) => {
                         </p>
                       </div>
                       <img
-                        className="svg-layer"
+                        className="svg-layer-flights"
                         style={{ top: "-9.5px" }}
                         alt="Svg layer"
                         src={layer1}

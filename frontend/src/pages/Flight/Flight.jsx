@@ -36,7 +36,6 @@ const Flights = () => {
     fetchUserFlights();
   }, []);
 
-  // Function to select random flights
   const selectRandomFlights = (flights, number) => {
     return flights.sort(() => 0.5 - Math.random()).slice(0, number);
   };
