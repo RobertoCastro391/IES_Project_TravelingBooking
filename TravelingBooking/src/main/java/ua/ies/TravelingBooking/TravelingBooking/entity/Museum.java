@@ -38,11 +38,11 @@ public class Museum {
     @Column(name = "OpeningHours")
     private String openingHours;
 
-    // @Column(name = "PhoneNumber")
-    // private String phoneNumber;
+    @Column(name = "MuseumLatitude")
+    private String museumLatitude;
 
-    // @Column(name = "Email", nullable = false)
-    // private String email;
+    @Column(name = "MuseumLongitude")
+    private String museumLongitude;
 
     @Column(name = "TicketpriceAdult", nullable = false)
     private String ticketPriceAdult;

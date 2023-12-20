@@ -7,7 +7,8 @@ const CardMuseumCity = ({ imageUrl, museum }) => {
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    navigate("/museumscitydetails", {state: { museum:  museum } });
+    navigate("/museumscitydetails", {state: { museum:  museum, imageUrl } });
+    //pus o imageurl para a pagina de details ter a mesma imagem que o carda onde clicamos
   };
   
   
