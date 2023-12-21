@@ -940,6 +940,25 @@ def update_random_flight(flights):
     
     return random_flight
 
+
+def update_random_flight_price(flights):
+    # Select a random flight
+    random_flight = copy.deepcopy(random.choice(flights))
+    random_flight['price'] = round(random.uniform(50.0, 1000.0), 2)
+   
+    print(f"Flight {random_flight['flightNumber']} updated to state {random_flight['price']}")
+    
+    return random_flight
+
+def update_random_hotel_price(hotels):
+    # Select a random flight
+    random_hotel = copy.deepcopy(random.choice(hotels))
+    random_hotel['initialPrice'] = round(random.uniform(50.0, 1000.0), 2)
+   
+    print(f"Flight {random_hotel['hotelName']} updated to state {random_hotel['initialPrice']}")
+    
+    return random_hotel
+
 def generate_flights():
     all_flights = []
 
@@ -1181,12 +1200,30 @@ def send_flight_change_to_kafka(topic, flight):
 
     producer.produce(topic, key=flight['flightNumber'], value=json.dumps(change_info))
     producer.flush()
+
+def send_flight_price_change_to_kafka(topic, flight):
+    change_info = {
+        'flightNumber': flight['flightNumber'],
+        'price': flight['price']
+    }
+    print("Sending flight change")
+    producer.produce(topic, key=flight['flightNumber'], value=json.dumps(change_info))
+    producer.flush()
+
+def send_hotel_price_change_to_kafka(topic, hotel):
+    change_info = {
+        'hotelName': hotel['hotelName'],
+        'price': hotel['initialPrice']
+    }
+    print("Sending flight change")
+    producer.produce(topic, key=hotel['hotelName'], value=json.dumps(change_info))
+    producer.flush()
     
 
 try:
     i = 0
     flights = []
-    hotels2 = []
+    hotel_data = []
     while True:
         i = i + 1
         print(i)
@@ -1209,19 +1246,31 @@ try:
                 trains = generate_random_train()
                 send_to_kafka_trains('train_data', trains)
                 print("Sending train data")
-                hotel_data = generate_random_hotels()
-                send_to_kafka_hotel('hotel_data', hotel_data)
+
+            for _ in range(25):   
+                hotel_data2 = generate_random_hotels()
+                hotel_data.append(hotel_data2)
+                send_to_kafka_hotel('hotel_data', hotel_data2)
+            
             for key in museums.keys():
                 print("Sending museum data")
                 museum_data = generate_random_museums(key)
                 send_museum_data_to_kafka('museums_topic', museum_data)
 
-        if i > 1:
 
-            time.sleep(30)
+        if i > 1:
+            time.sleep(60)
             print("Updating a random flight...")
             updated_flight = update_random_flight(flights)
             send_flight_change_to_kafka('flight_change', updated_flight)
+
+            print("Updating a random flight price...")
+            updated_flight = update_random_flight_price(flights)
+            send_flight_price_change_to_kafka('flight_price_change', updated_flight)
+
+            print("Updating a random hotel price...")
+            updated_hotel = update_random_hotel_price(hotel_data)
+            send_hotel_price_change_to_kafka('hotel_price_change', updated_hotel)
         
         i = i + 1
 

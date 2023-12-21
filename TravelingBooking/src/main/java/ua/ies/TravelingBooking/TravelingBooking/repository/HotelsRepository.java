@@ -7,5 +7,6 @@ import ua.ies.TravelingBooking.TravelingBooking.entity.Hotel;
 
 public interface HotelsRepository extends JpaRepository<Hotel, Integer> {
     Hotel findByHotelID(int hotelID);
+    Hotel findByHotelName(String hotelName);
     List<Hotel> findByAddressContaining(String address);
 }

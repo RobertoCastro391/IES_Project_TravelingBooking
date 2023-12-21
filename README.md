@@ -12,7 +12,7 @@
 
 
 # Endereço Servidor:
-http://deti-ies-14.ua.pt:5656
+http://deti-ies-14.ua.pt
 
 
 
