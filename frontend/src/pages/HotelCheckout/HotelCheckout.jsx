@@ -12,9 +12,10 @@ import cancelation from "../../components/images/cancelation.png";
 import { useNavigate } from "react-router-dom";
 import HotelCard from "../../components/cardHotel/CardHotel";
 import { useLocation } from "react-router-dom";
+import { Stomp } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 
-
-const HotelCheckout = ({hotel}) => {
+const HotelCheckout = ({ hotel }) => {
   const [sex, setSex] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [cardName, setCardName] = useState("");
@@ -38,49 +39,75 @@ const HotelCheckout = ({hotel}) => {
   const hotelData = location.state?.hotel;
   const dates = location.state?.dates;
   const hotelOptions = location.state?.hotelOptions;
+  const [notificationFlight, setNotificationFlight] = useState(null);
+  const [showNotificationFlight, setShowNotificationFlight] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
 
   console.log("hotelData");
   console.log(hotelData);
 
   console.log("dates");
   console.log(dates);
+  const fetchFlight = async (flightNumber) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/flights/flightCheckout/${flightNumber}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-  // useEffect(() => {
-  //   if (
-  //     outboundhotel &&
-  //     outboundhotel["price"] &&
-  //     flightOptions &&
-  //     flightOptions.adult !== undefined &&
-  //     flightOptions.children !== undefined
-  //   ) {
-  //     let price = parseFloat(
-  //       (
-  //         flightOptions.adult * outboundhotel["price"] +
-  //         (flightOptions.children * outboundhotel["price"]) / 2
-  //       ).toFixed(2)
-  //     );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
 
-  //     if (isOneWay === "false") {
-  //       price += parseFloat(
-  //         (
-  //           flightOptions.adult * inboundhotel["price"] +
-  //           (flightOptions.children * inboundhotel["price"]) / 2
-  //         ).toFixed(2)
-  //       );
-  //       setOptionalPrice(
-  //         parseFloat(
-  //           ((outboundhotel["price"] + inboundhotel["price"]) / 3).toFixed(2)
-  //         )
-  //       );
-  //     } else {
-  //       setOptionalPrice(parseFloat((outboundhotel["price"] / 3).toFixed(2)));
-  //     }
+      return data;
+    } catch (error) {
+      console.error("Failed to fetch user info:", error);
+    }
+  };
 
-  //     setPricehotel(price);
-  //     const priceTotal = parseFloat((price + optionalPrice).toFixed(2));
-  //     setTotalPrice(priceTotal);
-  //   }
-  // }, [outboundhotel, flightOptions, isOneWay, inboundhotel, optionalPrice]);
+  useEffect(() => {
+    const stompClient = Stomp.over(
+      // () => new SockJS(`${process.env.REACT_APP_API_URL}/ws`)
+      () => new SockJS(`${process.env.REACT_APP_API_URL}/ws`)
+    );
+
+    stompClient.connect({}, (frame) => {
+      stompClient.subscribe("/topic/flightPriceUpdate", async (message) => {
+        const flightPriceUpdate = JSON.parse(message.body);
+        console.log("New Flight Price:", flightPriceUpdate);
+        const flight = await fetchFlight(flightPriceUpdate.flightNumber);
+        console.log("New Flight:", flight);
+        setNotificationMessage(`New Price: ${flightPriceUpdate.price}`);
+        setNotificationFlight(flight);
+        setShowNotificationFlight(true);
+      });
+    });
+
+    return () => {
+      if (stompClient) {
+        stompClient.deactivate();
+      }
+    };
+  }, []);
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Date(dateString).toLocaleDateString('en-GB', options);
+  };
+
+  useEffect(() => {
+    if (showNotificationFlight) {
+      setTimeout(() => {
+        setShowNotificationFlight(false);
+      }, 7000);
+    }
+  }, [showNotificationFlight]);
 
   useEffect(() => {
     if (hotelOptions) {
@@ -115,12 +142,11 @@ const HotelCheckout = ({hotel}) => {
   }, [hotelOptions]);
 
   const handleCheckout = async () => {
-    
     console.log("hotelData");
     console.log(hotelData);
     console.log("dates");
     console.log(dates);
-    
+
     const reservationData = {
       userID: parseInt(localStorage.getItem("userId")),
       hotelId: hotelData.hotelID,
@@ -141,27 +167,30 @@ const HotelCheckout = ({hotel}) => {
     };
 
     console.log("Reservation data:", reservationData);
-  
-    
+
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/hotels/createReservation`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-          
-        },
-        body: JSON.stringify(reservationData)
-      });
-  
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/hotels/createReservation`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(reservationData),
+        }
+      );
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       const responseData = await response.json();
       console.log("Reservation successful:", responseData);
-      alert(`You have successfully booked your hotel!\nYour confirmation conde is ${responseData.reservationId}\nThank you for choosing TravellingBooking by IES!`);
+      alert(
+        `You have successfully booked your hotel!\nYour confirmation conde is ${responseData.reservationId}\nThank you for choosing TravellingBooking by IES!`
+      );
       navigate("/"); // Redirect to home or confirmation page
     } catch (error) {
       console.error("Error in making reservation:", error.Error);
@@ -590,15 +619,67 @@ const HotelCheckout = ({hotel}) => {
           style={{ paddingLeft: "30px", paddingTop: "20px" }}
         >
           <div style={{ backgroundColor: "#EFF1F2", borderRadius: "8px" }}>
-            <HotelCard type ='book'  hotel={hotelData} />
-            
+            <HotelCard type="book" hotel={hotelData} />
           </div>
         </div>
       </div>
       <Footer />
+      {showNotificationFlight && notificationFlight && (
+        <div className="notification-popup">
+          <h4 style={{ fontSize: "36px" }}>Flight Sale</h4>
+          <p>{notificationMessage} €</p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              marginTop: "7%",
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <p style={{ textAlign: "start" }}>Origin:</p>
+              <p
+                style={{
+                  marginLeft: "10%",
+                  textAlign: "end",
+                  fontWeight: "300",
+                }}
+              >
+                {notificationFlight.airportOriginInfo.airportName}
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <p style={{ textAlign: "start" }}>Destination:</p>
+              <p
+                style={{
+                  marginLeft: "10%",
+                  textAlign: "end",
+                  fontWeight: "300",
+                }}
+              >
+                {notificationFlight.airportDestinationInfo.airportName}
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <p style={{ textAlign: "start" }}>Date:</p>
+              <p style={{ textAlign: "end", fontWeight: "300" }}>
+                {formatDate(notificationFlight.flightDate)}
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <p style={{ textAlign: "start" }}>Flight Number:</p>
+              <p style={{ textAlign: "end", fontWeight: "300" }}>
+                {notificationFlight.flightNumber}
+              </p>
+            </div>
+          </div>
+          <button onClick={() => setShowNotificationFlight(false)}>
+            Close
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
 export default HotelCheckout;
-

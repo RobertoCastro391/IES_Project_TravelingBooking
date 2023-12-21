@@ -31,6 +31,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/flights/airlines").permitAll()
                     .requestMatchers("/api/flights/searchFlight").permitAll()
                     .requestMatchers("/api/flights/flights").permitAll()
+                    .requestMatchers("/api/flights/flightCheckout/{flightId}").permitAll()
                     .requestMatchers("/api/hotels/searchHotels").permitAll()
                     .requestMatchers("/api/hotels/getAllHotels").permitAll()
                     .requestMatchers("/api/museums/museums").permitAll()
@@ -42,6 +43,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/trains/searchTrain").permitAll()
                     .requestMatchers("/api/user/register").permitAll()
                     .requestMatchers("/api/user/login").permitAll()
+                    .requestMatchers("/ws/**").permitAll()
                     .anyRequest().authenticated()
             )
             .sessionManagement(sessionManagement ->
